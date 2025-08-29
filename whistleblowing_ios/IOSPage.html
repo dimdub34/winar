@@ -1,0 +1,120 @@
+{{ block style }}
+<link rel="stylesheet" href="{{ static 'whistleblowing_ios/style.css' }}">
+{{ endblock }}
+
+{{ block title }}
+Part 1: Questionnaire
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            Before moving on to Part 2, please answer the question below.
+        </p>
+        <p>
+            As soon as you move the slider below, a pair of circles will appear in the blue area.
+            The position of the slider will determine the extent of the overlap between the circles.
+        </p>
+        <ul>
+            <li>
+                When the slider is completely to the left, the circles look like this.
+                <img src="{{ static 'whistleblowing_ios/ios_left.png' }}" alt="left" style="height: 2em;">
+            </li>
+            <li>
+                When the slider is near the middle, the circles look like this.
+                <img src="{{ static 'whistleblowing_ios/ios_middle.png' }}" alt="middle" style="height: 2em;">
+            </li>
+            <li>
+                When it is completely to the right, the circles look like this.
+                <img src="{{ static 'whistleblowing_ios/ios_right.png' }}" alt="right" style="height: 2em;">
+            </li>
+        </ul>
+        <p>
+            You should interpret the degree of overlap as representing <strong>the relationship between you and
+            the other members of your group</strong>.
+        </p>
+    </div>
+</div>
+
+<p>
+    Please position the slider so that the circles indicate to what extent you and the other members of your group
+    are connected.
+</p>
+
+<table class="IOS">
+    <tr>
+        <td class="text-center">
+            <canvas id="IOSscreen" width="400" height="180" class="bg-light"
+                    style="border: 2px solid var(--bs-primary);
+           border-radius: 10px;
+           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+            </canvas>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table style="width:400px;margin: auto;">
+                <tr>
+                    <td>
+                        <input type="range" min="1" max="11" value="0" class="slider2" id="Input" step="1"
+                               oninput="change();">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="sliderticks">
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<input type="hidden" name="ios_value" value="">
+
+{{ next_button }}
+
+<p class="form-control-errors" style="display: none;" id="error_ios">
+    You must move the slider, even if you put it completely back to the left afterward.
+</p>
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'whistleblowing_ios/jscode.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector(".otree-btn-next").addEventListener('click', (event) => {
+            event.preventDefault();
+            if (forminputs.ios_value.value === '') {
+                document.querySelector('#error_ios').style.display = 'block';
+                return false
+            } else {
+                document.querySelector("form").submit();
+            }
+        })
+        if (js_vars.fill_auto) {
+            const ios_input = document.querySelector('#Input');
+            ios_input.value = Math.floor(Math.random() * 11 + 1);
+            ios_input.dispatchEvent(new Event('input'));
+            setTimeout(() => {
+                document.querySelector(".otree-btn-next").click();
+            }, 3000);
+        }
+    });
+</script>
+{{ endblock }}

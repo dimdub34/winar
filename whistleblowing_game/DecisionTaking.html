@@ -1,0 +1,40 @@
+{{ block title }}
+Part 2: Stealing Decision
+{{ endblock }}
+
+{{ block content }}
+
+<div class="text-end mb-3">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
+        Instructions
+    </button>
+</div>
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            As a Red Player you can steal ECU from the Passive group. <br>
+            As a reminder, by stealing ECU you earn
+            {{ STEALING_AMOUNT }} ECU and the Passive group loses {{ STEALING_LOSS }} ECU
+            ({{ STEALING_LOSS_INDIV }} ECU loss for each group member).
+        </p>
+    </div>
+</div>
+
+{{ formfields }}
+
+{{ next_button }}
+
+{{ include_sibling "InstructionsModal.html" }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

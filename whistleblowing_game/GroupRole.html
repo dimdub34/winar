@@ -1,0 +1,46 @@
+{{ block title }}
+Part 2: Information about your group
+{{ endblock }}
+
+{{ block content }}
+
+<div class="text-end mb-3">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
+        Instructions
+    </button>
+</div>
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            {{ if group.active }}
+            Your group have been randomly assigned to an <b>Active Group</b>.
+            As a reminder, in each active group, players are assigned the following roles: One Red Player, and Two Blue
+            Players. You have been randomly assigned to the role of
+            {{ if player.taker }}
+            <b>Red Player</b>.
+            {{ else }}
+            <b>Blue Player</b>.
+            {{ endif }}
+            {{ else }}
+            Your group have been randomly assigned to an <b>Inactive Group</b>.
+            {{ endif }}
+        </p>
+    </div>
+</div>
+
+{{ next_button }}
+
+{{ include_sibling "InstructionsModal.html" }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

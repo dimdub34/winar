@@ -1,0 +1,115 @@
+{{ block styles }}
+<style>
+    img {
+        height: 75px;
+    }
+</style>
+{{ endblock }}
+
+{{ block title }}
+Welcome
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            You are invited to take part in a research study about individual and group decision-making.
+            Your participation will help us better understand how people interact with group members and authorities in
+            various situations.
+        </p>
+        <p>
+            Your participation is entirely voluntary. <strong>If you agree to participate, you will receive a fixed fee
+            of
+            {{ session.config.participation_fee }}, as well as a bonus depending on your decisions and
+            those of the other participants.</strong>
+            The experiment will last approximately one hour.
+        </p>
+        <p>
+            There are no foreseeable risks associated with participating in this study. You are free to withdraw at any
+            time, for any reason, without any penalty.
+            However, since this is a group experiment, <strong>please note that your withdrawal could affect the
+            participation of the other members of your group.</strong>
+        </p>
+
+        <h5>Confidentiality and Data Protection</h5>
+        <p>
+            <strong>All data collected in this study will be processed exclusively for scientific purposes. Your
+                responses will remain completely anonymous and confidential</strong>. No personally identifiable
+            information will be collected or linked to your decisions in the experiment.
+            There will be no data transfer outside the European Union.
+        </p>
+        <p>
+            The data controller is Dimitri Dubois (CEE-M, CNRS, University of Montpellier, France). Data
+            recipients are: Rustam Romaniuc (MBS Montpellier Business School), Dimitri Dubois
+            (CNRS, University of Montpellier) and Andrea Guido (PSB Paris School of Business).
+        </p>
+        <p>
+            You have the right to access, rectify, or delete your data. <br>
+            To exercise these rights, you can contact Dimitri Dubois at: dimitri.dubois@umontpellier.fr.
+        </p>
+        <p>
+            This study is funded by the French National Research Agency (ANR), project number
+            ANR-21-CE26-0016. For any questions about the study, please contact Rustam Romaniuc at
+            r.romaniuc@mbs-education.com.
+        </p>
+    </div>
+</div>
+
+<div class="mb-3">
+    <p>
+        Please confirm your consent to participate in this study by checking the box below:
+    </p>
+    <p>
+        <label>
+            <input type="checkbox" id="consent" name="consent" onclick="enableNextButton()">
+            I have read and understood the information provided above. I agree to participate in this study.
+        </label>
+    </p>
+</div>
+
+{{ next_button }}
+
+<div class="row mt-5">
+    <div class="col-1">
+        <img src="{{ static 'whistleblowing_welcome/cnrs.png' }}" alt="Logo CNRS">
+    </div>
+    <div class="col-1">
+        <img src="{{ static 'whistleblowing_welcome/mbs.jpg' }}" alt="Logo MBS">
+    </div>
+    <div class="col-1">
+        <img src="{{ static 'whistleblowing_welcome/um.png' }}" alt="Logo UM">
+    </div>
+    <div class="col-1">
+        <img src="{{ static 'whistleblowing_welcome/ceem.png' }}" alt="Logo CEE-M">
+    </div>
+</div>
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    const consentCheckbox = document.getElementById('consent');
+    const nextButton = document.querySelector('.otree-btn-next');
+
+    function enableNextButton() {
+        nextButton.disabled = !consentCheckbox.checked;
+    }
+
+    function fill_auto() {
+        consentCheckbox.checked = true;
+        enableNextButton();
+        setTimeout(() => {
+            nextButton.click();
+        }, 2000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        nextButton.disabled = true;
+        if (js_vars.fill_auto) {
+            fill_auto();
+        }
+    });
+</script>
+{{ endblock }}

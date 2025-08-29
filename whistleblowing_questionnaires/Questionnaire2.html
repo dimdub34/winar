@@ -1,0 +1,53 @@
+{{ block styles}}
+<link rel="stylesheet" href="{{ static 'sliders.css' }}">
+{{ endblock }}
+
+{{ block title }}
+Part 3: Questionnaire 2
+{{ endblock }}
+
+{{ block content }}
+
+<div class="mb-3">
+    <div class="form-control mb-1">
+        <p>
+            Suppose you have earned {{ 1000|cu }}, but you have to give away the money to two other people.
+            You can’t keep any of the money for yourself. Assume that these two people have the same
+            standard of living. One is a friend of yours and the other one is a stranger.
+        </p>
+        <label class="col-form-label small" for="id_share_friend_stranger">
+            {{ form.share_friend_stranger.label }}
+            <output id="share_friend_stranger_out" for="id_share_friend_stranger" class="ms-1 fw-bold">0</output>
+        </label>
+        <div class="mb-3" style="width: 80%">
+            <input type="range" min="0" max="1000" step="1" name="share_friend_stranger"
+                   id="id_share_friend_stranger" style="width:100%" value="0"
+                   oninput="share_friend_stranger_out.value=this.value">
+            <div class="ticks mt-0">
+                <span>0</span><span>1000</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-control mb-1">
+        {{ formfield "corruption" }}
+    </div>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll(".col-form-label").forEach(label => {
+            label.classList.add("fw-bold");
+            label.classList.add("text-muted");
+        });
+
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

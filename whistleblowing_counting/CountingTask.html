@@ -1,0 +1,126 @@
+{{ block styles }}
+<link href="{{ static 'whistleblowing_counting/grids.css' }}" rel="stylesheet"/>
+{{ endblock }}
+
+{{ block title }}
+Task : Counting 1's
+{{ endblock }}
+
+{{ block content }}
+<div class="text-end mb-3">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
+        Instructions
+    </button>
+</div>
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            Select a grid by clicking on the corresponding button, count the number of 1's in the grid,
+            enter the value in the input box and click on "Validate". Then select another grid and repeat the process.
+        </p>
+    </div>
+</div>
+
+<div class="text-center mb-3">
+    {{ for grid in loop_grid_number }}
+    <button type="button" id="id_g_{{forloop.counter}}" class="btn-secondary btn_grid_number my-1 mx-1"
+            style="width: 35px"
+            onclick="display_grid({{ forloop.counter }})">{{forloop.counter}}
+    </button>
+    {{ if forloop.counter == 20 or forloop.counter == 40 or forloop.counter == 60 or forloop.counter == 80 }}
+    <br>
+    {{ endif }}
+    {{ endfor }}
+</div>
+
+<div class="text-center">
+    <h6 class="text-info">
+        Grid
+        <span id="grid_number">1</span></h6>
+    <table class=" text-center mb-2 mx-auto">
+        {{ for i in loop_rows }}
+        <tr>
+            {{ for j in loop_cols }}
+            <td>
+                <input type="number" name="grid_cell" id="r{{i}}_c{{j}}" class="my_cell" readonly>
+            </td>
+            {{ endfor }}
+        </tr>
+        {{ endfor }}
+    </table>
+    <div class="form-group form-inline text-center mb-3">
+        <label for="grid_count">
+            Number of 1 in the grid:
+        </label>
+        <input type="number" class="form-control d-inline text-center" name="grid_count" id="grid_count"
+               style="width: 80px">&nbsp;
+        <button type="button" class="btn btn-primary" id="btn_validate" onclick="validate();">
+            Validate
+        </button>
+    </div>
+</div>
+
+<input type="hidden" name="counting_performance" id="id_counting_performance" value="0">
+
+{{ include_sibling "InstructionsModal.html" }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    const grids = js_vars.grids;
+    let current_grid;
+    let grid_count = document.querySelector("#grid_count");  // input for the grid count
+    let input_score = document.querySelector("#id_counting_performance");  // field to store the score
+
+    function display_grid(grid_number) {
+        current_grid = grids[grid_number - 1];
+        // fill the grid with the values
+        document.querySelector("#grid_number").innerHTML = String(grid_number);
+        let grid_cells = document.querySelectorAll("input[type=number][name=grid_cell]");  // grid cells
+        let counter = 0;
+        for (let r of current_grid.grid) {
+            for (let c of r) {
+                grid_cells[counter].value = c;
+                counter++;
+            }
+        }
+        grid_count.value = "";  // empty the input field
+    }
+
+    function validate() {
+        let answer = Number(grid_count.value);  // get the answer from the input field
+        if (answer === current_grid["total"])
+            input_score.value = Number(input_score.value) + 1
+        let the_btn = document.querySelector(`#id_g_${current_grid['number']}`);
+        the_btn.classList.remove("bg-secondary");
+        the_btn.classList.add("bg-warning");
+        the_btn.disabled = true;
+        the_btn.setAttribute("title", String(answer));
+        grid_count.value = null;
+        current_grid = null;
+    }
+
+    function fill_auto() {
+        // select a random grid and click on it
+        const btn_grid_number = document.querySelectorAll(".btn_grid_number");
+        let random_grid_number = Math.floor(Math.random() * 100) + 1;
+        btn_grid_number[random_grid_number - 1].click();
+        // set the value of the grid count
+        grid_count.value = Math.floor(Math.random() * 101);
+        // click the validate button
+        document.querySelector("#btn_validate").click();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        display_grid(1);
+        if (js_vars.fill_auto) {
+            setInterval(() => {
+                fill_auto();
+            }, Math.floor(Math.random() * 10000));
+        }
+    });
+
+</script>
+{{ endblock }}

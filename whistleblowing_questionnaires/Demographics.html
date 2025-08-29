@@ -1,0 +1,33 @@
+{{ block title }}
+Part 3: Socio-demographic questionnaire
+{{ endblock }}
+
+{{ block content }}
+
+<div class="mb-3">
+    {{ for field in form }}
+    <div class="form-control mb-1">
+        <label class="col-form-label">{{ field.label }}</label> <br>
+        {{ field }}
+    </div>
+    {{ endfor }}
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll(".col-form-label").forEach(label => {
+            label.classList.add("fw-bold");
+            label.classList.add("text-muted");
+        });
+
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

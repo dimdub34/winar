@@ -1,0 +1,42 @@
+<p>
+    During {{ EFFORT_DURATION_STR }}, you must <span class="fw-bold">count the "1"s in grids of
+        {{ GRID_SIZE.0 }} rows and {{ GRID_SIZE.1 }} columns composed only of "0"s and "1"s</span>.
+    A total of {{ NUM_GRIDS }} grids will be available to you.
+</p>
+<p>
+    You must first select a grid by clicking on one of the {{ NUM_GRIDS }} available buttons.
+    Once the grid is displayed, count the number of "1"s it contains, enter your answer in the input box,
+    then click <i>Validate</i>. The button of the solved grid then turns orange to indicate that you have
+    already counted it. Click another button to select a new grid and repeat the process.
+</p>
+
+{{ if subsession.treatment == INDIVIDUAL }}
+<p>
+    Your earnings depend solely on your own performance and not on the performance of the other
+    group members. For each correctly counted grid, you will receive {{ PIECE_RATE }} ECU.
+</p>
+
+{{ elif subsession.treatment == COOPERATION }}
+<p>
+    Your earnings in this task will depend on the best score in the group.
+    The best score is the one achieved by the group member who has correctly counted the number of "1"s
+    in the largest number of grids.
+    For each grid correctly counted by the best group member, each group member will receive
+    {{ PIECE_RATE }} ECU. Thus, the better your teammates perform, the higher your earnings will be.
+</p>
+
+{{ endif }}
+
+<p>
+    You can complete as many grids as you wish during the {{ EFFORT_DURATION_STR }} allocated to you. <br>
+    <span class="fst-italic">You will be informed of your earnings for this task at the end of the experiment.</span>
+</p>
+
+<figure class="text-center">
+    <figcaption class="fst-italic text-muted fw-bold text-center">
+        Screenshot: orange cells are those already counted.
+    </figcaption>
+    <img class="img-thumbnail mx-auto" alt="screenshot"
+         src="{{ static 'whistleblowing_counting/screenshot_en.png' }}">
+</figure>
+

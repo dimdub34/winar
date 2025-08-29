@@ -1,0 +1,14 @@
+{{ block title }}
+{{ if en }}
+End of the experiment
+{{ elif fr }}
+Fin de l'expérience
+{{ endif }}
+{{ endblock }}
+
+{{ block content }}
+
+{{ include_sibling "FinalTemplate.html" }}
+
+{{ endblock }}
+

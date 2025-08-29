@@ -1,0 +1,47 @@
+{{ block title }}
+Part 2: Reporting Decision
+{{ endblock }}
+
+{{ block content }}
+
+<div class="text-end mb-3">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
+        Instructions
+    </button>
+</div>
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            As a Blue Player, you must decide whether you want to report the Red Player in your group if he/she decides
+            to steal ECU from the Passive Group. <br>
+            {{ if subsession.reward }}
+            As a reminder, if the Red Player is penalized, reporting will cost you {{ REPORTING_COST }} ECU
+            and you will receive {{ REPORTING_REWARD }} ECU as a reward.
+            {{ else }}
+            As a reminder, if the Red Player is penalized, reporting will cost you {{ REPORTING_COST }} ECU.
+            {{ endif }}
+        </p>
+        <p class="fst-italic">
+            The computer program randomly selects one Blue Player’s decision to implement.
+        </p>
+    </div>
+</div>
+
+{{ formfields }}
+
+{{ next_button }}
+
+{{ include_sibling "InstructionsModal.html" }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

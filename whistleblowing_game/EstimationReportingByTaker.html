@@ -1,0 +1,56 @@
+{{ block styles }}
+<link rel="stylesheet" href="{{ static 'sliders.css' }}">
+{{ endblock }}
+
+{{ block title }}
+Part 2: Reporting estimation
+{{ endblock }}
+
+{{ block content }}
+
+<div class="text-end mb-3">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
+        Instructions
+    </button>
+</div>
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            What do you think is the likelihood that one of the Blue Players would report a Red Player’s decision to
+            steal ECU from the Passive Group? Please indicate your response on the scale below, where 0% means there is
+            no chance that a Blue Player would report, 100% means you are certain that a Blue Player would report a Red
+            Player who steals, and values in between indicate that you believe there is some chance that a Blue Player
+            would report.
+        </p>
+    </div>
+</div>
+
+<label for="id_estimation_reporting" class="col-form-label">
+    {{ form.estimation_reporting.label }}
+    <span class="fw-bold"><output id="id_estimation_reporting_output" class="ms-1">0</output>%</span>
+</label>
+<div class="mb-3" style="width: 75%">
+    <input type="range" name="estimation_reporting" id="id_estimation_reporting"
+           min="0" max="100" step="1" style="width: 100%" value="0"
+            oninput="id_estimation_reporting_output.value=this.value">
+    <div class="ticks mt-0">
+        <span>0</span><span>100</span>
+    </div>
+</div>
+
+{{ next_button }}
+
+{{ include_sibling "InstructionsModal.html" }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

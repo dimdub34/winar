@@ -1,0 +1,34 @@
+<p>
+    During {{ EFFORT_DURATION_STR }}, <span class="fw-bold">you will have to calculate sums of numbers.</span>
+    A total of {{ NUM_OPERATIONS }} operations will be available to you.
+    Each operation contains numbers whose sum you need to calculate.
+</p>
+<p>
+    You must first select an operation by clicking on one of the {{ NUM_OPERATIONS }} available buttons.
+    Once the operation is displayed, calculate the sum of the numbers, enter your answer in the input box,
+    then click <i>Validate</i>. The button of the corresponding operation then turns orange to indicate
+    that you have already calculated it. Click another button to select a new operation and repeat the process.
+</p>
+{{ if subsession.treatment == INDIVIDUAL }}
+<p>
+    Your earnings depend solely on your own performance and not on the performance of the other
+    group members. For each operation correctly calculated, you will receive {{ PIECE_RATE }} ECU.
+</p>
+{{ elif subsession.treatment == COOPERATION }}
+<p>
+    Your earnings in this task will depend on the best score in the group. The best score in the group
+    is the one achieved by the member of your group who has correctly calculated the largest number of operations.
+    For each operation correctly calculated by the best group member, each group member will receive
+    {{ PIECE_RATE }} ECU. Thus, the better your teammates perform in this task, the higher your earnings will be.
+</p>
+{{ endif }}
+<p>
+    You can complete as many operations as you wish during the {{ EFFORT_DURATION_STR }} allocated to you. <br>
+    <span class="fst-italic">You will be informed of your earnings for this task at the end of the experiment.</span>
+</p>
+<figure class="text-center">
+    <figcaption class="fst-italic text-muted fw-bold text-center">
+        Screenshot: orange cells are those already validated.
+    </figcaption>
+    <img class="img-thumbnail mx-auto" alt="screenshot" src="{{ static 'whistleblowing_maths/screenshot_en.png' }}">
+</figure>

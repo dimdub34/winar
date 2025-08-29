@@ -1,0 +1,66 @@
+{{ block title }}
+Questionnaire 3
+{{ endblock }}
+
+{{ block content }}
+
+<div class="form-control mb-1">
+    {{ formfield "climate_info_freq" }}
+</div>
+
+<div class="form-control mb-1">
+    <p>
+        In the past week, did you consume news from the following sources?
+        Please answer on a scale of 1 to 7, where 7 is a type of media that you used frequently, and 1 is a type of
+        media
+        you used infrequently.
+    </p>
+    <table class="table table-sm">
+        <tbody>
+        {{ for field in form }}
+        {{ if field.name in ["use_tv", "use_newspapers", "use_radio", "use_social", "use_online", "use_newsletters"] }}
+        <tr>
+            <td>{{ field.label|safe }}</td>
+            <td>{{ field }}</td>
+        </tr>
+        {{ endif }}
+        {{ endfor}}
+        </tbody>
+    </table>
+</div>
+
+<div class="form-control mb-1">
+    <p>
+        From which of the following outlets do you most frequently consume news?
+    </p>
+    {{ formfield 'use_left_sources' }}
+    {{ formfield "use_right_sources" }}
+    {{ formfield "use_neutral_sources" }}
+    {{ formfield "unknown_sources_orientation" }}
+</div>
+
+<div class="form-control mb-1">
+    {{ formfield "news_preference" }}
+</div>
+
+<div class="form-control mb-1">
+    {{ formfield "subscribe_newsletter" }}
+</div>
+
+<div class="form-control mb-3">
+    {{ formfield "willingness_to_pay" }}
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

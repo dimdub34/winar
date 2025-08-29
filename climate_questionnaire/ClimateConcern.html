@@ -1,0 +1,92 @@
+{{ block styles }}
+<style>
+    th.width_perso {
+        width: 100px;
+        text-align: center;
+    }
+</style>
+{{ endblock }}
+
+{{ block title }}
+Questionnaire 4
+{{ endblock }}
+
+{{ block content }}
+
+<div class="form-control mb-1">
+    {{ formfield "climate_threat" }}
+</div>
+
+<div class="form-control mb-1">
+    <p>
+        Here are possible behaviors that experts say would help reduce greenhouse gas emissions. To what extent would
+        you be willing to &hellip;
+    </p>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th></th>
+            <th class="width_perso">Not at all</th>
+            <th class="width_perso"></th>
+            <th class="width_perso">Moderately</th>
+            <th class="width_perso"></th>
+            <th class="width_perso">A great deal</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ for field in form }}
+        {{ if field.name in ['limit_flying', 'limit_driving', 'electric_vehicle', 'limit_beef', 'limit_heating'] }}
+        <tr>
+            <td>{{ field.label|safe }}</td>
+            {{ for option in field }}
+            <td class="text-center">{{ option }}</td>
+            {{ endfor }}
+        </tr>
+        {{ endif }}
+        {{ endfor}}
+        </tbody>
+    </table>
+</div>
+
+<div class="form-control mb-3">
+    <p>
+        Do you support or oppose the following climate policies?
+    </p>
+        <table class="table table-sm">
+        <thead>
+        <tr>
+            <th></th>
+            {{ for s in scale_policy }}
+            <th class="width_perso">{{ s }}</th>
+            {{ endfor }}
+        </tr>
+        </thead>
+        <tbody>
+        {{ for field in form }}
+        {{ if field.name in ['tax_flying', 'tax_fossil', 'ban_polluting', 'subsidy_lowcarbon', 'climate_fund'] }}
+        <tr>
+            <td>{{ field.label|safe }}</td>
+            {{ for option in field }}
+            <td class="text-center align-middle">{{ option }}</td>
+            {{ endfor }}
+        </tr>
+        {{ endif }}
+        {{ endfor}}
+        </tbody>
+    </table>
+
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

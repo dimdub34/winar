@@ -1,0 +1,31 @@
+{{ block style }}
+<style>
+    textarea {
+        height: 200px;
+    }
+</style>
+{{ endblock }}
+
+{{ block title }}
+End of the experiment
+{{ endblock }}
+
+{{ block content }}
+
+{{ include_sibling "FinalTemplate.html" }}
+
+{{ formfield "comments" }}
+
+<button class="btn btn-primary otree-btn-next">Save</button>
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

@@ -1,0 +1,35 @@
+{{ block title }}
+Questionnaires on climate change
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            This last part consists of 4 questionnaires about climate change. <br>
+            There are no right or wrong answers. <br>
+            Please answer with your knowledge and opinion, honestly. <br>
+            We remind you that the data is collected completely anonymously and will only be processed by the project
+            researchers for scientific purposes.
+        </p>
+        <p>
+            This part is optional, if you do not wish to participate, you can click on the <i>Skip</i> button.
+        </p>
+    </div>
+</div>
+
+<button class="btn btn-primary mx-1" name="skip" value="False">Next</button>
+<button class="btn btn-danger" name="skip" value="True">Skip</button>
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

@@ -1,0 +1,46 @@
+{{ block styles }}
+<style>
+    textarea {
+        height: 200px;
+    }
+</style>
+{{ endblock }}
+
+{{ block title }}
+Part 2: Questionnaire
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            Thanks for answering the questions below related to the game you just participated in.
+        </p>
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ for field in form }}
+    <div class="form-control mb-1">
+        <p>
+            {{ field.label|safe }}
+        </p>
+        {{ field }}
+    </div>
+    {{ endfor }}
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

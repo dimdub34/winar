@@ -1,0 +1,69 @@
+table.IOS {
+    border-collapse: collapse;
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 20px;
+}
+
+.slider2 {
+    -webkit-appearance: none;
+    width: 100% !important;
+    height: 10px;
+    background: none;
+    outline: none;
+    opacity: 0.9;
+    -webkit-transition: 0.3s;
+    transition: opacity 0.3s;
+}
+
+.slider2:hover {
+    opacity: 1;
+}
+
+.slider2::-moz-range-track,
+.slider2::-webkit-slider-runnable-track {
+    width: 100% !important;
+    height: 10px !important;
+    cursor: pointer !important;
+    background: linear-gradient(to right, #6ab7ff, #fff);
+    border-radius: 5px !important;
+    border: none !important;
+}
+
+.slider2::-moz-range-thumb,
+.slider2::-webkit-slider-thumb {
+    height: 20px !important;
+    width: 20px !important;
+    border-radius: 50% !important;
+    background: white !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer !important;
+    border: 2px solid #6ab7ff !important;
+    -webkit-appearance: none !important;
+    margin-top: -5px !important;
+    transition: transform 0.2s ease;
+}
+
+.slider2::-moz-range-thumb:active,
+.slider2::-webkit-slider-thumb:active {
+    transform: scale(1.2);
+}
+
+.sliderticks {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    margin-top: 10px;
+}
+
+.sliderticks p {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 1px;
+    background: #b3b3b3;
+    height: 8px;
+    line-height: 40px;
+    margin: 0 0 15px 0;
+}

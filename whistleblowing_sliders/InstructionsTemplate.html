@@ -1,0 +1,37 @@
+<p>
+    During {{ EFFORT_DURATION_STR }} <span class="fw-bold">you will have to position sliders on a given target value</span>.
+    A total of {{ NUM_SLIDERS }} targets will be available to you.
+</p>
+<p>
+    You must first select a target value by clicking on one of the {{ NUM_SLIDERS }} available buttons.
+    Once the target is displayed, move the slider to the given target and then click <i>Validate</i>.
+    The button of the corresponding target then turns orange to indicate that you have already positioned it.
+    Then choose another target and repeat the process.
+</p>
+{{ if subsession.treatment == INDIVIDUAL }}
+<p>
+    Your earnings depend solely on your own performance and not on the performance of the other
+    group members. For each correctly positioned slider, you will receive {{ PIECE_RATE }} ECU.
+</p>
+{{ elif subsession.treatment == COOPERATION }}
+<p>
+    Your earnings will depend on the best score in the group. The best score in the group is
+    the one achieved by the member of your group who has correctly positioned the largest number of sliders.
+    For each slider correctly positioned by the best group member, each group member will receive
+    {{ PIECE_RATE }} ECU. Thus, the better your teammates perform in this task, the higher your earnings will be.
+</p>
+{{ endif }}
+<p>
+    You can position as many sliders as you wish during the {{ EFFORT_DURATION_STR }} allocated to you. <br>
+    <span class="fst-italic">
+        You will be informed of your earnings for this task at the end of the experiment.
+        </span>
+</p>
+<figure class="text-center">
+    <figcaption class="fst-italic text-muted fw-bold text-center">
+        Screenshot: orange cells are those already validated.
+    </figcaption>
+    <img class="img-thumbnail mx-auto" alt="screenshot"
+         src="{{ static 'whistleblowing_sliders/screenshot_en.png' }}">
+</figure>
+

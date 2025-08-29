@@ -1,0 +1,24 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Code</th>
+        <th>Label</th>
+        <th>Effort</th>
+        <th>Game</th>
+        <th>Payoff ECU</th>
+        <th>Payoff</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{ for p in players_infos }}
+    <tr>
+        <td>{{ p.code }}</td>
+        <td>{{ p.label }}</td>
+        <td>{{ p.effort_payoff }}</td>
+        <td>{{ p.game_payoff }}</td>
+        <td>{{ p.payoff_ecu }}</td>
+        <td>{{ p.payoff }}</td>
+    </tr>
+    {{ endfor }}
+    </tbody>
+</table>

@@ -1,0 +1,35 @@
+{{ block title }}
+Part 1
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            In Part 1, the computer program will create groups of {{ PLAYERS_PER_GROUP }} at random.
+            You will not be able to identify the other members of your group and they will not be able to identify
+            you.
+        </p>
+        <p>
+            Each group member will complete 3 tasks. At the end of the part, one of the 3 tasks will be randomly
+            selected by the computer program, and your gain for Part 1 will be equal to your gain in that task.
+            You will be informed of the selected task and of your gain in this task only at the very end of the
+            experiment.
+        </p>
+    </div>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

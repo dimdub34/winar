@@ -1,0 +1,42 @@
+{{ block styles }}
+<style>
+    textarea {
+        height: 400px;
+    }
+</style>
+{{ endblock }}
+
+{{ block title }}
+Questionnaire 1
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            Climate change refers to long-term shifts in temperatures and weather patterns. Over the past century,
+            global temperatures have risen by about 1.1°C (2°F). Scientists have observed more frequent and intense
+            extreme weather events, rising sea levels, and shrinking ice sheets.
+        </p>
+        <p>
+            In your opinion, what are the causes of climate change, and how are these causes related?
+        </p>
+    </div>
+</div>
+
+{{ formfields }}
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

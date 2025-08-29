@@ -1,0 +1,36 @@
+{{ block title }}
+Presentation of the experiment
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            Your gain during the experiment will be expressed in Experimental Currency Units (ECU), with an exchange rate
+            of <strong>1 ECU = {{ session.config.real_world_currency_per_point|cu }}</strong>.
+        </p>
+        <p>
+            This experiment is composed of several parts. You will receive detailed instructions at the beginning of
+            each part.
+        </p>
+        <p>
+            <strong>You will initially have an endowment of {{ ENDOWMENT }} ECU.</strong>
+            Your earnings from the different parts of the experiment will be added to this initial endowment.
+        </p>
+    </div>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

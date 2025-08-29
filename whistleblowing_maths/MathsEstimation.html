@@ -1,0 +1,52 @@
+{{ block styles }}
+<style>
+    input[type=number] {
+        width: 80px;
+        text-align: center;
+    }
+</style>
+{{ endblock }}
+{{ block title }}
+Task 2: Guessing stage
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        {{ if subsession.treatment == INDIVIDUAL }}
+        <p>
+            You have completed Task 2. Before moving on to Task 3, please indicate your estimate of the number of
+            operations you successfully completed in Task 2.
+        </p>
+
+        {{ elif subsession.treatment == COOPERATION }}
+        <p>
+            You have completed Task 2. Before moving on to Task 3, please indicate your estimate of the number of
+            operations that the best participant in your group has successfully completed in Task 2.
+        </p>
+
+        {{ endif }}
+    </div>
+</div>
+
+<div class="d-flex align-items-center mb-3">
+    <label for="id_maths_estimation" class="me-2 mb-0">
+        {{ form.maths_estimation.label }}
+    </label>
+    {{ form.maths_estimation }}
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

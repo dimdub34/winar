@@ -1,0 +1,49 @@
+{{ block title }}
+Part 3: Questionnaire 1
+{{ endblock }}
+
+{{ block content }}
+<div class="mb-3">
+    <div class="form-control mb-1">
+        <p class="fw-bold">
+            When you decide whether something is right or wrong, to what extent are the following considerations
+            relevant to your thinking? Please rate each statement.
+        </p>
+        {{ formfield "fairness_1" }}
+        {{ formfield "fairness_2" }}
+        {{ formfield "loyalty_1" }}
+        {{ formfield "loyalty_2" }}
+    </div>
+    <div class="form-control mb-1">
+        <p class="fw-bold">
+            Please read the following sentences and indicate your agreement or disagreement.
+        </p>
+        {{ formfield "fairness_3" }}
+        {{ formfield "loyalty_3" }}
+    </div>
+    <div class="form-control mb-1">
+        {{ formfield "morally_good_person" }}
+    </div>
+    <div class="form-control mb-1">
+        {{ formfield "friend_choice" }}
+    </div>
+
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll(".col-form-label").forEach(label => {
+            label.classList.add("fw-bold");
+            label.classList.add("text-muted");
+        });
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

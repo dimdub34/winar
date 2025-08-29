@@ -1,0 +1,163 @@
+{{ block styles }}
+<style>
+    .slider-ticks {
+        width: 100%;
+        position: relative;
+        margin-top: 2rem;
+    }
+
+    .slider-ticks input[type=range] {
+        width: 100%;
+    }
+
+    .slider-ticks .ticks {
+        position: absolute;
+        top: 18px;
+        left: 0;
+        right: 0;
+        height: 10px;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 8px;
+        pointer-events: none;
+    }
+
+    .slider-ticks .ticks span {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .slider-ticks .ticks span::before {
+        content: '';
+        display: block;
+        width: 1px;
+        height: 10px;
+        background: #666;
+        margin-bottom: 4px;
+    }
+
+    .slider-ticks .ticks span small {
+        font-size: 0.75rem;
+        color: #444;
+    }
+</style>
+{{ endblock }}
+
+{{ block title }}
+Task 3: Sliders
+{{ endblock }}
+
+{{ block content }}
+<div class="text-end mb-3">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
+        Instructions
+    </button>
+</div>
+
+<div class="card text-justify bg-light mb-3">
+    <div class="card-body">
+        <p>
+            Select a target by clicking on the corresponding button, position the slider on the target value
+            and click on the <i>Validate</i> button. Then select another target and repeat the process.
+        </p>
+    </div>
+</div>
+
+<div class="text-center mb-3">
+    {{ for sl in sliders }}
+    <button type="button" id="id_g_{{forloop.counter}}" class="btn-secondary btn_slider mx-1 my-1" style="width: 35px"
+            onclick="display_slider({{ forloop.counter }})">{{forloop.counter}}
+    </button>
+    {{ if forloop.counter == 20 or forloop.counter == 40 or forloop.counter == 60 or forloop.counter == 80 }}
+    <br>
+    {{ endif }}
+    {{ endfor }}
+</div>
+
+<div class="mb-5 text-center">
+    <h6 class="text-info">
+        Slider
+        <span id="slider_number">1</span></h6>
+    <p class="fw-bold">
+        Target value:
+        <span id="target_value">{{ sliders.0.target }}</span>
+    </p>
+    <div class="mb-5 text-center">
+        <div class="slider-ticks mx-auto" style="max-width: 90%;">
+            <input type="range"
+                   class="form-range"
+                   name="slider"
+                   id="id_sl_0"
+                   min="0"
+                   max="100"
+                   step="1"
+                   value="0">
+
+            <!-- Ticks (graduations) -->
+            <div class="ticks">
+                {{ for i in range(0, 101, 10) }}
+                <span><small> | </small></span>
+                {{ endfor }}
+            </div>
+            <div class="d-flex justify-content-between mt-2">
+                <span>&nbsp;0</span>
+                <span>100</span>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary" id="btn_validate" onclick="validate();">
+        Validate
+    </button>
+</div>
+
+<input type="hidden" name="sliders_performance" id="id_sliders_performance" value="0">
+
+{{ include_sibling "InstructionsModal.html" }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    const sliders = js_vars.sliders;
+    let current_slider;
+    let slider_input = document.querySelector("input[type=range][name=slider]");  // the slider
+    let input_score = document.querySelector("#id_sliders_performance");  // the hidden input for the score
+
+    function display_slider(slider_number) {
+        current_slider = sliders[slider_number - 1];
+        document.querySelector("#slider_number").innerHTML = String(slider_number);
+        document.querySelector("#target_value").innerHTML = String(current_slider["target"]);
+        slider_input.value = 0;
+    }
+
+    function validate() {
+        let answer = Number(slider_input.value);
+        if (answer === Number(current_slider["target"])) {
+            input_score.value = Number(input_score.value) + 1
+        }
+        let the_btn = document.querySelector(`#id_g_${current_slider['number']}`);
+        the_btn.classList.remove("bg-secondary");
+        the_btn.classList.add("bg-warning");
+        the_btn.disabled = true;
+        current_slider = null;
+    }
+
+    function fill_auto() {
+        let btn_sliders = document.querySelectorAll(".btn_slider");
+        btn_sliders[Math.floor(Math.random() * btn_sliders.length)].click();
+        slider_input.value = Math.floor(Math.random() * 100 + 1);
+        document.querySelector("#btn_validate").click();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        display_slider(1);
+        if (js_vars.fill_auto) {
+            setInterval(() => {
+                fill_auto();
+            }, Math.floor(Math.random() * 10000));
+        }
+    });
+
+</script>
+{{ endblock }}

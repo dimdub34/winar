@@ -1,0 +1,124 @@
+{{ block title }}
+Task 2: Additions
+{{ endblock }}
+
+{{ block content }}
+<div class="text-end mb-3">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
+        Instructions
+    </button>
+</div>
+
+<div class="card text-justify bg-light mb-3">
+    <div class="card-body">
+        <p>
+            Select an operation by clicking on the corresponding button, calculate the sum, enter the value
+            in the input box and click on "Validate". Then select another operation and repeat the process.
+        </p>
+    </div>
+</div>
+
+<div class="text-center mb-3">
+    {{ for op in operations }}
+    <button type="button" id="id_g_{{forloop.counter}}" class="btn-secondary btn_operation_number mx-1 my-1"
+            style="width: 35px"
+            onclick="display_operation({{ forloop.counter }})">{{forloop.counter}}
+    </button>
+    {{ if forloop.counter == 20 or forloop.counter == 40 or forloop.counter == 60 or forloop.counter == 80 }}
+    <br>
+    {{ endif }}
+    {{ endfor }}
+</div>
+
+<div class="text-center">
+    <h6 class="text-info">
+        Operation
+        <span id="operation_number">1</span>
+    </h6>
+    <div class="text-center mb-3 fs-4">
+        {{ for num in operations.0.numbers }}
+        <span class="text-center mb-3 operation" style="width: 100px;" id="id_op_{{ forloop.counter }}">{{ num }}</span>
+        {{ if forloop.counter < operations.0|length }}
+        +
+        {{ endif }}
+        {{ endfor }}
+    </div>
+    <div class="text-center mb-3">
+        <label for="operation_sum">
+            Sum of numbers:
+        </label>&nbsp;
+        <input type="number" class="form-control d-inline text-center" name="operation_sum" id="operation_sum"
+               style="width: 80px;">&nbsp;
+        <button type="button" class="btn btn-primary" id="btn_validate" onclick="validate();">
+            Validate
+        </button>
+    </div>
+</div>
+
+<input type="hidden" name="maths_performance" id="id_maths_performance" value="0">
+
+{{ include_sibling "InstructionsModal.html" }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    const operations = js_vars.operations;
+    let current_operation;
+    let operation_sum = document.querySelector("#operation_sum");
+    let input_score = document.querySelector("#id_maths_performance");
+
+
+    function display_operation(operation_number) {
+        current_operation = operations[operation_number - 1];
+        document.querySelector("#operation_number").innerHTML = String(operation_number);
+        let operation_numbers = document.querySelectorAll(".operation");
+        for (let i = 0; i < operation_numbers.length; i++) {
+            operation_numbers[i].innerText = current_operation["numbers"][i];
+        }
+        operation_sum.value = "";  // clear the input
+    }
+
+    function validate() {
+        let answer = Number(operation_sum.value);
+        if (answer === current_operation["total"])
+            input_score.value = Number(input_score.value) + 1
+        let the_btn = document.querySelector(`#id_g_${current_operation['number']}`);
+        the_btn.classList.remove("bg-secondary");
+        the_btn.classList.add("bg-warning");
+        the_btn.disabled = true;
+        the_btn.setAttribute("title", String(answer));
+        operation_sum.value = null;
+        current_operation = null;
+    }
+
+    function fill_auto() {
+        // select a random operation and click on it
+        const btn_operation_number = document.querySelectorAll(".btn_operation_number");
+        let random_operation_number = Math.floor(Math.random() * 100 + 1);
+        btn_operation_number[random_operation_number - 1].click();
+        // set the sum of the operation
+        operation_sum.value = Math.floor(Math.random() * 101);
+        // click the validate button
+        document.querySelector("#btn_validate").click();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        display_operation(1);
+
+        // la touche "Entrée" ne valide pas l'opération
+        document.querySelector("#operation_sum").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+            }
+        });
+
+        if (js_vars.fill_auto) {
+            setInterval(() => {
+                fill_auto();
+            }, Math.floor(Math.random() * 10000));
+        }
+    });
+
+</script>
+{{ endblock }}

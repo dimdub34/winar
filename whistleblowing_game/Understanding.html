@@ -1,0 +1,115 @@
+{{ block title }}
+Understanding questionnaire
+{{ endblock }}
+
+{{ block content }}
+
+<div class="text-end mb-3">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
+        Instructions
+    </button>
+</div>
+
+<div class="mb-3">
+    {{ for question in understanding }}
+    <div class=" form-control mb-1">
+        <p>
+            <b>Question {{ forloop.counter }}</b> : {{ question.question }}
+        </p>
+        {{ for prop in question.propositions }}
+        <div>
+            <input type="radio" name="q_{{question.question_id}}" value="{{ forloop.counter0 }}"
+                   id="{{ question.question_id }}_{{ forloop.counter }}" class="form-check-input" required/>
+            <label for="{{ question.question_id }}_{{ forloop.counter }}" class="form-label">{{ prop }}</label>
+        </div>
+        {{ endfor }}
+        <p class="form-control-errors" style="display: none;" id="error_{{question.question_id}}">
+            This is not the correct answer.
+        </p>
+    </div>
+    {{ endfor }}
+</div>
+
+{{ next_button }}
+
+{{ for field in form }}
+<input type="hidden" name="{{ field.name }}" value="0"/>
+{{ endfor }}
+
+{{ include_sibling "InstructionsModal.html" }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    const questionnaire = js_vars.understanding;
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        function checkAndSubmit() {
+            let allCorrect = true;
+
+            // To select a random answer
+            function selectRandomAnswer(question) {
+                const options = document.querySelectorAll(`input[name="q_${question.question_id}"]`);
+                const randomIndex = Math.floor(Math.random() * options.length);
+                options[randomIndex].checked = true;
+            }
+
+            // browse through each question to get the selected answer
+            questionnaire.forEach(question => {
+                const selectedOption = document.querySelector(`input[name="q_${question.question_id}"]:checked`);
+                const errorField = document.getElementById(`error_${question.question_id}`);
+                const hiddenInput = document.querySelector(`input[name="understanding_faults_q${question.question_id}"]`);
+
+                if (selectedOption) {
+                    if (Number(selectedOption.value) !== Number(question.solution)) {
+                        // Si la réponse est incorrecte, on affiche l'erreur et on incrémente le compteur
+                        allCorrect = false;
+                        hiddenInput.value = parseInt(hiddenInput.value) + 1;
+                        errorField.style.display = 'block';
+
+                        // Si en mode automatique, choisir une nouvelle réponse aléatoire
+                        if (js_vars.fill_auto) {
+                            selectRandomAnswer(question);
+                        }
+                    } else {
+                        // Si la réponse est correcte, on cache l'erreur
+                        errorField.style.display = 'none';
+                    }
+                } else {
+                    // Si aucune option n'est sélectionnée, on considère la réponse incorrecte
+                    allCorrect = false;
+                    hiddenInput.value = parseInt(hiddenInput.value) + 1;
+                    errorField.style.display = 'block';
+
+                    // Si en mode automatique, choisir une nouvelle réponse aléatoire
+                    if (js_vars.fill_auto) {
+                        selectRandomAnswer(question);
+                    }
+                }
+            });
+
+            // Si tout est correct, on soumet le formulaire
+            if (allCorrect) {
+                document.querySelector("form").submit();
+            } else {
+                // Si des réponses sont fausses et en mode automatique, on relance après un court délai
+                if (js_vars.fill_auto) {
+                    setTimeout(checkAndSubmit, 500); // On retente après 500ms
+                }
+            }
+        }
+
+        document.querySelector(".otree-btn-next").addEventListener("click", function (event) {
+            event.preventDefault();
+            checkAndSubmit();
+        });
+
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+
+{{ endblock }}
