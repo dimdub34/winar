@@ -48,7 +48,7 @@ class Subsession(BaseSubsession):
                     g["total"] += sum(g["grid"][-1])
                     g["number"] = i + 1
                 grids.append(g)
-            self.session.vars[f"grids_g_{group.id_in_self}"] = grids
+            self.session.vars[f"grids_g_{group.id_in_subsession}"] = grids
 
 
 def creating_session(subsession: Subsession):

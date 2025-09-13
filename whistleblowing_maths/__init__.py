@@ -46,7 +46,7 @@ class Subsession(BaseSubsession):
             for i in range(Config.NUM_OPERATIONS):
                 numbers = [random.randint(10, 99) for _ in range(Config.OPERATION_SIZE)]
                 operations.append(dict(numbers=numbers, total=sum(numbers), number=i + 1))
-            self.session.vars[f"operations_g_{group.id_in_self}"] = operations
+            self.session.vars[f"operations_g_{group.id_in_subsession}"] = operations
 
 
 def creating_session(subsession: Subsession):

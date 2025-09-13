@@ -46,7 +46,7 @@ class Subsession(BaseSubsession):
                 dict(target=random.randint(2, 98), number=i + 1)
                 for i in range(Config.NUM_SLIDERS)
             ]
-            self.session.vars[f"sliders_g_{group.id_in_self}"] = sliders
+            self.session.vars[f"sliders_g_{group.id_in_subsession}"] = sliders
 
 
 def creating_session(subsession: Subsession):
