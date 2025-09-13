@@ -13,7 +13,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     fill_auto=False,
     test=False
 )
-DEBUG = True
+DEBUG = False
 
 LANGUAGE_CODE = 'en'
 REAL_WORLD_CURRENCY_CODE = 'USD'
