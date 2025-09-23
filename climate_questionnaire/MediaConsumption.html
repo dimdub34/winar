@@ -1,5 +1,9 @@
 {{ block title }}
+{{ if en }}
 Questionnaire 3
+{{ elif fr }}
+Questionnaire 3
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
@@ -10,10 +14,15 @@ Questionnaire 3
 
 <div class="form-control mb-1">
     <p>
+        {{ if en }}
         In the past week, did you consume news from the following sources?
         Please answer on a scale of 1 to 7, where 7 is a type of media that you used frequently, and 1 is a type of
         media
         you used infrequently.
+        {{ elif fr }}
+        La semaine dernière, à quelle fréquence avez-vous utilisé les médias suivants pour vous informer ?
+        Évaluez chaque source sur une échelle de 1 (rarement) à 7 (fréquemment).
+        {{ endif }}
     </p>
     <table class="table table-sm">
         <tbody>
@@ -31,7 +40,11 @@ Questionnaire 3
 
 <div class="form-control mb-1">
     <p>
+        {{ if en }}
         From which of the following outlets do you most frequently consume news?
+        {{ elif fr }}
+        Parmi les sources suivantes, lesquelles utilisez-vous le plus fréquemment pour vous informer ?
+        {{ endif }}
     </p>
     {{ formfield 'use_left_sources' }}
     {{ formfield "use_right_sources" }}

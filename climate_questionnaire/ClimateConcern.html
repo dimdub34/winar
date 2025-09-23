@@ -8,7 +8,11 @@
 {{ endblock }}
 
 {{ block title }}
+{{ if en }}
 Questionnaire 4
+{{ elif fr }}
+Questionnaire 4
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
@@ -18,19 +22,23 @@ Questionnaire 4
 </div>
 
 <div class="form-control mb-1">
-    <p>
+    <p>{{ if en }}
         Here are possible behaviors that experts say would help reduce greenhouse gas emissions. To what extent would
         you be willing to &hellip;
+        {{ elif fr }}
+        Voici des comportements que les experts disent pouvoir aider à réduire les émissions de gaz à effet de serre.
+        Dans quelle mesure seriez-vous prêt(e) à &hellip;
+        {{ endif }}
     </p>
     <table class="table table-sm">
         <thead>
         <tr>
             <th></th>
-            <th class="width_perso">Not at all</th>
+            <th class="width_perso">{{ if en }} Not at all {{ elif fr }} Pas du tout {{ endif }}</th>
             <th class="width_perso"></th>
-            <th class="width_perso">Moderately</th>
+            <th class="width_perso">{{ if en }} Moderately {{ elif fr }} Modérément {{ endif }}</th>
             <th class="width_perso"></th>
-            <th class="width_perso">A great deal</th>
+            <th class="width_perso">{{ if en }} A great deal {{ elif fr }} Énormément {{ endif }}</th>
         </tr>
         </thead>
         <tbody>
@@ -50,7 +58,11 @@ Questionnaire 4
 
 <div class="form-control mb-3">
     <p>
+        {{ if en }}
         Do you support or oppose the following climate policies?
+        {{ elif fr }}
+        Soutenez-vous ou vous opposez-vous aux politiques climatiques suivantes ?
+        {{ endif }}
     </p>
         <table class="table table-sm">
         <thead>

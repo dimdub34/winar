@@ -8,7 +8,11 @@
 {{ endblock }}
 
 {{ block title }}
+{{ if en }}
 Questionnaire 2
+{{ elif fr }}
+Questionnaire 2
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
@@ -17,19 +21,32 @@ Questionnaire 2
     {{ formfield "climate_knowledge" }}
 </div>
 <div class="form-control mb-3">
+    {{ if en }}
     <p>
         For the next question, we would like you to rank the items according to the greenhouse gas emissions they emit,
         to the best of your knowledge (where 1 is the item that emits the most and 3 is the item that emits the least).
         The greenhouse gas emissions of a product are those emitted at all steps involved in its production and
         distribution.
     </p>
+    {{ elif fr }}
+    <p>
+        Pour la question suivante, nous vous demandons de classer les éléments selon les émissions de gaz à effet de
+        serre qu'ils émettent, au mieux de vos connaissances (où 1 est l'élément qui émet le plus et 3 est l'élément qui
+        émet le moins). Les émissions de gaz à effet de serre d'un produit sont celles émises à toutes les étapes
+        impliquées dans sa production et sa distribution.
+    </p>
+    {{ endif }}
     {{ formfield "rank_coal" }} {{ formfield "rank_gas" }} {{ formfield "rank_nuclear" }}
 </div>
 
 {{ next_button }}
 
 <p class="form-control-errors" style="display: none;">
+    {{ if en }}
     Please ensure that all ranks are unique.
+    {{ elif fr }}
+    Veuillez vous assurer que tous les rangs sont uniques.
+    {{ endif }}
 </p>
 {{ endblock }}
 
@@ -53,7 +70,7 @@ Questionnaire 2
 
         if (coal === gas || coal === nuclear || gas === nuclear) {
             document.querySelector(".form-control-errors").style.display = "block";
-            setTimeout(() => {document.querySelector(".form-control-errors").style.display = "none";}, 3000)
+            setTimeout(() => {document.querySelector(".form-control-errors").style.display = "none";}, 2000)
             return false;
         }
         return true;
