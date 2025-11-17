@@ -30,6 +30,13 @@ def get_scale_policy():
         [2, _(dict(en="Strongly support", fr="Fortement favorable"))]
     ]
 
+def get_scale_certainty():
+    return [
+        [-2, _(dict(en="Very uncertain", fr="XXX"))],
+        [-1, _(dict(en="Uncertain", fr="XXX"))],
+        [1, _(dict(en="Certain", fr="XXX"))],
+        [2, _(dict(en="Very certain", fr="XXX"))],
+    ]
 
 class C(BaseConstants):
     NAME_IN_URL = 'clquest'
@@ -49,15 +56,50 @@ class Player(BasePlayer):
     skip = models.BooleanField()
 
     # Narrative elicitation -----------
+    climate_exists = models.BooleanField(
+        choices=[
+            [True, _(dict(en="Yes", fr="Oui"))],
+            [False, _(dict(en="No", fr="Non"))]
+        ],
+        label=_(
+            dict(
+                en="Do you think climate change is a real phenomenon?",
+                fr="XXX"
+            )
+        ),
+        widget=widgets.RadioSelectHorizontal
+    )
     narrative_elicitation = models.LongStringField(
         label=_(dict(
             en=(
-                "Please explain your reasoning in full sentences, describing the contributing factors and their possible "
-                "links."),
+                "In your opinion, how do you explain the facts attributed to climate change (e.g., the reported rise in global temperatures and more extreme weather events)? <br><br>"
+                "What are, according to you, the causes of the facts attributed to climate change?  Describe in your own words whether and how these causes are related to each other. <br><br>"
+                "In answering this question, please explain your reasoning in full sentences, describing the contributing factors and their possible links. There is no good or wrong answer, respond according to your sincere opinion. [min. 50 characters]"),
             fr=("Veuillez s'il vous plaît expliquer votre raisonnement avec des phrases entières, en décrivant les "
                 "facteurs qui contribuent au changement climatique, et les potentiels liens entre eux.")
         ))
     )
+    narrative_confidence = models.IntegerField(
+        label=_(dict(
+            en=(
+                "How confident are you about the explanation you provided in the previous question?"),
+            fr=(""
+                "")
+        )),
+        choices=get_scale_certainty(),
+        widget=widgets.RadioSelectHorizontal
+    )
+
+    # Narrative sharing ---------------
+    sharing_narrative = models.IntegerField(
+        label=_(dict(
+            en=(
+                "XXX"),
+            fr=(""
+                "")
+        ))
+)
+
     # Climate knowledge ---------------
     climate_knowledge = models.IntegerField(
         label=_(
@@ -406,13 +448,29 @@ class Presentation(MyPage):
     form_fields = ["skip"]
 
 
-class NarrativeElicitation(MyPage):
+class NarrativeElicitation_text(MyPage):
     form_model = 'player'
-    form_fields = ['narrative_elicitation']
 
     @staticmethod
     def is_displayed(player: Player):
         return player.skip == False
+
+class NarrativeElicitation_question(MyPage):
+    form_model = 'player'
+    form_fields = ['climate_exists', 'narrative_elicitation', 'narrative_confidence']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.skip == False
+
+    @staticmethod
+    def error_message(player, values):
+        if len(values['narrative_elicitation']) < 50:
+            return "Please write at least 50 characters."
+
+class NarrativeSharing(MyPage):
+    form_model = 'player'
+    form_fields = ['sharing_narrative']
 
 class ClimateKnowledge(MyPage):
     form_model = 'player'
@@ -471,4 +529,4 @@ class ClimateConcern(MyPage):
     def is_displayed(player: Player):
         return player.skip == False
 
-page_sequence = [Presentation, NarrativeElicitation, ClimateKnowledge, MediaConsumption, ClimateConcern]
+page_sequence = [Presentation, NarrativeElicitation_text, NarrativeElicitation_question, NarrativeSharing, ClimateKnowledge, MediaConsumption, ClimateConcern]

@@ -1,0 +1,54 @@
+{{ block styles }}
+<style>
+    textarea {
+        height: 400px;
+    }
+</style>
+{{ endblock }}
+
+{{ block title }}
+{{ if fr }}
+    XXX
+{{ elif en }}
+    What is climate change?
+{{ endif }}
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        {{ if en }}
+        <p>
+            In what follows you will read a text reporting a common definition of climate change with some examples and facts. Please, read it carefully. You will then be asked some questions on this topic.
+        </p>
+        <p>
+            Climate change is commonly referred to long-term shifts in temperatures and extreme weather patterns. Recently, you may have noticed that climate change has been getting some attention in the news and public discourse.
+        </p>
+        <p>
+            An example of phenomena linked to climate change is the fact that average temperatures today are between 1.34°C and 1.41°C higher than those observed in the period 1850-1900. Besides temperature increase, other examples are the presence of more frequent and intense extreme weather events, rising sea levels, and shrinking ice sheets.
+        </p>
+
+        {{ elif fr }}
+        <p>
+            XXX
+        </p>
+        {{ endif }}
+    </div>
+</div>
+
+{{ formfields }}
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

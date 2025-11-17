@@ -1,0 +1,46 @@
+{{ block styles }}
+<style>
+    textarea {
+        height: 400px;
+    }
+</style>
+{{ endblock }}
+
+{{ block title }}
+{{ if fr }}
+
+{{ elif en }}
+
+{{ endif }}
+{{ endblock }}
+
+{{ block content }}
+In the first question, we asked your opinion on the facts explaining climate change.
+
+You will now participate in an auction to decide whether or not your opinion will be given to future participants in our experiment.
+
+To participate in the auction, you will receive €1.00 that you can use to make a bid. You can bid any amount up to this amount and will get to keep the rest.
+
+In the auction, you will be matched with the other participants in your same session.
+
+The opinion from the participant that bids the most in the auction will be given to 30 future students like you participating in this study.
+
+The future participants will know that the opinion came from the past participant that bid the most for their advice to be used.
+
+How much would you like to bid in the auction to have the advice you gave above be used in our future study (maximum €1.00)? Recall that if your bid is successful, your advice will be given to 30 future participants.
+
+{{ formfields }}
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

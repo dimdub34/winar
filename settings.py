@@ -83,4 +83,11 @@ SESSION_CONFIGS = [
         treatment='cooperation',
         reward=False
     ),
+    dict(
+        name = 'only_climate_change',
+        app_sequence=[
+            'climate_questionnaire'
+        ],
+        num_demo_participants=1
+    )
 ]
