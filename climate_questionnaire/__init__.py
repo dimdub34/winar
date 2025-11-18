@@ -629,6 +629,13 @@ class Player(BasePlayer):
         choices=get_scale_expectations(),
         widget=widgets.RadioSelectHorizontal
     )
+
+    # Circadian (anti-bot page)
+    circadian = models.StringField(
+        label= _(dict(
+            en=""
+        ))
+    )
 # ======================================================================================================================
 #
 # -- PAGES
@@ -678,6 +685,10 @@ class NarrativeElicitation_question(MyPage):
 class NarrativeSharing(MyPage):
     form_model = 'player'
     form_fields = ['sharing_narrative']
+
+class circadian(MyPage):
+    form_model = 'player'
+    form_fields = ['circadian']
 
 class Policy(MyPage):
     form_model = 'player'
@@ -764,4 +775,4 @@ class ClimateConcern(MyPage):
     def is_displayed(player: Player):
         return player.skip == False
 
-page_sequence = [Presentation, NarrativeElicitation_text, NarrativeElicitation_question, NarrativeSharing, Policy, ClimateKnowledge, MediaConsumption, ClimateExpectations, ClimateConcern]
+page_sequence = [Presentation, NarrativeElicitation_text, NarrativeElicitation_question, circadian, NarrativeSharing, Policy, ClimateKnowledge, MediaConsumption, ClimateExpectations, ClimateConcern]
