@@ -1,0 +1,93 @@
+{{ block styles }}
+<style>
+    input[type=number] {
+        width: 80px;
+        text-align: center;
+    }
+</style>
+{{ endblock }}
+
+{{ block title }}
+{{ if en }}
+
+{{ elif fr }}
+
+{{ endif }}
+{{ endblock }}
+
+{{ block content }}
+
+<div class="form-control mb-1">
+    {{ formfield "climate_threat" }}
+</div>
+
+<div class="form-control mb-1">
+    <p>{{ if en }}
+        If nothing is done to limit climate change, how likely do you think it is that climate change will lead to the following events?
+        {{ elif fr }}
+        XXX
+        {{ endif }}
+    </p>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th></th>
+            <th class="width_perso">{{ if en }} Very unlikely {{ elif fr }} XXX {{ endif }}</th>
+            <th class="width_perso">{{ if en }} Somewhat unlikely {{ elif fr }} XXX {{ endif }}</th>
+            <th class="width_perso">{{ if en }} Somewhat likely {{ elif fr }} XXX {{ endif }}</th>
+            <th class="width_perso">{{ if en }} Very likely {{ elif fr }} XXX {{ endif }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ for field in form }}
+        {{ if field.name in ['expectations_droughts', 'expectations_eruptions', 'expectations_sea', 'expectations_agriculture', 'expectations_living', 'expectations_migration', 'expectations_conflicts', 'expectations_extinction'] }}
+        <tr>
+            <td>{{ field.label|safe }}</td>
+            {{ for option in field }}
+            <td class="text-center">{{ option }}</td>
+            {{ endfor }}
+        </tr>
+        {{ endif }}
+        {{ endfor}}
+        </tbody>
+    </table>
+</div>
+
+{{ next_button }}
+
+<p class="form-control-errors" style="display: none;">
+    {{ if en }}
+    Please ensure that all ranks are unique.
+    {{ elif fr }}
+    Veuillez vous assurer que tous les rangs sont uniques.
+    {{ endif }}
+</p>
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector(".otree-btn-next").addEventListener("click", (e) => {
+            if (!ckeck_ranks()) {
+                e.preventDefault();
+            }
+        })
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+
+    function ckeck_ranks() {
+        const coal = parseInt(forminputs.rank_coal.value);
+        const gas = parseInt(forminputs.rank_gas.value);
+        const nuclear = parseInt(forminputs.rank_nuclear.value);
+
+        if (coal === gas || coal === nuclear || gas === nuclear) {
+            document.querySelector(".form-control-errors").style.display = "block";
+            setTimeout(() => {document.querySelector(".form-control-errors").style.display = "none";}, 2000)
+            return false;
+        }
+        return true;
+    }
+</script>
+{{ endblock }}

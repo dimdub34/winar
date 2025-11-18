@@ -18,10 +18,6 @@ Questionnaire 4
 {{ block content }}
 
 <div class="form-control mb-1">
-    {{ formfield "climate_threat" }}
-</div>
-
-<div class="form-control mb-1">
     <p>{{ if en }}
         Here are possible behaviors that experts say would help reduce greenhouse gas emissions. To what extent would
         you be willing to &hellip;
@@ -54,39 +50,6 @@ Questionnaire 4
         {{ endfor}}
         </tbody>
     </table>
-</div>
-
-<div class="form-control mb-3">
-    <p>
-        {{ if en }}
-        Do you support or oppose the following climate policies?
-        {{ elif fr }}
-        Soutenez-vous ou vous opposez-vous aux politiques climatiques suivantes ?
-        {{ endif }}
-    </p>
-        <table class="table table-sm">
-        <thead>
-        <tr>
-            <th></th>
-            {{ for s in scale_policy }}
-            <th class="width_perso">{{ s }}</th>
-            {{ endfor }}
-        </tr>
-        </thead>
-        <tbody>
-        {{ for field in form }}
-        {{ if field.name in ['tax_flying', 'tax_fossil', 'ban_polluting', 'subsidy_lowcarbon', 'climate_fund'] }}
-        <tr>
-            <td>{{ field.label|safe }}</td>
-            {{ for option in field }}
-            <td class="text-center align-middle">{{ option }}</td>
-            {{ endfor }}
-        </tr>
-        {{ endif }}
-        {{ endfor}}
-        </tbody>
-    </table>
-
 </div>
 
 {{ next_button }}

@@ -38,6 +38,24 @@ def get_scale_certainty():
         [2, _(dict(en="Very certain", fr="XXX"))],
     ]
 
+def get_scale_frequency_info():
+    return [
+            [5, _(dict(en="Daily", fr="XXX"))],
+            [4, _(dict(en="Twice per week", fr="XXX"))],
+            [3, _(dict(en="Once per week", fr="XXX"))],
+            [2, _(dict(en="Twice per month", fr="XXX"))],
+            [1, _(dict(en="Once per month", fr="XXX"))],
+            [0, _(dict(en="Never", fr="XXX"))]
+        ]
+
+def get_scale_expectations():
+    return [
+        [-2, _(dict(en="Very unlikely", fr="XXX"))],
+        [-1, _(dict(en="Somewhat unlikely", fr="XXX"))],
+        [1, _(dict(en="Somewhat likely", fr="XXX"))],
+        [2, _(dict(en="Very likely", fr="XXX"))]
+    ]
+
 class C(BaseConstants):
     NAME_IN_URL = 'clquest'
     PLAYERS_PER_GROUP = None
@@ -82,7 +100,7 @@ class Player(BasePlayer):
     narrative_confidence = models.IntegerField(
         label=_(dict(
             en=(
-                "How confident are you about the explanation you provided in the previous question?"),
+                "How certain are you about the explanation you provided in the previous question?"),
             fr=(""
                 "")
         )),
@@ -99,6 +117,39 @@ class Player(BasePlayer):
                 "")
         ))
 )
+    # Policy --------------------------
+    policy_fight = models.BooleanField(
+        choices=[
+            [True, _(dict(en="Yes", fr="Oui"))],
+            [False, _(dict(en="No", fr="Non"))]
+        ],
+        label=_(
+            dict(
+                en="In your opinion, do you think your country should fight climate change?",
+                fr="XXX"
+            )
+        ),
+        widget=widgets.RadioSelectHorizontal
+    )
+
+    policy_narrative = models.LongStringField(
+        label=_(dict(
+            en=(
+                "In the first question, you explained your opinion on the causes of climate change. <br><br>"
+                "Based on the causes you mentioned, what measures and solutions do you think your country’s government should consider to fight climate change? <br><br>"
+                "If you think no action should be taken to fight climate change, explain why you think so."),
+            fr=("")
+        ))
+    )
+    confidence_policy = models.IntegerField(
+        label=_(dict(
+            en=(
+                "How certain are you about your provided explanation to the previous question?"),
+            fr=("")
+        )),
+        choices = get_scale_certainty(),
+        widget=widgets.RadioSelectHorizontal
+    )
 
     # Climate knowledge ---------------
     climate_knowledge = models.IntegerField(
@@ -142,22 +193,28 @@ class Player(BasePlayer):
         widget=widgets.RadioSelectHorizontal
     )
     # Media ---------------------------
-    climate_info_freq = models.StringField(
-        choices=[
-            [3, _(dict(en="Daily", fr="Quotidiennement"))],
-            [2, _(dict(en="Several times", fr="Plusieurs fois"))],
-            [1, _(dict(en="Once", fr="Une fois"))],
-            [0, _(dict(en="Never", fr="Jamais"))]
-        ],
+    ## frequencies
+    info_freq = models.StringField(
+        choices=get_scale_frequency_info(),
         label=_(
             dict(
-                en="How often did you acquire information about climate change over the past week?",
-                fr="À quelle fréquence avez-vous obtenu des informations sur le changement climatique au cours "
-                   "de la semaine dernière ?"
+                en="Over the past 3 months, how often did you acquire information and/or news? For information and news we refer to national, international, and regional/local news, as well as other news facts.",
+                fr="XXX"
             )
         ),
         widget=widgets.RadioSelect
     )
+    climate_info_freq = models.StringField(
+        choices=get_scale_frequency_info(),
+        label=_(
+            dict(
+                en="Over the past 3 months, how often did you acquire information and/or news <b>about climate change</b>? For information and news we refer to national, international, and regional/local news, as well as other news facts.",
+                fr=""
+            )
+        ),
+        widget=widgets.RadioSelectHorizontal
+    )
+    ## sources
     use_tv = models.IntegerField(
         label=_(
             dict(
@@ -181,7 +238,7 @@ class Player(BasePlayer):
     use_radio = models.IntegerField(
         label=_(
             dict(
-                en="Radio",
+                en="Radio or podcasts",
                 fr="Radio"
             )
         ),
@@ -201,7 +258,7 @@ class Player(BasePlayer):
     use_online = models.IntegerField(
         label=_(
             dict(
-                en="Online news",
+                en="News media websites or apps",
                 fr="Actualités en ligne"
             )
         ),
@@ -218,90 +275,151 @@ class Player(BasePlayer):
         choices=range(1, 8),
         widget=widgets.RadioSelectHorizontal
     )
-    use_left_sources = models.BooleanField(
+    use_tv_climate = models.IntegerField(
         label=_(
             dict(
-                en="Left-leaning sources?",
-                fr="Sources orientées à gauche ?"
+                en="Television (e.g., national news, cable news)",
+                fr="Télévision (par exemple, actualités nationales, chaînes d'information)"
             )
         ),
-        widget=widgets.CheckboxInput, blank=True
-    )
-    use_right_sources = models.BooleanField(
-        label=_(
-            dict(
-                en="Rright-leaning sources?",
-                fr="Sources orientées à droite ?"
-            )
-        ),
-        widget=widgets.CheckboxInput, blank=True
-    )
-    use_neutral_sources = models.BooleanField(
-        label=_(
-            dict(
-                en="Neutral/centrist sources?",
-                fr="Sources neutres/centristes ?"
-            )
-        ),
-        widget=widgets.CheckboxInput, blank=True
-    )
-    unknown_sources_orientation = models.BooleanField(
-        label=_(
-            dict(
-                en="I don’t know the political orientation of my news sources",
-                fr="Je ne connais pas l'orientation politique de mes sources d'information"
-            )
-        ),
-        widget=widgets.CheckboxInput, blank=True
-    )
-    news_preference = models.IntegerField(
-        label=_(
-            dict(
-                en="If given the choice, would you prefer to read news that...",
-                fr="Si vous aviez le choix, préféreriez-vous lire des actualités qui..."
-            )
-        ),
-        choices=[
-            [1, _(dict(en="Confirm your beliefs", fr="Confirment vos croyances"))],
-            [2, _(dict(en="Challenge your beliefs", fr="Remettent en question vos croyances"))],
-            [3,
-             _(dict(en="Provide neutral and factual information",
-                    fr="Fournissent des informations neutres et factuelles"))]
-        ],
-        widget=widgets.RadioSelect
-    )
-    subscribe_newsletter = models.BooleanField(
-        choices=[
-            [True, _(dict(en="Yes", fr="Oui"))],
-            [False, _(dict(en="No", fr="Non"))]
-        ],
-        label=_(
-            dict(
-                en="Would you be willing to subscribe to a newsletter that covers top stories on climate policy "
-                   "from sources across the political spectrum?",
-                fr="Seriez-vous prêt(e) à vous abonner à une newsletter couvrant les principales actualités sur "
-                   "les politiques climatiques provenant de sources de tout le spectre politique ?"
-            )
-        ),
+        choices=range(1, 8),
         widget=widgets.RadioSelectHorizontal
     )
-    willingness_to_pay = models.IntegerField(
+    use_newspapers_climate = models.IntegerField(
         label=_(
             dict(
-                en="How much would you be willing to pay for exclusive, reliable climate news? (one-time payment)",
-                fr="Combien seriez-vous prêt(e) à payer pour des actualités climatiques exclusives et fiables ? "
-                   "(paiement unique)"
+                en="Printed Newspapers",
+                fr="Journaux imprimés"
             )
         ),
-        choices=[
-            [0, _(dict(en=f"{cu(0)}", fr=f"{cu(0)}"))],
-            [1, _(dict(en=f"{cu(0.5)}", fr=f"{cu(0.5)}"))],
-            [2, _(dict(en=f"{cu(1)}", fr=f"{cu(1)}"))],
-            [3, _(dict(en=f"{cu(2)}", fr=f"{cu(2)}"))],
-            [4, _(dict(en=f"More than {cu(2)}", fr=f"Plus de {cu(2)}"))]
-        ],
+        choices=range(1, 8),
         widget=widgets.RadioSelectHorizontal
     )
+    use_radio_climate = models.IntegerField(
+        label=_(
+            dict(
+                en="Radio or podcasts",
+                fr="Radio"
+            )
+        ),
+        choices=range(1, 8),
+        widget=widgets.RadioSelectHorizontal
+    )
+    use_social_climate = models.IntegerField(
+        label=_(
+            dict(
+                en="Social media platforms",
+                fr="Plateformes de médias sociaux"
+            )
+        ),
+        choices=range(1, 8),
+        widget=widgets.RadioSelectHorizontal
+    )
+    use_online_climate = models.IntegerField(
+        label=_(
+            dict(
+                en="News media websites or apps",
+                fr="Actualités en ligne"
+            )
+        ),
+        choices=range(1, 8),
+        widget=widgets.RadioSelectHorizontal
+    )
+    use_newsletters_climate = models.IntegerField(
+        label=_(
+            dict(
+                en="Newsletters or email subscriptions",
+                fr="Newsletters ou abonnements par e-mail"
+            )
+        ),
+        choices=range(1, 8),
+        widget=widgets.RadioSelectHorizontal
+    )
+
+#    use_left_sources = models.BooleanField(
+#        label=_(
+#            dict(
+#                en="Left-leaning sources?",
+#                fr="Sources orientées à gauche ?"
+#            )
+#        ),
+#        widget=widgets.CheckboxInput, blank=True
+#    )
+#    use_right_sources = models.BooleanField(
+#        label=_(
+#            dict(
+#                en="Rright-leaning sources?",
+#                fr="Sources orientées à droite ?"
+#            )
+#        ),
+#        widget=widgets.CheckboxInput, blank=True
+#    )
+#    use_neutral_sources = models.BooleanField(
+#        label=_(
+#            dict(
+#                en="Neutral/centrist sources?",
+#                fr="Sources neutres/centristes ?"
+#            )
+#        ),
+#        widget=widgets.CheckboxInput, blank=True
+#    )
+#    unknown_sources_orientation = models.BooleanField(
+#        label=_(
+#            dict(
+#                en="I don’t know the political orientation of my news sources",
+#                fr="Je ne connais pas l'orientation politique de mes sources d'information"
+#            )
+#        ),
+#        widget=widgets.CheckboxInput, blank=True
+#    )
+#    news_preference = models.IntegerField(
+#        label=_(
+#            dict(
+#                en="If given the choice, would you prefer to read news that...",
+#                fr="Si vous aviez le choix, préféreriez-vous lire des actualités qui..."
+#            )
+#        ),
+#        choices=[
+#            [1, _(dict(en="Confirm your beliefs", fr="Confirment vos croyances"))],
+#            [2, _(dict(en="Challenge your beliefs", fr="Remettent en question vos croyances"))],
+#            [3,
+#             _(dict(en="Provide neutral and factual information",
+#                    fr="Fournissent des informations neutres et factuelles"))]
+#        ],
+#        widget=widgets.RadioSelect
+#    )
+#    subscribe_newsletter = models.BooleanField(
+#        choices=[
+#            [True, _(dict(en="Yes", fr="Oui"))],
+#            [False, _(dict(en="No", fr="Non"))]
+#        ],
+#        label=_(
+#            dict(
+#                en="Would you be willing to subscribe to a newsletter that covers top stories on climate policy "
+#                   "from sources across the political spectrum?",
+#                fr="Seriez-vous prêt(e) à vous abonner à une newsletter couvrant les principales actualités sur "
+#                   "les politiques climatiques provenant de sources de tout le spectre politique ?"
+#            )
+#        ),
+#        widget=widgets.RadioSelectHorizontal
+#    )
+#    willingness_to_pay = models.IntegerField(
+#        label=_(
+#            dict(
+#                en="How much would you be willing to pay for exclusive, reliable climate news? (one-time payment)",
+#                fr="Combien seriez-vous prêt(e) à payer pour des actualités climatiques exclusives et fiables ? "
+#                   "(paiement unique)"
+#            )
+#        ),
+#        choices=[
+#            [0, _(dict(en=f"{cu(0)}", fr=f"{cu(0)}"))],
+#            [1, _(dict(en=f"{cu(0.5)}", fr=f"{cu(0.5)}"))],
+#            [2, _(dict(en=f"{cu(1)}", fr=f"{cu(1)}"))],
+#            [3, _(dict(en=f"{cu(2)}", fr=f"{cu(2)}"))],
+#            [4, _(dict(en=f"More than {cu(2)}", fr=f"Plus de {cu(2)}"))]
+#        ],
+#        widget=widgets.RadioSelectHorizontal
+#    )
     # Concern -------------------------
     climate_threat = models.IntegerField(
         choices=[
@@ -421,7 +539,96 @@ class Player(BasePlayer):
         choices=get_scale_policy(),
         widget=widgets.RadioSelectHorizontal
     )
-
+    expectations_droughts = models.StringField(
+        label=_(
+            dict(
+                en="Severe droughts and heatwaves",
+                fr="XXX"
+            )
+        ),
+        choices=get_scale_expectations(),
+        widget=widgets.RadioSelectHorizontal
+    )
+    expectations_eruptions = models.StringField(
+        label=_(
+            dict(
+                en="More frequent volcanic eruptions",
+                fr="XXX"
+            )
+        ),
+        choices=get_scale_expectations(),
+        widget=widgets.RadioSelectHorizontal
+    )
+    expectations_sea = models.StringField(
+        label=_(
+            dict(
+                en="Rising sea levels",
+                fr="XXX"
+            )
+        ),
+        choices=get_scale_expectations(),
+        widget=widgets.RadioSelectHorizontal
+    )
+    expectations_droughts = models.StringField(
+        label=_(
+            dict(
+                en="Severe droughts and heatwaves",
+                fr="XXX"
+            )
+        ),
+        choices=get_scale_expectations(),
+        widget=widgets.RadioSelectHorizontal
+    )
+    expectations_agriculture = models.StringField(
+        label=_(
+            dict(
+                en="Lower agricultural production",
+                fr="XXX"
+            )
+        ),
+        choices=get_scale_expectations(),
+        widget=widgets.RadioSelectHorizontal
+    )
+    expectations_living = models.StringField(
+        label=_(
+            dict(
+                en="Drop in standards of living",
+                fr="XXX"
+            )
+        ),
+        choices=get_scale_expectations(),
+        widget=widgets.RadioSelectHorizontal
+    )
+    expectations_migration = models.StringField(
+        label=_(
+            dict(
+                en="Larger migration flows",
+                fr="XXX"
+            )
+        ),
+        choices=get_scale_expectations(),
+        widget=widgets.RadioSelectHorizontal
+    )
+    expectations_conflicts = models.StringField(
+        label=_(
+            dict(
+                en="More armed conflicts",
+                fr="XXX"
+            )
+        ),
+        choices=get_scale_expectations(),
+        widget=widgets.RadioSelectHorizontal
+    )
+    expectations_extinction = models.StringField(
+        label=_(
+            dict(
+                en="Extinction of humankind",
+                fr="XXX"
+            )
+        ),
+        choices=get_scale_expectations(),
+        widget=widgets.RadioSelectHorizontal
+    )
 # ======================================================================================================================
 #
 # -- PAGES
@@ -472,6 +679,19 @@ class NarrativeSharing(MyPage):
     form_model = 'player'
     form_fields = ['sharing_narrative']
 
+class Policy(MyPage):
+    form_model = 'player'
+    form_fields = ['policy_fight', 'policy_narrative', 'confidence_policy']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.skip == False
+
+    @staticmethod
+    def error_message(player, values):
+        if len(values['policy_narrative']) < 50:
+            return "Please write at least 50 characters."
+
 class ClimateKnowledge(MyPage):
     form_model = 'player'
 
@@ -499,11 +719,10 @@ class ClimateKnowledge(MyPage):
 
 class MediaConsumption(MyPage):
     form_model = 'player'
-    form_fields = [
-        'climate_info_freq',
+    fields = ['info_freq',
         'use_tv', 'use_newspapers', 'use_radio', 'use_social', 'use_online', 'use_newsletters',
-        'use_left_sources', "use_right_sources", "use_neutral_sources", "unknown_sources_orientation",
-        'news_preference', 'subscribe_newsletter', 'willingness_to_pay'
+        'climate_info_freq',
+        'use_tv_climate', 'use_newspapers_climate', 'use_radio_climate', 'use_social_climate', 'use_online_climate', 'use_newsletters_climate',
     ]
 
     @staticmethod
@@ -511,11 +730,27 @@ class MediaConsumption(MyPage):
         return player.skip == False
 
 
+class ClimateExpectations(MyPage):
+    form_model = 'player'
+    form_fields = [
+        'climate_threat',
+        'expectations_droughts', 'expectations_eruptions', 'expectations_sea', 'expectations_agriculture', 'expectations_living', 'expectations_migration', 'expectations_conflicts', 'expectations_extinction'
+    ]
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        existing = MyPage.vars_for_template(player)
+        existing["scale_expectations"] = [s[1] for s in get_scale_expectations()]
+        return existing
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.skip == False
+
 class ClimateConcern(MyPage):
     form_model = 'player'
     form_fields = [
-        'climate_threat', 'limit_flying', 'limit_driving', 'electric_vehicle', 'limit_beef', 'limit_heating',
-        'tax_flying', 'tax_fossil', 'ban_polluting', 'subsidy_lowcarbon', 'climate_fund'
+        'limit_flying', 'limit_driving', 'electric_vehicle', 'limit_beef', 'limit_heating'
     ]
 
     @staticmethod
@@ -529,4 +764,4 @@ class ClimateConcern(MyPage):
     def is_displayed(player: Player):
         return player.skip == False
 
-page_sequence = [Presentation, NarrativeElicitation_text, NarrativeElicitation_question, NarrativeSharing, ClimateKnowledge, MediaConsumption, ClimateConcern]
+page_sequence = [Presentation, NarrativeElicitation_text, NarrativeElicitation_question, NarrativeSharing, Policy, ClimateKnowledge, MediaConsumption, ClimateExpectations, ClimateConcern]

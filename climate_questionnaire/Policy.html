@@ -1,15 +1,16 @@
 {{ block styles }}
 <style>
-    textarea {
-        height: 400px;
+    input[type=number] {
+        width: 80px;
+        text-align: center;
     }
 </style>
 {{ endblock }}
 
 {{ block title }}
-{{ if fr }}
+{{ if en }}
 
-{{ elif en }}
+{{ elif fr }}
 
 {{ endif }}
 {{ endblock }}
@@ -17,19 +18,26 @@
 {{ block content }}
 
 <div class="form-control mb-1">
-    {{ formfield "climate_exists" }}
+    {{ formfield "policy_fight" }}
+</div>
+
+<div class="form-control mb-2">
+    {{ formfield "policy_narrative" }}
 </div>
 
 <div class="form-control mb-1">
-    {{ formfield "narrative_elicitation" }}
-</div>
-
-<div class="form-control mb-1">
-    {{ formfield "narrative_confidence" }}
+    {{ formfield "confidence_policy" }}
 </div>
 
 {{ next_button }}
 
+<p class="form-control-errors" style="display: none;">
+    {{ if en }}
+    Please ensure that all ranks are unique.
+    {{ elif fr }}
+    Veuillez vous assurer que tous les rangs sont uniques.
+    {{ endif }}
+</p>
 {{ endblock }}
 
 {{ block scripts }}
