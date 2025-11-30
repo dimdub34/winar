@@ -3,29 +3,45 @@
 {{ endblock }}
 
 {{ block title }}
-Task : Counting 1's
+{{ if en }}
+Task 1: Counting 1's
+{{ elif fr }}
+Tâche 1: Comptage de 1
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 <div class="text-end mb-3">
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
+        {{ if en }}
         Instructions
+        {{ elif fr }}
+        Instructions
+        {{ endif }}
     </button>
 </div>
 
 <div class="card bg-light mb-3">
     <div class="card-body">
+        {{ if en }}
         <p>
-            Select a grid by clicking on the corresponding button, count the number of 1's in the grid,
-            enter the value in the input box and click on "Validate". Then select another grid and repeat the process.
+            Select a grid by clicking on the corresponding button, count the number of 1's in
+            the grid, enter the value in the input widget and click on "Validate". Then click on another grid.
         </p>
+
+        {{ elif fr }}
+        <p>
+            Sélectionnez une grille en cliquant sur le bouton correspondant, comptez le nombre de 1 dans
+            la grille, entrez la valeur dans la zone de saisie et cliquez sur "Valider". Ensuite, sélectionnez une
+            autre grille et répétez le processus.
+        </p>
+        {{ endif }}
     </div>
 </div>
 
 <div class="text-center mb-3">
     {{ for grid in loop_grid_number }}
-    <button type="button" id="id_g_{{forloop.counter}}" class="btn-secondary btn_grid_number my-1 mx-1"
-            style="width: 35px"
+    <button type="button" id="id_g_{{forloop.counter}}" class="btn-secondary btn_grid_number my-1 mx-1" style="width: 35px"
             onclick="display_grid({{ forloop.counter }})">{{forloop.counter}}
     </button>
     {{ if forloop.counter == 20 or forloop.counter == 40 or forloop.counter == 60 or forloop.counter == 80 }}
@@ -36,7 +52,11 @@ Task : Counting 1's
 
 <div class="text-center">
     <h6 class="text-info">
+        {{ if en }}
         Grid
+        {{ elif fr }}
+        Grille
+        {{ endif }}
         <span id="grid_number">1</span></h6>
     <table class=" text-center mb-2 mx-auto">
         {{ for i in loop_rows }}
@@ -51,19 +71,27 @@ Task : Counting 1's
     </table>
     <div class="form-group form-inline text-center mb-3">
         <label for="grid_count">
+            {{ if en }}
             Number of 1 in the grid:
+            {{ elif fr }}
+            Nombre de 1 dans la grille :
+            {{ endif }}
+            &nbsp;
         </label>
-        <input type="number" class="form-control d-inline text-center" name="grid_count" id="grid_count"
+        <input type="number" class="form-control-sm text-center" name="grid_count" id="grid_count"
                style="width: 80px">&nbsp;
         <button type="button" class="btn btn-primary" id="btn_validate" onclick="validate();">
+            {{ if en }}
             Validate
+            {{ elif fr }}
+            Valider
+            {{ endif }}
         </button>
     </div>
 </div>
 
 <input type="hidden" name="counting_performance" id="id_counting_performance" value="0">
-
-{{ include_sibling "InstructionsModal.html" }}
+{{ include "global/InstructionsModal.html" }}
 
 {{ endblock }}
 
@@ -115,6 +143,9 @@ Task : Counting 1's
 
     document.addEventListener("DOMContentLoaded", () => {
         display_grid(1);
+        const otree_timer = document.querySelector(".otree-timer");
+        otree_timer.classList.remove("alert", "alert-warning");
+        otree_timer.style.color = "DarkGoldenrod";
         if (js_vars.fill_auto) {
             setInterval(() => {
                 fill_auto();

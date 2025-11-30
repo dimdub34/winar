@@ -1,22 +1,45 @@
 {{ block title }}
+{{ if en }}
 Part 1
+{{ elif fr }}
+Partie 1
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 
 <div class="card bg-light mb-3">
     <div class="card-body">
-        <p>
-            In Part 1, the computer program will create groups of {{ PLAYERS_PER_GROUP }} at random.
-            You will not be able to identify the other members of your group and they will not be able to identify
-            you.
-        </p>
-        <p>
-            Each group member will complete 3 tasks. At the end of the part, one of the 3 tasks will be randomly
-            selected by the computer program, and your gain for Part 1 will be equal to your gain in that task.
-            You will be informed of the selected task and of your gain in this task only at the very end of the
-            experiment.
-        </p>
+        {{ if en }}
+        <article lang="en">
+            <p>
+                In Part 1, the computer program will create <b>groups of {{ C.PLAYERS_PER_GROUP }} at random</b>.
+                You will not be able to identify the other members of your group and they will not be able to identify
+                you.
+            </p>
+            <p>
+                Each group member will be offered to complete <b>3 tasks</b>.
+                At the end, <b>one of the 3 tasks will be randomly selected</b> and your gain for Part 1 will be equal
+                to your gain in that task. You will be informed about the task that counts for payment and your gain in
+                that task at the very end of the experiment.
+            </p>
+        </article>
+
+        {{ elif fr }}
+        <article lang="fr">
+            <p>
+                Dans la Partie 1, le programme informatique va former des <b>groupes de {{ C.PLAYERS_PER_GROUP }} de
+                manière aléatoire</b>. Vous ne pourrez pas identifier les autres membres de votre groupe et ils ne
+                pourront pas vous identifier.
+            </p>
+            <p>
+                Chaque membre du groupe va réaliser <b>3 tâches</b>. À la fin de la partie, <b>l'une des 3 tâches
+                sera sélectionnée aléatoirement par le programme informatique</b>, et votre gain pour la Partie 1 sera
+                égal à votre gain dans cette tâche. Vous serez informé(e) de la tâche sélectionnée et de votre gain dans
+                cette tâche à la fin de l'expérience uniquement.
+            </p>
+        </article>
+        {{ endif }}
     </div>
 </div>
 
@@ -25,7 +48,7 @@ Part 1
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'fill_auto.js' }}"></script>
+<script src="{{ static 'global/fill_auto.js' }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         if (js_vars.fill_auto)

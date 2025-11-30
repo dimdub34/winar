@@ -3,53 +3,97 @@
 {{ endblock }}
 
 {{ block title }}
+{{ if en }}
 Part 1: Questionnaire
+{{ elif fr }}
+Partie 1 : Questionnaire
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 
 <div class="card bg-light mb-3">
     <div class="card-body">
-        <p>
-            Before moving on to Part 2, please answer the question below.
-        </p>
-        <p>
-            As soon as you move the slider below, a pair of circles will appear in the blue area.
-            The position of the slider will determine the extent of the overlap between the circles.
-        </p>
-        <ul>
-            <li>
-                When the slider is completely to the left, the circles look like this.
-                <img src="{{ static 'whistleblowing_ios/ios_left.png' }}" alt="left" style="height: 2em;">
-            </li>
-            <li>
-                When the slider is near the middle, the circles look like this.
-                <img src="{{ static 'whistleblowing_ios/ios_middle.png' }}" alt="middle" style="height: 2em;">
-            </li>
-            <li>
-                When it is completely to the right, the circles look like this.
-                <img src="{{ static 'whistleblowing_ios/ios_right.png' }}" alt="right" style="height: 2em;">
-            </li>
-        </ul>
-        <p>
-            You should interpret the degree of overlap as representing <strong>the relationship between you and
-            the other members of your group</strong>.
-        </p>
+        {{ if en }}
+        <article lang="en">
+            <p>
+                Before we move to Part 2, we ask you to answer one question.
+                Please carefully read the instructions below.
+            </p>
+            <p>
+                Once you move the slider below, a pair of circles will appear in the box.
+                The position of the slider will determine the extent to which the circles overlap.
+            </p>
+            <ul>
+                <li>
+                    When the slider is all the way to the left, the circles will look like this.
+                    <img src="{{ static 'whistleblowing_ios/ios_left.png' }}" alt="left" style="height: 2em;">
+                </li>
+                <li>
+                    When the slider is near the middle, the circles look like this.
+                    <img src="{{ static 'whistleblowing_ios/ios_middle.png' }}" alt="left" style="height: 2em;">
+                </li>
+                <li>
+                    With it all the way to the right, the circles look like this.
+                    <img src="{{ static 'whistleblowing_ios/ios_right.png' }}" alt="right" style="height: 2em;">
+                </li>
+            </ul>
+            <p>
+                You should interpret the degree of overlap as representing <strong>the relationship between you and
+                the other members of your group</strong>.
+            </p>
+        </article>
+
+        {{ elif fr }}
+        <article lang="fr">
+            <p>
+                Avant de passer à la partie 2, merci de répondre à la question ci-dessous.
+            </p>
+            <p>
+                Dès que vous déplacerez le curseur ci-dessous, une paire de cercles apparaîtra dans le cadre
+                ci-dessous. La position du curseur déterminera l'étendue de la superposition des cercles.
+            </p>
+            <ul>
+                <li>
+                    Lorsque le curseur est complètement à gauche, les cercles ressemblent à ceci.
+                    <img src="{{ static 'whistleblowing_ios/ios_left.png' }}" alt="left" style="height: 2em;">
+                </li>
+                <li>
+                    Lorsque le curseur est près du milieu, les cercles ressemblent à ceci.
+                    <img src="{{ static 'whistleblowing_ios/ios_middle.png' }}" alt="left" style="height: 2em;">
+                </li>
+                <li>
+                    Lorsqu'il est complètement à droite, les cercles ressemblent à ceci.
+                    <img src="{{ static 'whistleblowing_ios/ios_right.png' }}" alt="right" style="height: 2em;">
+                </li>
+            </ul>
+            <p>
+                Vous devez interpréter le degré de chevauchement comme représentant <strong>la relation entre vous et
+                les autres membres de votre groupe</strong>.
+            </p>
+        </article>
+        {{ endif }}
     </div>
 </div>
 
 <p>
+    {{ if en }}
     Please position the slider so that the circles indicate to what extent you and the other members of your group
     are connected.
+    {{ elif fr }}
+    Veuillez positionner le curseur de manière à ce que les cercles indiquent dans quelle mesure vous et les autres
+    membres de votre groupe êtes connectés.
+    {{ endif }}
 </p>
 
-<table class="IOS">
+<table class="IOS mb-3">
     <tr>
         <td class="text-center">
-            <canvas id="IOSscreen" width="400" height="180" class="bg-light"
-                    style="border: 2px solid var(--bs-primary);
-           border-radius: 10px;
-           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+            <canvas id="IOSscreen" width="400" height="180"
+                    style="background-color: white;
+               border-radius: 15px;
+               border: 1px solid #e5e7eb; /* Bordure grise très fine */
+               box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);">
             </canvas>
         </td>
     </tr>
@@ -89,7 +133,11 @@ Part 1: Questionnaire
 {{ next_button }}
 
 <p class="form-control-errors" style="display: none;" id="error_ios">
-    You must move the slider, even if you put it completely back to the left afterward.
+    {{ if fr }}
+    Vous devez bouger le curseur, même si vous le remettez totalement à gauche ensuite.
+    {{ else }}
+    You must move the slider, even if you put it back to the left afterward.
+    {{ endif }}
 </p>
 
 {{ endblock }}

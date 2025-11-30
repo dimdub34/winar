@@ -1,30 +1,35 @@
 {{ block title }}
-Understanding questionnaire
+{{ if fr }}
+Questionnaire de compréhension
+{{ else }}
+Understanding Questionnaire
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 
 <div class="text-end mb-3">
-    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
-        Instructions
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">Instructions
     </button>
 </div>
 
 <div class="mb-3">
     {{ for question in understanding }}
-    <div class=" form-control mb-1">
+    <div class=" form-control mb-1 p-3">
         <p>
-            <b>Question {{ forloop.counter }}</b> : {{ question.question }}
+            <strong>Question {{ forloop.counter }}</strong> : {{ question.question|safe }}
         </p>
         {{ for prop in question.propositions }}
-        <div>
+        <div class="form-check {{ if is_defined('question.horizontal') and question.horizontal }}form-check-inline me-3{{ endif }}">
             <input type="radio" name="q_{{question.question_id}}" value="{{ forloop.counter0 }}"
                    id="{{ question.question_id }}_{{ forloop.counter }}" class="form-check-input" required/>
-            <label for="{{ question.question_id }}_{{ forloop.counter }}" class="form-label">{{ prop }}</label>
+            <label for="{{ question.question_id }}_{{ forloop.counter }}" class="form-check-label">{{ prop }}</label>
         </div>
         {{ endfor }}
         <p class="form-control-errors" style="display: none;" id="error_{{question.question_id}}">
-            This is not the correct answer.
+            {{ if fr }} Ce n'est pas la bonne réponse.
+            {{ else }} This is not the correct answer.
+            {{ endif }}
         </p>
     </div>
     {{ endfor }}
@@ -41,7 +46,7 @@ Understanding questionnaire
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'fill_auto.js' }}"></script>
+<script src="{{ static 'global/fill_auto.js' }}"></script>
 <script>
     const questionnaire = js_vars.understanding;
 
@@ -50,18 +55,18 @@ Understanding questionnaire
         function checkAndSubmit() {
             let allCorrect = true;
 
-            // To select a random answer
+            // Fonction pour sélectionner une réponse aléatoire
             function selectRandomAnswer(question) {
                 const options = document.querySelectorAll(`input[name="q_${question.question_id}"]`);
                 const randomIndex = Math.floor(Math.random() * options.length);
                 options[randomIndex].checked = true;
             }
 
-            // browse through each question to get the selected answer
+            // Parcourir chaque question pour vérifier la réponse
             questionnaire.forEach(question => {
                 const selectedOption = document.querySelector(`input[name="q_${question.question_id}"]:checked`);
                 const errorField = document.getElementById(`error_${question.question_id}`);
-                const hiddenInput = document.querySelector(`input[name="understanding_faults_q${question.question_id}"]`);
+                const hiddenInput = document.querySelector(`input[name*="q${question.question_id}_faults"]`);
 
                 if (selectedOption) {
                     if (Number(selectedOption.value) !== Number(question.solution)) {

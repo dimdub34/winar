@@ -1,9 +1,10 @@
 from otree.api import *
 from enum import Enum
 import random
+from settings import LANGUAGE_CODE
 from pathlib import Path
+from whistleblowing_commons.config import Config, language, _
 from whistleblowing_commons.functions import seconds_to_minutes
-from whistleblowing_commons.config import Config
 
 doc = """
 Maths effort task
@@ -15,7 +16,7 @@ app_name = Path(__file__).parent.name
 class C(BaseConstants):
     NAME_IN_URL = 'whmaths'
     PLAYERS_PER_GROUP = Config.PLAYERS_PER_GROUP
-    NUM_ROUNDS = Config.TASKS_NUM_ROUNDS
+    NUM_ROUNDS = 1
 
 
 class Subsession(BaseSubsession):
@@ -59,28 +60,39 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     maths_performance = models.IntegerField()
-    maths_estimation = models.IntegerField(label="Your guess:", min=0, max=100)
+    maths_estimation = models.IntegerField(label=_(dict(en="Your guess:", fr="Votre estimation :")), min=0, max=100)
     payoff_ecu = models.FloatField()
 
     def set_txt_final(self):
-        txt_final = f"Your resolved {self.maths_performance} operations."
+        txt_final = _(dict(
+            en=f"You resolved {self.maths_performance} operations.",
+            fr=f"Vous avez résolu {self.maths_performance} opérations."
+        ))
         txt_final += " "
 
         if self.subsession.treatment == Config.INDIVIDUAL:
-            txt_final += f"Your payoff_ecu is therefore equal to "
-            f"{self.maths_performance} x {Config.PIECE_RATE} = {self.payoff_ecu} ECU."
+            txt_final += _(dict(en=f"Your payoff_ecu is therefore equal to "
+                                   f"{self.maths_performance} x {Config.PIECE_RATE} = {self.payoff_ecu} ECU.",
+                                fr=f"Votre gain est donc égal à "
+                                   f"{self.maths_performance} x {Config.PIECE_RATE} = {self.payoff_ecu} ECU."
+                                ))
 
         else:  # COOPERATION
-            txt_final += (f"The best scorer in your group resolved {self.group.maths_performance_group} "
-                          f"operations. The payoff of each member of your "
-                          f"group is therefore equal to {self.group.maths_performance_group} x "
-                          f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU.")
+            txt_final += _(dict(
+                en=f"The best scorer in your group resolved {self.group.maths_performance_group} "
+                   f"operations. The payoff of each member of your "
+                   f"group is therefore equal to {self.group.maths_performance_group} x "
+                   f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU.",
+                fr=f"Le membre de votre groupe avec le meilleur score a résolu {self.group.maths_performance_group} "
+                   f"opérations. Le gain de chaque membre de votre groupe est donc égal à "
+                   f"{self.group.maths_performance_group} x {Config.PIECE_RATE} = {self.payoff_ecu} ECU."
+            ))
 
-        self.payoff = self.payoff_ecu * self.session.config["real_world_currency_per_point"]
         self.participant.vars[app_name] = dict(
             txt_final=txt_final,
             payoff_ecu=self.payoff_ecu,
-            payoff=self.payoff
+            payoff=self.payoff_ecu * self.session.config["real_world_currency_per_point"]
+
         )
 
 
@@ -93,40 +105,57 @@ class Player(BasePlayer):
 class MyPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
-        return dict(**Config.get_parameters())
+        return dict(
+            instructions_template_path="whistleblowing_maths/InstructionsTemplate.html",
+            instructions_template_title=_(dict(en="Task 2 - Instructions", fr="Tâche 2 - Instructions")),
+            effort_duration=seconds_to_minutes(Config.EFFORT_DURATION),
+            **language,
+            **Config.get_parameters()
+        )
 
     @staticmethod
     def js_vars(player: Player):
         return dict(
             fill_auto=player.session.config.get("fill_auto", False),
+            **language,
             **Config.get_parameters()
         )
 
 
 class Instructions(MyPage):
-    pass
+    template_name = "global/Instructions.html"
 
 
 class InstructionsWaitForAll(WaitPage):
     wait_for_all_groups = True
+    template_name = "global/InstructionsWaitPage.html"
+
+    @staticmethod
+    def vars_for_template(player):
+        return MyPage.vars_for_template(player)
 
 
 class MathsTask(MyPage):
     form_model = "player"
     form_fields = ["maths_performance"]
     timeout_seconds = Config.EFFORT_DURATION
-    timer_text = "Remaining time:"
+    timer_text = _(dict(en="Remaining time:", fr="Temps restant :"))
 
     @staticmethod
     def vars_for_template(player: Player):
         existing = MyPage.vars_for_template(player)
-        existing.update(operations=player.session.vars[f"operations_g_{player.group.id_in_subsession}"])
+        existing.update(
+            dict(
+                time=seconds_to_minutes(Config.EFFORT_DURATION),
+                operations=player.session.vars[f"operations_g_{player.group.id_in_subsession}"],
+            )
+        )
         return existing
 
     @staticmethod
     def js_vars(player: Player):
         existing = MyPage.js_vars(player)
-        existing.update(operations=player.session.vars[f"operations_g_{player.group.id_in_subsession}"])
+        existing["operations"] = player.session.vars[f"operations_g_{player.group.id_in_subsession}"]
         return existing
 
     @staticmethod

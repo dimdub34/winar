@@ -2,68 +2,75 @@ table.IOS {
     border-collapse: collapse;
     width: 90%;
     margin-left: 5%;
-    margin-top: 20px;
+    margin-top: 30px; /* Un peu plus d'espace */
 }
 
+/* Le conteneur du slider */
 .slider2 {
     -webkit-appearance: none;
     width: 100% !important;
-    height: 10px;
-    background: none;
+    height: 8px; /* Plus fin */
+    background: #e5e7eb; /* Gris clair par défaut (le JS changera ça) */
     outline: none;
-    opacity: 0.9;
-    -webkit-transition: 0.3s;
-    transition: opacity 0.3s;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0;
 }
 
-.slider2:hover {
-    opacity: 1;
-}
+/* --- LE CURSEUR (THUMB) --- */
 
-.slider2::-moz-range-track,
-.slider2::-webkit-slider-runnable-track {
-    width: 100% !important;
-    height: 10px !important;
-    cursor: pointer !important;
-    background: linear-gradient(to right, #6ab7ff, #fff);
-    border-radius: 5px !important;
-    border: none !important;
-}
-
-.slider2::-moz-range-thumb,
+/* Webkit (Chrome, Safari, Edge) */
 .slider2::-webkit-slider-thumb {
-    height: 20px !important;
-    width: 20px !important;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px !important;
+    height: 24px !important;
     border-radius: 50% !important;
-    background: white !important;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background: #ffffff !important;
+    border: 2px solid #3b82f6 !important; /* Bleu moderne */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Ombre douce */
     cursor: pointer !important;
-    border: 2px solid #6ab7ff !important;
-    -webkit-appearance: none !important;
-    margin-top: -5px !important;
-    transition: transform 0.2s ease;
+    margin-top: -8px !important; /* Pour centrer le rond sur la barre de 8px */
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
-.slider2::-moz-range-thumb:active,
-.slider2::-webkit-slider-thumb:active {
-    transform: scale(1.2);
+/* Firefox */
+.slider2::-moz-range-thumb {
+    width: 24px !important;
+    height: 24px !important;
+    border: 2px solid #3b82f6 !important;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
+/* Effet au survol et au clic */
+.slider2::-webkit-slider-thumb:hover,
+.slider2::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); /* Petit halo bleu */
+}
+
+.slider2:active::-webkit-slider-thumb,
+.slider2:active::-moz-range-thumb {
+    transform: scale(1.15);
+    background: #eff6ff !important;
+}
+
+/* --- LES TICKS (GRADUATIONS) --- */
 .sliderticks {
     display: flex;
     justify-content: space-between;
-    padding: 0 10px;
-    margin-top: 10px;
+    padding: 0 10px; /* Alignement avec le centre du thumb */
+    margin-top: 8px;
 }
 
 .sliderticks p {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    width: 1px;
-    background: #b3b3b3;
-    height: 8px;
-    line-height: 40px;
-    margin: 0 0 15px 0;
+    width: 2px;
+    height: 6px;
+    background: #d1d5db; /* Gris discret */
+    border-radius: 1px;
+    margin: 0;
 }

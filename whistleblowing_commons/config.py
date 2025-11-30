@@ -1,36 +1,38 @@
-from .functions import seconds_to_minutes
+from settings import LANGUAGE_CODE
+
+language = {"en": False, "fr": False, LANGUAGE_CODE: True}
+_ = lambda s: s[LANGUAGE_CODE]
 
 
 class Config:
     PLAYERS_PER_GROUP = 3
+
     ENDOWMENT = 75
 
-    # Effort tasks -----------------------------------------------------------------------------------------------------
-    # Counting
-    GRID_SIZE = (10, 10)
-    NUM_GRIDS = 100
-
-    # Maths
-    OPERATION_SIZE = 3  # number of additions
-    NUM_OPERATIONS = 100
-
-    # Sliders
-    NUM_SLIDERS = 100
-
-    TASKS_NUM_ROUNDS = 1
-    EFFORT_DURATION = 120  # seconds
-    EFFORT_DURATION_STR = seconds_to_minutes(EFFORT_DURATION)
-    PIECE_RATE = 10
-
-    # Treatments
+    # --- TREATMENTS ---
     INDIVIDUAL = "individual"
     COOPERATION = "cooperation"
 
-    # Stealing game
+    # --- PART 1 - EFFORT TASK PARAMETERS ---
+    EFFORT_DURATION = 120  # seconds
+    PIECE_RATE = 10
+
+    # counting task parameters
+    GRID_SIZE = (10, 10)
+    NUM_GRIDS = 100
+
+    # addition task parameters
+    OPERATION_SIZE = 3
+    NUM_OPERATIONS = 100
+
+    # slider task parameters
+    NUM_SLIDERS = 100
+
+    # --- PART 2 - WHISTLEBLOWING GAME PARAMETERS ---
     STEALING_AMOUNT = 30
     STEALING_LOSS = 45
     STEALING_LOSS_INDIV = int(STEALING_LOSS / PLAYERS_PER_GROUP)
-    STEALING_PENALTY = 60
+    STEALING_PENALTY = 45
     REPORTING_COST = 10
     REPORTING_REWARD = 45
     AUDIT_PROBABILITY = 2 / 3
@@ -42,5 +44,4 @@ class Config:
 
     @staticmethod
     def get_parameters():
-        return {k: v for k, v in Config.__dict__.items() if
-                not k.startswith('__') and not callable(v) and not isinstance(v, staticmethod)}
+        return {k: v for k, v in Config.__dict__.items() if not k.startswith("__") and not callable(v)}

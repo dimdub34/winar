@@ -6,9 +6,12 @@
     }
 </style>
 {{ endblock }}
-
 {{ block title }}
+{{ if en }}
 Task 3: Guessing stage
+{{ elif fr }}
+Tâche 3 : Estimation
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
@@ -17,14 +20,24 @@ Task 3: Guessing stage
     <div class="card-body">
         {{ if subsession.treatment == INDIVIDUAL }}
         <p>
-            You have completed Task 3. Before moving on to Part 2, please indicate your estimate of the number of
-            sliders you correctly positioned in Task 3.
+            {{ if en }}
+            You have now completed Task 3. Before proceeding to Part 2, please tell us your guess about the number of
+            sliders you successfully moved at the right place in Task 3.
+            {{ elif fr }}
+            Vous avez terminé la tâche 3. Avant de passer à la Partie 2, veuillez nous indiquer votre
+            estimation du nombre de curseurs que vous avez réussi à correctement positionner.
+            {{ endif }}
         </p>
 
         {{ elif subsession.treatment == COOPERATION }}
         <p>
-            You have completed Task 3. Before moving on to Part 2, please indicate your estimate of the number of
-            sliders correctly positioned by the best participant in your group in Task 3.
+            {{ if en }}
+            You have now completed Task 3. Before proceeding to part 2, please tell us your guess about the number of
+            sliders the best scorer in your group has successfully moved at the right place in Task 3.
+            {{ elif fr }}
+            Vous avez terminé la tâche 3. Avant de passer à la partie 2, veuillez nous indiquer votre
+            estimation du nombre de curseurs correctement positionnés par le meilleur participant de votre groupe.
+            {{ endif }}
         </p>
         {{ endif }}
     </div>
@@ -42,7 +55,7 @@ Task 3: Guessing stage
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'fill_auto.js' }}"></script>
+<script src="{{ static 'global/fill_auto.js' }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         if (js_vars.fill_auto)

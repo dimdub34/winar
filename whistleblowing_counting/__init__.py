@@ -1,7 +1,10 @@
 from otree.api import *
+from enum import Enum
 import random
+from settings import LANGUAGE_CODE
 from pathlib import Path
-from whistleblowing_commons.config import Config
+from whistleblowing_commons.config import Config, language, _
+from whistleblowing_commons.functions import seconds_to_minutes
 
 doc = """
 Counting effort task
@@ -13,23 +16,11 @@ app_name = Path(__file__).parent.name
 class C(BaseConstants):
     NAME_IN_URL = 'whcount'
     PLAYERS_PER_GROUP = Config.PLAYERS_PER_GROUP
-    NUM_ROUNDS = Config.TASKS_NUM_ROUNDS
+    NUM_ROUNDS = 1
 
 
 class Subsession(BaseSubsession):
     treatment = models.StringField()
-
-    def compute_payoffs(self):
-        if self.treatment == Config.INDIVIDUAL:
-            for p in self.get_players():
-                p.payoff_ecu = p.counting_performance * Config.PIECE_RATE
-                p.set_txt_final()
-        else:
-            for g in self.get_groups():
-                g.counting_performance_group = max([p.counting_performance for p in g.get_players()])
-                for p in g.get_players():
-                    p.payoff_ecu = g.counting_performance_group * Config.PIECE_RATE
-                    p.set_txt_final()
 
     def creating_session(self):
         self.treatment = self.session.config['treatment']
@@ -50,6 +41,18 @@ class Subsession(BaseSubsession):
                 grids.append(g)
             self.session.vars[f"grids_g_{group.id_in_subsession}"] = grids
 
+    def compute_payoffs(self):
+        if self.treatment == Config.INDIVIDUAL:
+            for p in self.get_players():
+                p.payoff_ecu = p.counting_performance * Config.PIECE_RATE
+                p.set_txt_final()
+        else:
+            for g in self.get_groups():
+                g.counting_performance_group = max([p.counting_performance for p in g.get_players()])
+                for p in g.get_players():
+                    p.payoff_ecu = g.counting_performance_group * Config.PIECE_RATE
+                    p.set_txt_final()
+
 
 def creating_session(subsession: Subsession):
     subsession.creating_session()
@@ -61,30 +64,43 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     counting_performance = models.IntegerField()
-    counting_estimation = models.IntegerField(label="Your guess:", min=0, max=100)
+    counting_estimation = models.IntegerField(label=_(dict(en="Your guess:", fr="Votre estimation :")), min=0, max=100)
     payoff_ecu = models.FloatField()
 
     def set_txt_final(self):
-        txt_final = f"You found the right number of 1's in {self.counting_performance} grids."
+        txt_final = _(dict(
+            en=f"You found the right number of 1's in {self.counting_performance} grids.",
+            fr=f"Vous avez trouvé le bon nombre de 1 dans {self.counting_performance} grilles."
+        ))
 
         txt_final += "<br>"
 
         if self.subsession.treatment == Config.INDIVIDUAL:
-            txt_final += (f"Your payoff is therefore equal to "
-                          f"{self.counting_performance} x {Config.PIECE_RATE} = {self.payoff_ecu} ECU.")
+            txt_final += _(dict(
+                en=f"Your payoff is therefore equal to "
+                   f"{self.counting_performance} x {Config.PIECE_RATE} = {self.payoff_ecu} ECU.",
+                fr=f"Votre gain est donc égal à "
+                   f"{self.counting_performance} x {Config.PIECE_RATE} = {self.payoff_ecu} ECU."
+            ))
 
-        else:  # cooperation
-            txt_final += (f"The best scorer in your group found the right number of 1's in "
-                          f"{self.group.counting_performance_group} grids. The payoff of each member of your "
-                          f"group is therefore equal to {self.group.counting_performance_group} x "
-                          f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU.")
-
-        self.payoff = self.payoff_ecu * self.session.config["real_world_currency_per_point"]
+        else:  # ccoperation
+            txt_final += _(dict(
+                en=f"The best scorer in your group found the right number of 1's in "
+                   f"{self.group.counting_performance_group} grids. The payoff of each member of your "
+                   f"group is therefore equal to {self.group.counting_performance_group} x "
+                   f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU.",
+                fr=f"Le membre de votre groupe avec le meilleur score a trouvé le bon nombre de 1 dans "
+                   f"{self.group.counting_performance_group} grilles. "
+                   f"Le gain de chaque membre de votre groupe est donc égal à "
+                   f"{self.group.counting_performance_group} x "
+                   f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU."
+            ))
         self.participant.vars[app_name] = dict(
             txt_final=txt_final,
             payoff_ecu=self.payoff_ecu,
-            payoff=self.payoff
+            payoff=self.payoff_ecu * self.session.config["real_world_currency_per_point"]
         )
+        # print(self.participant.vars[app_name])
 
 
 # ======================================================================================================================
@@ -96,43 +112,59 @@ class Player(BasePlayer):
 class MyPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
-        return dict(            **Config.get_parameters()        )
+        return dict(
+            instructions_template_path="whistleblowing_counting/InstructionsTemplate.html",
+            instructions_template_title="" + _(dict(en="Task 1 - Instructions", fr="Tâche 1 - Instructions")),
+            effort_duration=seconds_to_minutes(Config.EFFORT_DURATION),
+            **language,
+            **Config.get_parameters()
+        )
 
     @staticmethod
     def js_vars(player: Player):
         return dict(
             fill_auto=player.session.config.get("fill_auto", False),
-            **Config.get_parameters())
+            **language,
+            **Config.get_parameters()
+        )
 
 
 class Instructions(MyPage):
-    pass
+    template_name = "global/Instructions.html"
 
 
 class InstructionsWaitForAll(WaitPage):
     wait_for_all_groups = True
+    template_name = "global/InstructionsWaitPage.html"
+
+    @staticmethod
+    def vars_for_template(player):
+        return MyPage.vars_for_template(player)
 
 
 class CountingTask(MyPage):
     form_model = "player"
     form_fields = ["counting_performance"]
     timeout_seconds = Config.EFFORT_DURATION
-    timer_text = "Remaining time:"
+    timer_text = _(dict(en="Remaining time:", fr="Temps restant :"))
 
     @staticmethod
     def vars_for_template(player: Player):
         existing = MyPage.vars_for_template(player)
         existing.update(
-            loop_grid_number=list(range(Config.NUM_GRIDS)),
-            loop_rows=list(range(Config.GRID_SIZE[0])),
-            loop_cols=list(range(Config.GRID_SIZE[1])),
+            dict(
+                time=seconds_to_minutes(Config.EFFORT_DURATION),
+                loop_grid_number=list(range(Config.NUM_GRIDS)),
+                loop_rows=list(range(Config.GRID_SIZE[0])),
+                loop_cols=list(range(Config.GRID_SIZE[1])),
+            )
         )
         return existing
 
     @staticmethod
     def js_vars(player: Player):
         existing = MyPage.js_vars(player)
-        existing.update(grids=player.session.vars[f"grids_g_{player.group.id_in_subsession}"])
+        existing["grids"] = player.session.vars[f"grids_g_{player.group.id_in_subsession}"]
         return existing
 
     @staticmethod

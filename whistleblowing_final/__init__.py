@@ -1,7 +1,8 @@
-from otree.api import *
 from pathlib import Path
-from whistleblowing_commons.config import Config
-from whistleblowing_commons.functions import clean_number
+
+from otree.api import *
+
+from whistleblowing_commons.config import Config, language, _
 
 doc = """
 Final
@@ -27,11 +28,14 @@ def vars_for_admin_report(subsession: Subsession):
             dict(
                 code=p.participant.code,
                 label=p.participant.label,
+                grids=p.participant.vars.get("whistleblowing_counting", {}).get("payoff_ecu", 0),
+                maths=p.participant.vars.get("whistleblowing_maths", {}).get("payoff_ecu", 0),
+                sliders=p.participant.vars.get("whistleblowing_sliders", {}).get("payoff_ecu", 0),
                 effort_payoff=p.effort_payoff,
                 game_payoff=p.game_payoff,
                 payoff_ecu=p.payoff_ecu,
-                payoff=p.payoff
-
+                payoff=p.payoff,
+                payoff_with_fee=p.participant.payoff_plus_participation_fee()
             )
         )
     return dict(players_infos=players_infos)
@@ -45,9 +49,6 @@ class Player(BasePlayer):
     effort_payoff = models.FloatField(initial=0)
     game_payoff = models.FloatField(initial=0)
     payoff_ecu = models.FloatField(initial=0)
-    comments = models.LongStringField(
-        blank=True,
-        label="You can write comments about the experiment in the area below. Then, click on Save.")
 
     def compute_payoffs(self):
         self.effort_payoff = self.participant.vars["whistleblowing_effort"]["payoff_ecu"]
@@ -56,13 +57,16 @@ class Player(BasePlayer):
         self.payoff = self.payoff_ecu * self.session.config["real_world_currency_per_point"]
         self.participant.payoff = self.payoff
 
-    def get_txt_final(self):
-        txt_final = (
-            f"Your final payoff for this experiment is equal to {clean_number(Config.ENDOWMENT)} + "
-            f"{clean_number(self.effort_payoff)} "
-            f"{'+' if self.game_payoff >= 0 else ''} {clean_number(self.game_payoff)} = "
-            f"{clean_number(self.payoff_ecu)} ECU, which corresponds to {self.payoff}."
-        )
+        txt_final = _(dict(
+            en=f"Your final payoff for this experiment is equal to {Config.ENDOWMENT} (endowment) + "
+               f"{self.effort_payoff} (part 1) "
+               f"{'+' if self.game_payoff >= 0 else ''} {self.game_payoff} (part 2) = "
+               f"{self.payoff_ecu} ECU, which corresponds to {self.payoff}.",
+            fr=f"Votre gain pour cette expérience est égal à {Config.ENDOWMENT} (dotation) + "
+               f"{self.effort_payoff} (partie 1) "
+               f"{'+' if self.game_payoff >= 0 else ''} {self.game_payoff} (partie 2) = "
+               f"{self.payoff_ecu} ECU, soit {self.payoff}.",
+        ))
         self.participant.vars["whistleblowing_final"] = dict(
             txt_final=txt_final,
             payoff_ecu=self.payoff_ecu,
@@ -79,37 +83,19 @@ class Player(BasePlayer):
 class MyPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
-        return dict()
+        return dict(**language)
 
 
 class BeforeFinal(MyPage):
+    template_name = "global/EmptyPage.html"
+
     @staticmethod
     def before_next_page(player, timeout_happened):
         player.compute_payoffs()
 
 
 class Final(MyPage):
-    form_model = "player"
-    form_fields = ["comments"]
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        existing = MyPage.vars_for_template(player)
-        existing["txt_final"] = player.get_txt_final()
-        return existing
-
-    @staticmethod
-    def before_next_page(player, timeout_happened):
-        if timeout_happened:
-            player.comments = "Automatic message"
+    pass
 
 
-class FinalAfterComments(MyPage):
-    @staticmethod
-    def vars_for_template(player: Player):
-        existing = MyPage.vars_for_template(player)
-        existing["txt_final"] = player.get_txt_final()
-        return existing
-
-
-page_sequence = [BeforeFinal, Final, FinalAfterComments]
+page_sequence = [BeforeFinal, Final]

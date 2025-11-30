@@ -7,7 +7,11 @@
 </style>
 {{ endblock }}
 {{ block title }}
+{{ if en }}
 Task 2: Guessing stage
+{{ elif fr }}
+Tâche 2 : Estimation
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
@@ -16,16 +20,26 @@ Task 2: Guessing stage
     <div class="card-body">
         {{ if subsession.treatment == INDIVIDUAL }}
         <p>
-            You have completed Task 2. Before moving on to Task 3, please indicate your estimate of the number of
+            {{ if en }}
+            You have now completed Task 2. Before proceeding to Task 3, please tell us your guess about the number of
             operations you successfully completed in Task 2.
+            {{ elif fr }}
+            Vous avez terminé la tâche 2. Avant de passer à la tâche 3, veuillez nous indiquer votre
+            estimation du nombre d'opérations que vous avez réussi à compléter dans la tâche 2.
+            {{ endif }}
         </p>
 
         {{ elif subsession.treatment == COOPERATION }}
         <p>
-            You have completed Task 2. Before moving on to Task 3, please indicate your estimate of the number of
-            operations that the best participant in your group has successfully completed in Task 2.
+            {{ if en }}
+            You have now completed Task 2. Before proceeding to Task 3, please tell us your guess about the number of
+            operations the best scorer in your group has successfully completed in Task 2.
+            {{ elif fr }}
+            Vous avez terminé la tâche 2. Avant de passer à la tâche 3, veuillez nous indiquer votre
+            estimation du nombre d'opérations que le meilleur participant de votre groupe a réussi à compléter dans la
+            tâche 2.
+            {{ endif }}
         </p>
-
         {{ endif }}
     </div>
 </div>
@@ -42,7 +56,7 @@ Task 2: Guessing stage
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'fill_auto.js' }}"></script>
+<script src="{{ static 'global/fill_auto.js' }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         if (js_vars.fill_auto)

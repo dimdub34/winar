@@ -1,0 +1,40 @@
+{{ block styles }}
+<style>
+    body {
+        background-color: var(--bs-light);
+    }
+</style>
+{{ endblock }}
+
+{{ block title }}
+{{ if fr }}
+Veuillez patienter &hellip;
+{{ else }}
+Please wait &hellip;
+{{ endif }}
+{{ endblock }}
+
+{{ block content }}
+
+<div class="progress mb-3">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"
+         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
+<p class="fw-bold text-muted mb-3 fs-5">
+    {{ if fr }}
+    En attente des autres participants.
+    {{ else }}
+    Waiting for the other participants.
+    {{ endif }}
+</p>
+
+<div class="card mb-3">
+    <div class="card-body">
+        {{ include instructions_template_path }}
+    </div>
+</div>
+
+{{ endblock }}
+
+

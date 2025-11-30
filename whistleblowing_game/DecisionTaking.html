@@ -1,23 +1,47 @@
 {{ block title }}
+{{ if en }}
 Part 2: Stealing Decision
+{{ elif fr }}
+Partie 2 : Décision de vol d'ECU
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 
 <div class="text-end mb-3">
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
+        {{ if en }}
         Instructions
+        {{ elif fr }}
+        Instructions
+        {{ endif }}
     </button>
 </div>
 
 <div class="card bg-light mb-3">
     <div class="card-body">
+        {{ if en }}
         <p>
-            As a Red Player you can steal ECU from the Passive group. <br>
-            As a reminder, by stealing ECU you earn
-            {{ STEALING_AMOUNT }} ECU and the Passive group loses {{ STEALING_LOSS }} ECU
-            ({{ STEALING_LOSS_INDIV }} ECU loss for each group member).
+            As a <b>Red Player</b> you have to decide whether you want to steal ECU from the Passive group.
         </p>
+        <p class="text-muted">
+            As a reminder, if you steal ECU, one of the two Blue Players's decisions will be randomly chosen and
+            implemented. If the selected Blue Player decided to report, you will have a probability of
+            {{ AUDIT_PROBABILITY_STR }} to be punished. If you are punished you will pay a penalty of
+            {{ STEALING_PENALTY }} ECU.
+        </p>
+
+        {{ elif fr }}
+        <p>
+            En tant que <b>Joueur Rouge</b>, vous devez décider si vous voulez voler des ECU au groupe Passif.
+        </p>
+        <p class="text-muted">
+            Pour rappel, si vous volez des ECU, l'une des décisions des deux joueurs Bleus sera choisie au hasard et
+            mise en œuvre. Si le joueur Bleu sélectionné a décidé de signaler, vous aurez une probabilité de
+            {{ AUDIT_PROBABILITY_STR }} d'être pénalisé(e). Si vous êtes pénalisé(e), vous paierez une pénalité de
+            {{ STEALING_PENALTY }} ECU.
+        </p>
+        {{ endif }}
     </div>
 </div>
 
@@ -25,12 +49,12 @@ Part 2: Stealing Decision
 
 {{ next_button }}
 
-{{ include_sibling "InstructionsModal.html" }}
+{{ include "global/InstructionsModal.html" }}
 
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'fill_auto.js' }}"></script>
+<script src="{{ static 'global/fill_auto.js' }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         if (js_vars.fill_auto)

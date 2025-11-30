@@ -1,131 +1,306 @@
-<p class="fw-bold">The composition of the groups is identical to Part 1. </p>
-<p>
-    At the beginning of this part, the computer program will randomly select one group among those
-    present in the room. This group will be referred to as the <b><i>Passive</i></b> group. The other groups will
-    be referred to as the <b><i>Active</i></b> groups.
-</p>
-<p class="fst-italic">
-    The final gains of the members of the Passive group will depend on their Part 1 gains as well as the
-    decisions made by the members of the Active groups in Part 2.
-</p>
-<p>
-    Since the members of the Passive group will not make any decisions in this part, the instructions
-    below concern only the members of the Active groups. <br>
-    Once all participants have read these instructions, you will be informed whether you are in the Passive
-    group or in an Active group.
-</p>
-
-<h5>Roles and decisions in the Active groups</h5>
-<p>
-    In each Active group, the computer program randomly assigns a role to each of the {{ PLAYERS_PER_GROUP }}
-    players.
-    <span class="fw-bold">There will be one Red Player and two Blue Players.</span>
-</p>
-<p>
-        <span class="fw-bold fst-italic">The Red Player can increase his/her earnings by “stealing” ECU
-        from the Passive group.</span> Concretely, the Red Player must make a binary decision: to steal or
-    not to steal ECU from the Passive group.
-</p>
-<ul>
-    <li>
-        If the Red Player decides to steal ECU, he/she gains {{ STEALING_AMOUNT }} ECU, while the Passive group
-        loses {{ STEALING_LOSS }} ECU in total: each member of the Passive group loses
-        {{ STEALING_LOSS_INDIV }} ECU (<i>{{ STEALING_LOSS_INDIV }} ECU × {{ PLAYERS_PER_GROUP }} =
-        {{ STEALING_LOSS }} ECU</i>).
-    </li>
-    <li>
-        If the Red Player decides not to steal ECU from the Passive group, all participants’ earnings remain
-        unchanged compared to those of Part 1.
-    </li>
-</ul>
-<p>
-        <span class="fw-bold">A Red Player who decides to steal ECU from the Passive group is liable to incur
-            a penalty of {{ STEALING_PENALTY }} ECU if reported by a Blue Player.</span>
-</p>
-
-<h5>Reporting rules</h5>
-<p>
-    In each Active group, the two Blue Players must decide whether or not to report the Red Player of their group
-    if he/she has stolen ECU from the Passive group. Reporting is anonymous.
-</p>
-<ul>
-    <li>
-        <span class="fw-bold">If a Blue Player reports the Red Player and the Red Player has stolen:</span><br>
-        The Red Player has a probability of {{ AUDIT_PROBABILITY_STR }} of being penalized, and a probability of
-        {{ NON_AUDIT_PROBABILITY_STR }} of not being penalized.
-        {{ if subsession.reward }}
-        <ul>
-            <li>If the Red Player is penalized, the Blue Player pays a reporting cost of {{ REPORTING_COST }} ECU and
-                receives a reward of {{ REPORTING_REWARD }} ECU.
-            </li>
-            <li>If the Red Player is not penalized, the Blue Player pays no cost and receives no reward.</li>
-        </ul>
-        {{ else }}
-        <ul>
-            <li>If the Red Player is penalized, the Blue Player pays a reporting cost of {{ REPORTING_COST }} ECU.
-            </li>
-            <li>If the Red Player is not penalized, the Blue Player pays no cost.</li>
-        </ul>
-        {{ endif }}
-    </li>
-    <li>
-        <span class="fw-bold">If a Blue Player reports the Red Player but the Red Player did not steal:</span><br>
-        {{ if subsession.reward }}
-        The Red Player incurs no penalty and the Blue Player incurs no reporting cost (and receives no reward).
-        {{ else }}
-        The Red Player incurs no penalty and the Blue Player incurs no reporting cost.
-        {{ endif }}
-    </li>
-</ul>
-
-<h5>Randomized reporting</h5>
-<p>
-    Once both Blue Players have made their decisions, <span class="fw-bold">the computer randomly selects one of
-        the two Blue Players’ decisions (to report or not).</span>
-    If the selected decision is to report, the Red Player is reported; otherwise, nothing happens.
-</p>
-
-<div class="card mt-4">
-    <div class="card-header">
-        <h5>Summary of key points</h5>
-    </div>
-    <div class="card-body">
+{{ if en }}
+<section lang="en">
+    <article class="mb-4" data-description="intro">
+        <p><b>The composition of the groups is identical</b> to that of Part 1. </p>
         <p>
-            One group will be randomly selected as the Passive group. The other groups will be Active. <br>
-            In each Active group:
+            The computer program will randomly select one group from
+            all groups in this room. This group will be referred to as the <b><i>Passive</i></b> group.
+            The remaining groups will be referred to as the <b><i>Active</i></b> groups.
+        </p>
+        <p>
+            The final individual gains for members of the <i>Passive</i> group will depend on their Part 1 gains and the
+            decisions made by members of the <i>Active</i> groups in Part 2.
+            Since members of the <i>Passive</i> group will not make any active
+            decisions in this part, the instructions below are specifically for members of the <i>Active</i> groups.
+            <br>
+            Once all participants have read these instructions, you will be informed <b>whether you are in the
+            <i>Passive</i> group or one of the <i>Active</i> groups</b>.
+        </p>
+    </article>
+
+    <article class="mb-4" data-description="roles">
+        <h5>Roles and Decisions in the Active Groups</h5>
+        <p>
+            In each <i>Active</i> group, the computer program randomly assigns roles to players.
+            There will be <b>one Red Player and two Blue Players</b>.
+        </p>
+        <p>
+            The Red Player has the option to <b>increase his/her earnings by stealing ECU</b>
+            from the <i>Passive</i> group. Specifically,
+            the Red Player faces a binary decision: to steal or not to steal ECU from the Passive Group.
+        </p>
+        <p>
+            <span class="text-decoration-underline">Here’s how it works:</span> <br>
+            If the Red Player decides to steal ECU, they <b>gain {{ STEALING_AMOUNT }} ECU</b>, while the
+            <i>Passive</i> group <b>loses {{ STEALING_LOSS }} ECU</b> in total.
+            This means each member of the <i>Passive</i> group loses {{ STEALING_LOSS_INDIV }} ECU
+            ({{ STEALING_LOSS_INDIV }} ECU x {{ PLAYERS_PER_GROUP }} = {{ STEALING_LOSS }} ECU).
+            If the Red Player does not steal ECU, no changes occur, and all participants’ earnings remain the same as
+            their Part 1 gains.
+        </p>
+        <p>
+            Stealing is subject to a <b>penalty of {{ STEALING_PENALTY}} ECU</b>. However, a Red Player who decides to
+            steal may incur the penalty only when reported by one of the Blue Players, and even then the penalty is not
+            guaranteed.
+        </p>
+    </article>
+
+    <article class="mb-4" data-description="reporting">
+        <h5>Reporting Rules</h5>
+        <p>
+            Each <i>Active</i> group’s Blue Players will decide whether to report the Red Player in their group if the
+            Red Player decides to steal ECU from the <i>Passive</i> group. If the Red Player does not steal, no
+            reporting takes place. Reporting is anonymous and submitted to the experimenter.
+        </p>
+        <p>
+            If a Blue Player decides to report the Red Player, and the Red Player has stolen ECU,
+            the Blue Player incurs a <b>reporting cost of {{ REPORTING_COST }} ECU</b>
+            (deducted from their part 1 gains).
         </p>
         <ul>
-            <li>One participant is the Red Player and two participants are the Blue Players.</li>
-            <li>The Red Player decides whether or not to steal ECU from the Passive group (stealing adds
-                {{ STEALING_AMOUNT }} ECU to his/her earnings and removes {{ STEALING_LOSS }} ECU from the Passive
-                group).
-            </li>
-            <li>The Blue Players decide whether or not to report the Red Player if he/she steals:
+            <li>
+                <u>If the Red Player has stolen ECU:</u> <br>
                 <ul>
-                    <li>The program randomly selects the decision of one of the two Blue Players.</li>
-                    <li>If the selected decision is to report and the Red Player has stolen, then the Red Player
-                        incurs a penalty of {{ STEALING_PENALTY }} ECU with a probability of
-                        {{ AUDIT_PROBABILITY_STR }}, and no penalty with a probability of
-                        {{ NON_AUDIT_PROBABILITY_STR }}.
-                        {{ if subsession.reward }}
-                        If the Red Player is penalized, the Blue Player pays the reporting cost of
-                        {{ REPORTING_COST }} ECU and receives a reward of {{ REPORTING_REWARD }} ECU.
-                        {{ else }}
-                        If the Red Player is penalized, the Blue Player pays the reporting cost of
-                        {{ REPORTING_COST }} ECU.
-                        {{ endif }}
+                    <li>The Blue Player who reported incurs the <b>reporting cost of {{ REPORTING_COST }} ECU</b>.</li>
+                    <li>The reported Red Player incurs a <b>penalty of {{ STEALING_PENALTY}} ECU</b> with a probability
+                        of {{ AUDIT_PROBABILITY_STR }} (deducted from their part 1 gains and the {{ STEALING_AMOUNT }}
+                        ECU they stole) and incurs no penalty with a probability of {{ NON_AUDIT_PROBABILITY_STR }}.
                     </li>
-                    <li>
-                        If a Blue Player reports the Red Player but the latter has not stolen, then neither
-                        player incurs any consequence
-                        {{ if subsession.reward }}
-                        (no penalty, no cost, no reward).
-                        {{ else }}
-                        (no penalty, no cost).
-                        {{ endif }}
+                    {{ if subsession.reward }}
+                    <li>If the Red Player is penalized, the Blue Player receives a <b>reporting reward of
+                        {{ REPORTING_REWARD }} ECU</b>.
                     </li>
+                    {{ endif }}
+                </ul>
+            </li>
+            <li>
+                <u>If Red Player did not steal ECU:</u> <br>
+                <ul>
+                    <li>There is <b>no report</b> from the Blue Players.</li>
+                    <li>There is <b>no penalty</b> for the Red Player.</li>
                 </ul>
             </li>
         </ul>
+    </article>
+
+    <article class="mb-4" data-description="randomization">
+        <h5>Randomized Reporting</h5>
+        <p>
+            If the Red Player has stolen ECU, <b>one Blue Player’s decision</b> (to report or not) will be randomly
+            selected by the computer program.
+        </p>
+        <ul>
+            <li>If the selected decision is to report, the Blue player incurs the
+                reporting cost and the Red Player is reported.
+            </li>
+            <li>If the selected decision is to not report, the Red Player is not reported.</li>
+        </ul>
+        <p>
+            The non-selected Blue Player’s decision has no effect. <br>
+            If the Red Player has not stolen ECU, no action is taken.
+        </p>
+    </article>
+
+    <hr>
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>Summary of Key Points</h5>
+        </div>
+        <div class="card-body">
+            <p>
+                One group will be randomly selected as the <i>Passive group</i>.
+                All other groups are <i>Active groups</i>. <br>
+                In each active group:
+            </p>
+            <ul>
+                <li>One participant is the Red Player and two participants are the Blue Players.</li>
+                <li>
+                    The Red Player decides whether to steal ECU from the passive group (Stealing adds
+                    {{ STEALING_AMOUNT }} ECU to the Red Player’s earnings and deducts {{ STEALING_LOSS }} ECU
+                    from the passive group).
+                </li>
+                <li>
+                    Blue Players decide whether to report the Red Player if they steal ECU.
+                </li>
+                <li>If the Red Player has stolen ECU:
+                    <ul>
+                        <li>The computer randomly selects one Blue Player’s decision to implement.</li>
+                        <li>
+                            If the selected Blue Player’s decision is to report, they incur a cost of
+                            {{ REPORTING_COST }} ECU. The Red Player incurs a penalty of {{
+                            STEALING_PENALTY }} ECU with a probability of {{ AUDIT_PROBABILITY_STR }} and
+                            is not penalized with a probability of {{ NON_AUDIT_PROBABILITY_STR }}.
+                            {{ if subsession.reward }}
+                            If the Red Player is penalized, the Blue Player receives a reward of
+                            {{ REPORTING_REWARD }} ECU.
+                            {{ endif }}
+                        </li>
+                        <li>If the selected Blue Player's decision is to not report, the Red Player is not
+                            reported.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    If the Red Player has not stolen ECU, nothing happens (no reporting).
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
+</section>
+
+{{ elif fr }}
+<section lang="fr">
+    <article class="mb-4" data-description="intro">
+        <p><b>La composition des groupes est identique</b> à celle de la partie 1.</p>
+        <p>
+            Le programme informatique sélectionnera aléatoirement un groupe parmi l’ensemble des groupes présents
+            dans cette salle. Ce groupe sera désigné comme le groupe <b><i>Passif</i></b>.
+            Les autres groupes seront désignés comme les groupes <b><i>Actifs</i></b>.
+        </p>
+        <p>
+            Les gains finaux individuels des membres du groupe <i>Passif</i> dépendront de leurs gains de la partie 1
+            et des décisions prises par les membres des groupes <i>Actifs</i> pendant la partie 2.
+            Comme les membres du groupe <i>Passif</i> ne prendront aucune décision dans cette partie,
+            les instructions ci-dessous concernent uniquement les membres des groupes <i>Actifs</i>.
+            <br>
+            Une fois que tous les participants auront lu ces instructions, vous serez informé(e)
+            <b>si vous appartenez au groupe <i>Passif</i> ou à l’un des groupes <i>Actifs</i></b>.
+        </p>
+    </article>
+
+    <article class="mb-4" data-description="roles">
+        <h5>Rôles et décisions dans les groupes Actifs</h5>
+        <p>
+            Dans chaque groupe <i>Actif</i>, le programme informatique attribuera aléatoirement un rôle aux joueurs.
+            Il y aura <b>un joueur Rouge et deux joueurs Bleus</b>.
+        </p>
+        <p>
+            Le joueur Rouge a la possibilité <b>d’augmenter ses gains en volant des ECU</b> au groupe <i>Passif</i>.
+            Concrètement, le joueur Rouge doit prendre une décision binaire : voler ou ne pas voler des ECU au groupe
+            Passif.
+        </p>
+        <p>
+            <span class="text-decoration-underline">Fonctionnement :</span> <br>
+            Si le joueur Rouge décide de voler des ECU, il <b>gagne {{ STEALING_AMOUNT }} ECU</b>,
+            tandis que le groupe <i>Passif</i> <b>perd {{ STEALING_LOSS }} ECU</b> au total.
+            Cela signifie que chaque membre du groupe <i>Passif</i> perd {{ STEALING_LOSS_INDIV }} ECU
+            ({{ STEALING_LOSS_INDIV }} ECU × {{ PLAYERS_PER_GROUP }} = {{ STEALING_LOSS }} ECU).
+            Si le joueur Rouge ne vole pas, aucun changement n’a lieu et les gains de tous les participants restent
+            identiques à ceux de la partie 1.
+        </p>
+        <p>
+            Le vol est soumis à une <b>pénalité de {{ STEALING_PENALTY }} ECU</b>. Cependant, un joueur Rouge
+            qui décide de voler n’encourt cette pénalité que s’il est signalé par l’un des joueurs Bleus,
+            et même dans ce cas la pénalité n’est pas garantie.
+        </p>
+    </article>
+
+    <article class="mb-4" data-description="reporting">
+        <h5>Règles de signalement</h5>
+        <p>
+            Dans chaque groupe <i>Actif</i>, les joueurs Bleus doivent décider s’ils souhaitent signaler le joueur Rouge
+            de leur groupe dans le cas où celui-ci déciderait de voler des ECU au groupe <i>Passif</i>.
+            Le signalement est anonyme et transmis à l’expérimentateur.
+            Si le joueur Rouge ne vole pas, il n’y a pas de signalement.
+        </p>
+        <p>
+            Si un joueur Bleu décide de signaler le joueur Rouge et que ce dernier a volé des ECU,
+            le joueur Bleu paie un <b>coût de signalement de {{ REPORTING_COST }} ECU</b>
+            (déduit de ses gains de la partie 1).
+        </p>
+        <ul>
+            <li>
+                <u>Si le joueur Rouge a volé des ECU :</u> <br>
+                <ul>
+                    <li>Le joueur Bleu qui signale paie un <b>coût de signalement de {{ REPORTING_COST }} ECU</b>.</li>
+                    <li>Le joueur Rouge signalé encourt une <b>pénalité de {{ STEALING_PENALTY }} ECU</b> avec une
+                        probabilité de {{ AUDIT_PROBABILITY_STR }} (déduite de ses gains de la partie 1 et des
+                        {{ STEALING_AMOUNT }} ECU volés), et aucune pénalité avec une probabilité de
+                        {{ NON_AUDIT_PROBABILITY_STR }}.
+                    </li>
+                    {{ if subsession.reward }}
+                    <li>Si le joueur Rouge est pénalisé, le joueur Bleu reçoit une <b>récompense de
+                        {{ REPORTING_REWARD }} ECU</b>.
+                    </li>
+                    {{ endif }}
+                </ul>
+            </li>
+            <li>
+                <u>Si le joueur Rouge n’a pas volé d’ECU :</u> <br>
+                <ul>
+                    <li>Il n’y a <b>aucun signalement</b> de la part des joueurs Bleus.</li>
+                    <li>Il n’y a <b>aucune pénalité</b> pour le joueur Rouge.</li>
+                </ul>
+            </li>
+        </ul>
+    </article>
+
+    <article class="mb-4" data-description="randomization">
+        <h5>Signalement aléatoire</h5>
+        <p>
+            Si le joueur Rouge a volé des ECU, <b>la décision d’un seul joueur Bleu</b> (signaler ou non)
+            du groupe sera sélectionnée aléatoirement par le programme informatique.
+        </p>
+        <ul>
+            <li>
+                Si la décision sélectionnée est de signaler, le joueur Bleu paie le coût de signalement et
+                le joueur Rouge est signalé.
+            </li>
+            <li>
+                Si la décision sélectionnée est de ne pas signaler, le joueur Rouge n’est pas signalé.
+            </li>
+        </ul>
+        <p>
+            La décision du joueur Bleu non sélectionné n’a aucun effet. <br>
+            Si le joueur Rouge n’a pas volé d’ECU, il ne se passe rien.
+        </p>
+    </article>
+
+    <hr>
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>Résumé des points essentiels</h5>
+        </div>
+        <div class="card-body">
+            <p>
+                Un groupe sera sélectionné aléatoirement comme <i>groupe Passif</i>.
+                Tous les autres groupes seront des <i>groupes Actifs</i>. <br>
+                Dans chaque groupe Actif :
+            </p>
+            <ul>
+                <li>Un participant est joueur Rouge et deux participants sont joueurs Bleus.</li>
+                <li>
+                    Le joueur Rouge décide s’il souhaite ou non voler des ECU au groupe Passif
+                    (voler ajoute {{ STEALING_AMOUNT }} ECU à ses gains et retire {{ STEALING_LOSS }} ECU au groupe
+                    Passif).
+                </li>
+                <li>
+                    Les joueurs Bleus décident s’ils souhaitent signaler le joueur Rouge s’il vole des ECU.
+                </li>
+                <li>
+                    Si le joueur Rouge a volé des ECU :
+                    <ul>
+                        <li>Le programme sélectionne aléatoirement la décision d’un des deux joueurs Bleus.</li>
+                        <li>
+                            Si la décision sélectionnée est de signaler, le joueur Bleu paie un coût de
+                            {{ REPORTING_COST }} ECU. Le joueur Rouge encourt une pénalité de
+                            {{ STEALING_PENALTY }} ECU avec une probabilité de {{ AUDIT_PROBABILITY_STR }}
+                            et aucune pénalité avec une probabilité de {{ NON_AUDIT_PROBABILITY_STR }}.
+                            {{ if subsession.reward }}
+                            Si le joueur Rouge est pénalisé, le joueur Bleu reçoit une récompense de
+                            {{ REPORTING_REWARD }} ECU.
+                            {{ endif }}
+                        </li>
+                        <li>
+                            Si la décision sélectionnée est de ne pas signaler, le joueur Rouge n’est pas signalé.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Si le joueur Rouge n’a pas volé d’ECU, il ne se passe rien (aucun signalement).
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+{{ endif }}

@@ -1,0 +1,35 @@
+{{ extends 'otree/WaitPage.html' }}
+
+{{ block styles }}
+<style>
+/* cacher toute barre de progression qui n'est pas la nôtre */
+.progress:not(.custom-progress) {
+    display: none !important;
+}
+</style>
+{{ endblock }}
+
+{{ block title }}
+{{ if fr }}
+Veuillez patienter &hellip;
+{{ else }}
+Please wait &hellip;
+{{ endif }}
+{{ endblock }}
+
+{{ block content }}
+
+<div class="mb-4 fw-bold">
+    {{ body_text }}
+</div>
+
+<div class="progress custom-progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+</div>
+
+<hr class="my-4">
+
+{{ include instructions_template_path }}
+
+{{ endblock }}
+

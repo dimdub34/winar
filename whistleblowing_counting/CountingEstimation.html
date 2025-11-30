@@ -7,7 +7,11 @@
 </style>
 {{ endblock }}
 {{ block title }}
+{{ if en }}
 Task 1: Guessing stage
+{{ elif fr }}
+Tâche 1 : Estimation
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
@@ -16,14 +20,25 @@ Task 1: Guessing stage
     <div class="card-body">
         {{ if subsession.treatment == INDIVIDUAL }}
         <p>
-            You have completed Task 1. Before moving on to Task 2, please indicate your estimate of the number of grids
-            you successfully completed in Task 1.
+            {{ if en }}
+            You have now completed Task 1. Before proceeding to Task 2, please tell us your guess about the number of
+            grids you successfully completed in Task 1.
+            {{ elif fr }}
+            Vous avez terminé la tâche 1. Avant de passer à la tâche 2, veuillez nous indiquer votre
+            estimation du nombre de grilles que vous avez réussi à compléter dans la tâche 1.
+            {{ endif }}
         </p>
 
         {{ elif subsession.treatment == COOPERATION }}
         <p>
-            You have completed Task 1. Before moving on to Task 2, please indicate your estimate of the number of
-            grids that the best participant in your group has successfully completed in Task 1.
+            {{ if en }}
+            You have now completed Task 1. Before proceeding to Task 2, please tell us your guess about the number of
+            grids the best scorer in your group has successfully completed in Task 1.
+            {{ elif fr }}
+            Vous avez terminé la tâche 1. Avant de passer à la tâche 2, veuillez nous indiquer votre
+            estimation du nombre de grilles que le meilleur participant de votre groupe a réussi à compléter dans la
+            tâche 1.
+            {{ endif }}
         </p>
         {{ endif }}
     </div>
@@ -41,7 +56,7 @@ Task 1: Guessing stage
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'fill_auto.js' }}"></script>
+<script src="{{ static 'global/fill_auto.js' }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         if (js_vars.fill_auto)

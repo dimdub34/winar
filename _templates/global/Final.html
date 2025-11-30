@@ -1,0 +1,44 @@
+{{ block title }}
+{{ if fr }} Fin de l'expérience {{ elif en }} End of the experiment {{ endif }}
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+    {{ include final_template_path }}
+    </div>
+</div>
+
+<p class="text-muted mb-3">
+    {{ if fr }}
+    Votre paiement se fera par virement bancaire via la plateforme S2C2H du CNRS. <br>
+    Veuillez cliquer sur le bouton ci-dessous pour remplir le formulaire pour le paiement de vos gains. <br>
+    Si vous avez des questions, n'hésitez pas à contacter l'expérimentateur.
+    {{ elif en }}
+    Your payment will be made by bank transfer via the CNRS S2C2H platform. <br>
+    Please click on the button below to fill out the form for the payment of your earnings. <br>
+    If you have any questions, do not hesitate to contact the experimenter.
+    {{ endif }}
+</p>
+<button type="button" class="btn btn-outline-primary" id="btn_payment">
+    {{ if fr }}
+    Remplir le formulaire pour le paiement
+    {{ elif en }}
+    Fill out the form for payment
+    {{ endif }}
+</button>
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'global/s2c2h.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('#btn_payment').addEventListener('click', () => {
+            fill_payment_form();
+        });
+    });
+</script>
+
+{{ endblock }}

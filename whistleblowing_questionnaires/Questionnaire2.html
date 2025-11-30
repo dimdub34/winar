@@ -1,19 +1,40 @@
 {{ block styles}}
-<link rel="stylesheet" href="{{ static 'sliders.css' }}">
+<link rel="stylesheet" href="{{ static 'global/sliders.css' }}">
+<style>
+    .col-form-label {
+        font-style: italic;
+    }
+</style>
 {{ endblock }}
 
 {{ block title }}
-Part 3: Questionnaire 2
+{{ if en }}
+Part 3: Questionnaires
+{{ elif fr }}
+Partie 3: Questionnaires
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
+<div class="progress mb-3">
+    <div class="progress-bar bg-warning" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0"
+         aria-valuemax="100">
+        2 / 3
+    </div>
+</div>
 
 <div class="mb-3">
     <div class="form-control mb-1">
         <p>
+            {{ if en }}
             Suppose you have earned {{ 1000|cu }}, but you have to give away the money to two other people.
             You can’t keep any of the money for yourself. Assume that these two people have the same
             standard of living. One is a friend of yours and the other one is a stranger.
+            {{ elif fr }}
+            Supposez que vous ayez gagné {{ 1000|cu }}, mais que vous deviez donner cet argent à deux autres
+            personnes. Vous ne pouvez rien garder pour vous. Supposez que ces deux personnes aient le
+            même niveau de vie. L'une est votre ami(e) et l'autre est un(e) inconnu(e).
+            {{ endif }}
         </p>
         <label class="col-form-label small" for="id_share_friend_stranger">
             {{ form.share_friend_stranger.label }}
@@ -21,15 +42,12 @@ Part 3: Questionnaire 2
         </label>
         <div class="mb-3" style="width: 80%">
             <input type="range" min="0" max="1000" step="1" name="share_friend_stranger"
-                   id="id_share_friend_stranger" style="width:100%" value="0"
-                   oninput="share_friend_stranger_out.value=this.value">
+                    id="id_share_friend_stranger" style="width:100%" value="0"
+                    oninput="share_friend_stranger_out.value=this.value">
             <div class="ticks mt-0">
                 <span>0</span><span>1000</span>
             </div>
         </div>
-    </div>
-    <div class="form-control mb-1">
-        {{ formfield "corruption" }}
     </div>
 </div>
 
@@ -38,14 +56,9 @@ Part 3: Questionnaire 2
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'fill_auto.js' }}"></script>
+<script src="{{ static 'global/fill_auto.js' }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll(".col-form-label").forEach(label => {
-            label.classList.add("fw-bold");
-            label.classList.add("text-muted");
-        });
-
         if (js_vars.fill_auto)
             fill_auto();
     });

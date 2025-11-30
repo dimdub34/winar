@@ -45,22 +45,38 @@
 {{ endblock }}
 
 {{ block title }}
+{{ if en }}
 Task 3: Sliders
+{{ elif fr }}
+Tâche 3 : Curseurs
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 <div class="text-end mb-3">
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
+        {{ if en }}
         Instructions
+        {{ elif fr }}
+        Instructions
+        {{ endif }}
     </button>
 </div>
 
 <div class="card text-justify bg-light mb-3">
     <div class="card-body">
+        {{ if en }}
         <p>
-            Select a target by clicking on the corresponding button, position the slider on the target value
-            and click on the <i>Validate</i> button. Then select another target and repeat the process.
+            Select a slider by clicking on the corresponding button, move the cursor to the target value
+            and click on the <i>Validate</i> button. Then select another slider and repeat the process.
         </p>
+
+        {{ elif fr }}
+        <p>
+            Sélectionnez une cible en cliquant sur le bouton correspondant, positionnez le curseur sur la valeur cible
+            et cliquez sur le bouton <i>Valider</i>. Ensuite, sélectionnez une autre cible et répétez le processus.
+        </p>
+        {{ endif }}
     </div>
 </div>
 
@@ -77,10 +93,18 @@ Task 3: Sliders
 
 <div class="mb-5 text-center">
     <h6 class="text-info">
+        {{ if en }}
         Slider
+        {{ elif fr }}
+        Slider
+        {{ endif }}
         <span id="slider_number">1</span></h6>
     <p class="fw-bold">
+        {{ if en }}
         Target value:
+        {{ elif fr }}
+        Valeur cible :
+        {{ endif }}
         <span id="target_value">{{ sliders.0.target }}</span>
     </p>
     <div class="mb-5 text-center">
@@ -107,13 +131,17 @@ Task 3: Sliders
         </div>
     </div>
     <button type="button" class="btn btn-primary" id="btn_validate" onclick="validate();">
+        {{ if en }}
         Validate
+        {{ elif fr }}
+        Valider
+        {{ endif }}
     </button>
 </div>
 
 <input type="hidden" name="sliders_performance" id="id_sliders_performance" value="0">
 
-{{ include_sibling "InstructionsModal.html" }}
+{{ include "global/InstructionsModal.html" }}
 
 {{ endblock }}
 
@@ -152,12 +180,17 @@ Task 3: Sliders
 
     document.addEventListener("DOMContentLoaded", () => {
         display_slider(1);
+        const otree_timer = document.querySelector(".otree-timer");
+        otree_timer.classList.remove("alert", "alert-warning");
+        otree_timer.style.color = "DarkGoldenrod";
+
         if (js_vars.fill_auto) {
             setInterval(() => {
                 fill_auto();
             }, Math.floor(Math.random() * 10000));
         }
     });
+
 
 </script>
 {{ endblock }}

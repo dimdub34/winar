@@ -1,11 +1,18 @@
+{{ block title }}
+{{ endblock }}
+
 {{ block content }}
-...
+
+&hellip;
+
 {{ endblock }}
 
 {{ block scripts }}
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        document.querySelector("form").submit();
+        setTimeout(() => {
+            document.querySelector("form").submit();
+        }, 500);
     });
 </script>
 {{ endblock }}

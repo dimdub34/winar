@@ -1,34 +1,83 @@
-<p>
-    During {{ EFFORT_DURATION_STR }}, <span class="fw-bold">you will have to calculate sums of numbers.</span>
-    A total of {{ NUM_OPERATIONS }} operations will be available to you.
-    Each operation contains numbers whose sum you need to calculate.
-</p>
-<p>
-    You must first select an operation by clicking on one of the {{ NUM_OPERATIONS }} available buttons.
-    Once the operation is displayed, calculate the sum of the numbers, enter your answer in the input box,
-    then click <i>Validate</i>. The button of the corresponding operation then turns orange to indicate
-    that you have already calculated it. Click another button to select a new operation and repeat the process.
-</p>
-{{ if subsession.treatment == INDIVIDUAL }}
-<p>
-    Your earnings depend solely on your own performance and not on the performance of the other
-    group members. For each operation correctly calculated, you will receive {{ PIECE_RATE }} ECU.
-</p>
-{{ elif subsession.treatment == COOPERATION }}
-<p>
-    Your earnings in this task will depend on the best score in the group. The best score in the group
-    is the one achieved by the member of your group who has correctly calculated the largest number of operations.
-    For each operation correctly calculated by the best group member, each group member will receive
-    {{ PIECE_RATE }} ECU. Thus, the better your teammates perform in this task, the higher your earnings will be.
-</p>
+{{ if en }}
+<article lang="en">
+    <p>
+        For this task, during {{ effort_duration }}, you will be asked to <b>solve a series of
+        addition problems</b>.
+        You will be offered {{ NUM_OPERATIONS }} operations. Each operation contains an addition problem.
+        You first need to <b>select one of the operations</b> and then enter your response in the input box below the
+        operation, then click the <i>Validate</i> button.
+        The button of the corresponding operation will then turn orange to indicate that you have already solved it.
+        Then select a new operation and repeat the process.
+    </p>
+    {{ if subsession.treatment == INDIVIDUAL }}
+    <p>
+        <b>Your earnings depend solely on your own performance</b> in the task and do not depend on the performance of
+        the other group members.
+        If the entered number is correct, your gain will increase by {{ PIECE_RATE }} ECU. If it is incorrect, your
+        gain will remain unchanged.
+    </p>
+    {{ elif subsession.treatment == COOPERATION }}
+    <p>
+        <b>Your earnings in this task will depend on the best scorer in the group.</b>
+        The best scorer in the group is the group member who has successfully completed the most operations. For each
+        operation that the best scorer resolved, each group member will receive {{ PIECE_RATE }} ECU. Therefore, this
+        means that the better your group members do on the task, the more you can earn.
+    </p>
+    {{ endif }}
+    <p>
+        <b>You can do as many operations as you want during the {{ effort_duration }} that are allocated to you.</b>
+        <br>
+        You will be informed of your earnings for this task only at the end of the experiment.
+    </p>
+    <figure class="text-center">
+        <figcaption class="fst-italic text-muted fw-bold text-center">Screenshot: orange cells are operations already
+            calculated.
+        </figcaption>
+        <img class="img-thumbnail mx-auto" alt="screenshot" src="{{ static 'whistleblowing_maths/screenshot_en.png' }}">
+    </figure>
+</article>
+
+{{ elif fr }}
+<article lang="fr">
+    <p>
+        Durant {{ effort_duration }}, vous devrez <b>calculer des sommes de nombres.</b>
+        Un total de {{ NUM_OPERATIONS }} opérations vous sera proposé.
+        Chaque opération contient des nombres dont il faut calculer la somme.
+    </p>
+    <p>
+        Vous devez d’abord <b>sélectionner une opération</b> en cliquant sur un des {{ NUM_OPERATIONS }} boutons à
+        disposition.
+        Une fois l'opération affichée, calculez la somme des nombres, saisissez votre réponse dans la zone
+        prévue à cet effet, puis cliquez sur <i>Valider</i>. Le bouton de l'opération correspondante devient alors
+        orange pour vous indiquer que vous l’avez déjà calculée. Cliquez sur un autre bouton pour sélectionner une
+        nouvelle opération et répétez le processus.
+    </p>
+    {{ if subsession.treatment == INDIVIDUAL }}
+    <p>
+        <b>Vos gains dépendent uniquement de votre propre performance</b>, ils ne dépendent pas de la
+        performance des autres membres de votre groupe. Pour chaque opération correctement calculée, vous
+        recevrez {{ PIECE_RATE }} ECU.
+    </p>
+    {{ elif subsession.treatment == COOPERATION }}
+    <p>
+        <b>Vos gains dans cette tâche dépendront du meilleur score dans le groupe.</b>
+        Le meilleur score dans le groupe est celui du membre de votre groupe qui a réussi à calculer le plus
+        d'opérations.
+        Pour chaque opération correctement calculée par le meilleur membre du groupe, chaque membre du groupe recevra
+        {{ PIECE_RATE }} ECU.
+        Ainsi, plus vos coéquipiers obtiennent de bons résultats dans cette tâche, plus vos gains seront élevés.
+    </p>
+    {{ endif }}
+    <p>
+        <b>Vous pouvez calculer autant d'opérations que vous le souhaitez pendant les {{ effort_duration }} qui vous
+            sont allouées.</b> <br>
+        Vous serez informé(e) de vos gains pour cette tâche à la fin de l'expérience.
+    </p>
+    <figure class="text-center">
+        <figcaption class="fst-italic text-muted fw-bold text-center">Capture d'écran : les cellules orange sont celles
+            qui ont déjà été validées.
+        </figcaption>
+        <img class="img-thumbnail mx-auto" alt="screenshot" src="{{ static 'whistleblowing_maths/screenshot_fr.png' }}">
+    </figure>
+</article>
 {{ endif }}
-<p>
-    You can complete as many operations as you wish during the {{ EFFORT_DURATION_STR }} allocated to you. <br>
-    <span class="fst-italic">You will be informed of your earnings for this task at the end of the experiment.</span>
-</p>
-<figure class="text-center">
-    <figcaption class="fst-italic text-muted fw-bold text-center">
-        Screenshot: orange cells are those already validated.
-    </figcaption>
-    <img class="img-thumbnail mx-auto" alt="screenshot" src="{{ static 'whistleblowing_maths/screenshot_en.png' }}">
-</figure>

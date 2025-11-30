@@ -1,30 +1,59 @@
 {{ block title }}
+{{ if en }}
 Part 2: Reporting Decision
+{{ elif fr }}
+Partie 2 : Décision de signalement
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 
 <div class="text-end mb-3">
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
+        {{ if en }}
         Instructions
+        {{ elif fr }}
+        Instructions
+        {{ endif }}
     </button>
 </div>
 
 <div class="card bg-light mb-3">
     <div class="card-body">
+        {{ if en }}
         <p>
-            As a Blue Player, you must decide whether you want to report the Red Player in your group if he/she decides
-            to steal ECU from the Passive Group. <br>
+            As a <b>Blue Player</b> you need to decide whether you want to report the Red Player in your group if they
+            steal ECU from the Passive Group.
+        </p>
+        <p class="text-muted">
+            As a reminder, if the Red Player steals ECU from the Passive Group and you report them, you will pay a
+            reporting cost of {{ REPORTING_COST }} ECU and the Red Player will be reported.
+            If the Red Player is punished (probability of {{ AUDIT_PROBABILITY_STR }}),
             {{ if subsession.reward }}
-            As a reminder, if the Red Player is penalized, reporting will cost you {{ REPORTING_COST }} ECU
-            and you will receive {{ REPORTING_REWARD }} ECU as a reward.
-            {{ else }}
-            As a reminder, if the Red Player is penalized, reporting will cost you {{ REPORTING_COST }} ECU.
+            you will receive a reward of {{ REPORTING_REWARD }} ECU and
             {{ endif }}
+            they will pay a penalty of {{ STEALING_PENALTY }} ECU.
+            <br>
+            One of the two Blue Players decisions will be randomly selected by the computer program to be implemented.
         </p>
-        <p class="fst-italic">
-            The computer program randomly selects one Blue Player’s decision to implement.
+        {{ elif fr }}
+        <p>
+            En tant que <b>joueur Bleu</b>, vous devez décider si vous souhaitez signaler le joueur Rouge de votre
+            groupe s'il vole des ECU au groupe Passif.
         </p>
+        <p class="text-muted">
+            Pour rappel, si le joueur Rouge vole des ECU au groupe Passif et que vous le signalez, vous paierez un
+            coût de signalement de {{ REPORTING_COST }} ECU et le joueur Rouge sera signalé.
+            Si le joueur Rouge est puni (probabilité de {{ AUDIT_PROBABILITY_STR }}),
+            {{ if subsession.reward }}
+            vous recevrez une récompense de {{ REPORTING_REWARD }} ECU et
+            {{ endif }}
+            il paiera une pénalité de {{ STEALING_PENALTY }} ECU.
+            <br>
+            L'une des deux décisions des joueurs Bleus sera sélectionnée au hasard par le programme informatique pour
+            être mise en œuvre.
+        </p>
+        {{ endif }}
     </div>
 </div>
 
@@ -32,12 +61,12 @@ Part 2: Reporting Decision
 
 {{ next_button }}
 
-{{ include_sibling "InstructionsModal.html" }}
+{{ include "global/InstructionsModal.html" }}
 
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'fill_auto.js' }}"></script>
+<script src="{{ static 'global/fill_auto.js' }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         if (js_vars.fill_auto)

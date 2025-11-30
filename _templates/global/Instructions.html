@@ -1,21 +1,26 @@
 {{ block title }}
-Part 2: Instructions
+{{ if is_defined('instructions_template_title') }}
+{{ instructions_template_title }}
+{{ else }}
+Instructions
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 
 <div class="card bg-light mb-3">
     <div class="card-body">
-        {{ include_sibling "InstructionsTemplate.html" }}
+        {{ include instructions_template_path }}
     </div>
 </div>
 
 {{ next_button }}
 
+
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'fill_auto.js' }}"></script>
+<script src="{{ static 'global/fill_auto.js' }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         if (js_vars.fill_auto)

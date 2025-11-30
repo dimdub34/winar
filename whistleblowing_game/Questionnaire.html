@@ -7,16 +7,26 @@
 {{ endblock }}
 
 {{ block title }}
+{{ if en }}
 Part 2: Questionnaire
+{{ elif fr }}
+Partie 2 : Questionnaire
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 
 <div class="card bg-light mb-3">
     <div class="card-body">
+        {{ if en }}
         <p>
             Thanks for answering the questions below related to the game you just participated in.
         </p>
+        {{ elif fr }}
+        <p>
+            Merci de répondre aux questions ci-dessous en lien avec le jeu auquel vous venez de participer.
+        </p>
+        {{ endif }}
     </div>
 </div>
 
@@ -36,7 +46,7 @@ Part 2: Questionnaire
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'fill_auto.js' }}"></script>
+<script src="{{ static 'global/fill_auto.js' }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         if (js_vars.fill_auto)

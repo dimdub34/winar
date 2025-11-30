@@ -7,64 +7,133 @@
 {{ endblock }}
 
 {{ block title }}
+{{ if en }}
 Welcome
+{{ elif fr }}
+Bienvenue
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 
 <div class="card bg-light mb-3">
     <div class="card-body">
-        <p>
-            You are invited to take part in a research study about individual and group decision-making.
-            Your participation will help us better understand how people interact with group members and authorities in
-            various situations.
-        </p>
-        <p>
-            Your participation is entirely voluntary. <strong>If you agree to participate, you will receive a fixed fee
-            of
-            {{ session.config.participation_fee }}, as well as a bonus depending on your decisions and
-            those of the other participants.</strong>
-            The experiment will last approximately one hour.
-        </p>
-        <p>
-            There are no foreseeable risks associated with participating in this study. You are free to withdraw at any
-            time, for any reason, without any penalty.
-            However, since this is a group experiment, <strong>please note that your withdrawal could affect the
-            participation of the other members of your group.</strong>
-        </p>
+        {{ if en }}
+        <article lang="en">
+            <p>
+                You are invited to take part in a <b>research study about individual and group decision-making</b>.
+                Your participation will help us better understand how people interact with group members and authorities
+                in
+                various situations.
+            </p>
+            <p>
+                Your participation is entirely voluntary. If you agree to participate, you will receive a <b>fixed fee
+                of
+                {{ session.config.participation_fee }} plus a bonus</b> depending on your decisions and
+                the decisions of other participants.
+                The experiment will take approximately one hour of your time.
+            </p>
+            <p>
+                There are no foreseeable risks associated with participating in this study. You are free to withdraw at
+                any
+                time, for any reason, without penalty.
+                Please note, however, that since this is a group experiment, your withdrawal may affect the
+                participation
+                of other group members.
+            </p>
 
-        <h5>Confidentiality and Data Protection</h5>
-        <p>
-            <strong>All data collected in this study will be processed exclusively for scientific purposes. Your
-                responses will remain completely anonymous and confidential</strong>. No personally identifiable
-            information will be collected or linked to your decisions in the experiment.
-            There will be no data transfer outside the European Union.
-        </p>
-        <p>
-            The data controller is Dimitri Dubois (CEE-M, CNRS, University of Montpellier, France). Data
-            recipients are: Rustam Romaniuc (MBS Montpellier Business School), Dimitri Dubois
-            (CNRS, University of Montpellier) and Andrea Guido (PSB Paris School of Business).
-        </p>
-        <p>
-            You have the right to access, rectify, or delete your data. <br>
-            To exercise these rights, you can contact Dimitri Dubois at: dimitri.dubois@umontpellier.fr.
-        </p>
-        <p>
-            This study is funded by the French National Research Agency (ANR), project number
-            ANR-21-CE26-0016. For any questions about the study, please contact Rustam Romaniuc at
-            r.romaniuc@mbs-education.com.
-        </p>
+            <h5>Confidentiality and Data Protection</h5>
+            <p>
+                All data collected in this study will be processed strictly for scientific purposes. Your responses will
+                remain <b>completely anonymous and confidential</b>. No personally identifiable
+                information will be collected or linked to your decisions in the experiment.
+                There will be no data transfer outside the European Union.
+            </p>
+            <p>
+                The data controller is Dimitri Dubois (CEE-M, CNRS, University of Montpellier, France). Data
+                recipients include: Rustam Romaniuc (MBS Montpellier Business School), Dimitri Dubois
+                (CNRS, University of Montpellier) and Andrea Guido (PSB Paris School of Business).
+            </p>
+            <p>
+                You have the right to access your data, to request correction or deletion of your data, to restrict or
+                object to the processing of your data, and to request data portability. <br>
+                To exercise these rights, you can contact Dimitri Dubois at: dimitri.dubois@umontpellier.fr.
+            </p>
+            <p>
+                This study is funded by the French National Research Agency (ANR), grant number
+                ANR-21-CE26-0016. For any questions about the study, please contact Rustam Romaniuc at
+                r.romaniuc@mbs-education.com.
+            </p>
+        </article>
+
+        {{ elif fr }}
+        <article lang="fr">
+            <p>
+                Vous êtes invité(e) à participer à une étude sur la prise de décision individuelle et collective.
+                Votre participation aidera à mieux comprendre comment les personnes interagissent avec les membres de
+                leur groupe et les autorités dans diverses situations.
+            </p>
+            <p>
+                Votre participation est entièrement volontaire. Si vous acceptez de participer, vous recevrez une
+                rémunération fixe de <b>{{ session.config.participation_fee }}</b>, ainsi qu'un bonus dépendant
+                de vos décisions et de celles des autres participants.
+                L'expérience durera environ une heure.
+            </p>
+            <p>
+                Il n'y a aucun risque prévisible lié à votre participation à cette étude. Vous êtes libre de vous
+                retirer à
+                tout moment, pour n'importe quelle raison, sans aucune pénalité.
+                Veuillez toutefois noter que, dans la mesure où il s'agit d'une expérience de groupe, votre retrait
+                pourrait
+                affecter la participation des autres membres de votre groupe.
+            </p>
+
+            <h5>Confidentialité et protection des données</h5>
+            <p>
+                Toutes les données collectées dans le cadre de cette étude seront traitées exclusivement à des fins
+                scientifiques. Vos réponses resteront
+                <b>entièrement anonymes et confidentielles</b>. Aucune information permettant de vous identifier
+                ne sera collectée ou associée à vos décisions lors de l'expérience.
+                Aucune donnée ne sera transférée en dehors de l'Union européenne.
+            </p>
+            <p>
+                Le responsable du traitement des données est Dimitri Dubois (CEE-M, CNRS, Université de Montpellier,
+                France).
+                Les destinataires des données sont : Rustam Romaniuc (MBS, Montpellier Business School), Dimitri Dubois
+                (CNRS, Université de Montpellier) et Andrea Guido (PSB, Paris School of Business).
+            </p>
+            <p>
+                Vous disposez d'un droit d'accès, de rectification ou de suppression de vos données. <br>
+                Pour exercer ces droits, vous pouvez contacter Dimitri Dubois à l'adresse suivante :
+                dimitri.dubois@umontpellier.fr.
+            </p>
+            <p>
+                Cette étude est financée par l'Agence Nationale de la Recherche (ANR), numéro de projet
+                ANR-21-CE26-0016. Pour toute question concernant cette étude, vous pouvez contacter Rustam Romaniuc à
+                l'adresse suivante : r.romaniuc@mbs-education.com.
+            </p>
+        </article>
+        {{ endif }}
     </div>
 </div>
 
 <div class="mb-3">
     <p>
+        {{ if en }}
         Please confirm your consent to participate in this study by checking the box below:
+        {{ elif fr }}
+        Merci de confirmer votre consentement à participer à cette étude en cochant la case ci-dessous :
+        {{ endif }}
     </p>
     <p>
         <label>
             <input type="checkbox" id="consent" name="consent" onclick="enableNextButton()">
-            I have read and understood the information provided above. I agree to participate in this study.
+            {{ if en }}
+            I have read and understood the information provided above. I voluntarily agree to participate in this
+            study.
+            {{ elif fr }}
+            J'ai lu et compris les informations fournies ci-dessus. J'accepte de participer à cette étude.
+            {{ endif }}
         </label>
     </p>
 </div>
@@ -84,6 +153,7 @@ Welcome
     <div class="col-1">
         <img src="{{ static 'whistleblowing_welcome/ceem.png' }}" alt="Logo CEE-M">
     </div>
+
 </div>
 
 {{ endblock }}

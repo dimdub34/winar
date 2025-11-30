@@ -1,14 +1,24 @@
 {{ block title }}
+{{ if en }}
 End of part 1
+{{ elif fr }}
+Fin de la partie 1
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 
 <div class="card bg-light mb-3">
     <div class="card-body">
+        {{ if en }}
         <p>
             You have now completed Part 1 of the experiment.
         </p>
+        {{ elif fr }}
+        <p>
+            Vous avez maintenant terminé la partie 1 de l'expérience.
+        </p>
+        {{ endif }}
     </div>
 </div>
 
@@ -17,7 +27,7 @@ End of part 1
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'fill_auto.js' }}"></script>
+<script src="{{ static 'global/fill_auto.js' }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         if (js_vars.fill_auto)

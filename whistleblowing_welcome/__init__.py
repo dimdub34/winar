@@ -1,6 +1,5 @@
 from otree.api import *
-from whistleblowing_commons.config import Config
-
+from whistleblowing_commons.config import language
 doc = """
 Welcome App
 """
@@ -10,18 +9,18 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = 3
     NUM_ROUNDS = 1
 
+    ENDOWMENT = 75
+
 
 class Subsession(BaseSubsession):
     country = models.StringField()
-    
-    def creating_session(self):
-        self.country = self.session.config["country"]
-        self.group_randomly()
-        self.session.vars["groups"] = self.get_group_matrix()
 
 
 def creating_session(subsession: Subsession):
-    subsession.creating_session()
+    subsession.country = subsession.session.config["country"]
+    subsession.group_randomly()
+    subsession.session.vars["groups"] = subsession.get_group_matrix()
+
 
 class Group(BaseGroup):
     pass
@@ -39,13 +38,14 @@ class Player(BasePlayer):
 class MyPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
-        return dict(**Config.get_parameters())
+        return dict(
+            **language
+        )
 
     @staticmethod
     def js_vars(player: Player):
         return dict(
             fill_auto=player.session.config.get("fill_auto", False),
-            **Config.get_parameters()
         )
 
 

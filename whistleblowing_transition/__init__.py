@@ -1,9 +1,15 @@
-from otree.api import *
 import random
+
+from otree.api import *
+
+from settings import LANGUAGE_CODE
 
 doc = """
 Transition between part 1 and part 2 of the experiment.
 """
+
+language = {"en": False, "fr": False, LANGUAGE_CODE: True}
+_ = lambda s: s[LANGUAGE_CODE]
 
 
 class C(BaseConstants):
@@ -23,14 +29,12 @@ class Subsession(BaseSubsession):
                 p.set_txt_final()
 
 
-    def creating_session(self):
-        if "groups" not in self.session.vars:
-            self.group_randomly()
-            self.session.vars["groups"] = self.get_group_matrix()
-        self.set_group_matrix(self.session.vars["groups"])
-
 def creating_session(subsession: Subsession):
-    subsession.creating_session()
+    if "groups" not in subsession.session.vars:
+        subsession.group_randomly()
+        subsession.session.vars["groups"] = subsession.get_group_matrix()
+    subsession.set_group_matrix(subsession.session.vars["groups"])
+
 
 class Group(BaseGroup):
     selected_effort_task_name = models.StringField()
@@ -39,14 +43,20 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     def set_txt_final(self):
-        txt_final = (f"Task {self.group.selected_effort_task_num} has been randomly selected by the computer program "
-                     f"to determine the payoff of your group.")
-        txt_final += "<br>" + self.participant.vars[self.group.selected_effort_task_name]["txt_final"]
+        self.payoff = self.participant.vars.get(self.group.selected_effort_task_name, {}).get("payoff", 0)
+        self.participant.payoff = self.payoff
+        txt_final = _(
+            dict(en=f"Task {self.group.selected_effort_task_num} has been randomly selected by the computer program "
+                    f"to determine the payoff of your group.",
+                 fr=f"La tâche {self.group.selected_effort_task_num} a été aléatoirement sélectionnée par le programme "
+                    f"informatique pour déterminer le gain de votre groupe.")
+        )
+        txt_final += "<br>" + self.participant.vars.get(self.group.selected_effort_task_name, {}).get("txt_final", "")
 
         self.participant.vars["whistleblowing_effort"] = dict(
             txt_final=txt_final,
-            payoff_ecu=self.participant.vars[self.group.selected_effort_task_name]["payoff_ecu"],
-            payoff=self.participant.vars[self.group.selected_effort_task_name]["payoff"]
+            payoff_ecu=self.participant.vars.get(self.group.selected_effort_task_name, {}).get("payoff_ecu", 0),
+            payoff=self.payoff,
         )
 
 
@@ -54,7 +64,9 @@ class Player(BasePlayer):
 class Transition(Page):
     @staticmethod
     def vars_for_template(player: Player):
-        return dict()
+        return dict(
+            **language
+        )
 
     @staticmethod
     def js_vars(player: Player):

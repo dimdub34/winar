@@ -13,74 +13,44 @@ SESSION_CONFIG_DEFAULTS = dict(
     fill_auto=False,
     test=False
 )
-DEBUG = False
+DEBUG = True
 
 LANGUAGE_CODE = 'en'
 REAL_WORLD_CURRENCY_CODE = 'USD'
-REAL_WORLD_CURRENCY_NAME = 'Euro'
+
 SESSION_CONFIGS = [
     dict(
-        name='whistleblowing_indiv_reward',
+        name='whistleblowing_no_reward',
+        display_name='Whistleblowing - No Reward',
         app_sequence=[
             'whistleblowing_welcome',
             'whistleblowing_counting', 'whistleblowing_maths', 'whistleblowing_sliders', 'whistleblowing_ios',
             'whistleblowing_transition', 'whistleblowing_game',
-            'whistleblowing_questionnaires', 'climate_questionnaire',
+            'whistleblowing_questionnaires',
             'whistleblowing_final'
         ],
         num_demo_participants=6,
         real_world_currency_per_point=0.1,
         participation_fee=5.00,
-        country="United States",
-        treatment='individual',
-        reward=True
-    ),
-    dict(
-        name='whistleblowing_indiv_no_reward',
-        app_sequence=[
-            'whistleblowing_welcome',
-            'whistleblowing_counting', 'whistleblowing_maths', 'whistleblowing_sliders', 'whistleblowing_ios',
-            'whistleblowing_transition', 'whistleblowing_game',
-            'whistleblowing_questionnaires', 'climate_questionnaire',
-            'whistleblowing_final'
-        ],
-        num_demo_participants=6,
-        real_world_currency_per_point=0.1,
-        participation_fee=5.00,
-        country="United States",
-        treatment='individual',
-        reward=False
-    ),
-    dict(
-        name='whistleblowing_coop_reward',
-        app_sequence=[
-            'whistleblowing_welcome',
-            'whistleblowing_counting', 'whistleblowing_maths', 'whistleblowing_sliders', 'whistleblowing_ios',
-            'whistleblowing_transition', 'whistleblowing_game',
-            'whistleblowing_questionnaires', 'climate_questionnaire',
-            'whistleblowing_final'
-        ],
-        num_demo_participants=6,
-        real_world_currency_per_point=0.1,
-        participation_fee=5.00,
-        country="United States",
-        treatment='cooperation',
-        reward=True
-    ),
-    dict(
-        name='whistleblowing_coop_no_reward',
-        app_sequence=[
-            'whistleblowing_welcome',
-            'whistleblowing_counting', 'whistleblowing_maths', 'whistleblowing_sliders', 'whistleblowing_ios',
-            'whistleblowing_transition', 'whistleblowing_game',
-            'whistleblowing_questionnaires', 'climate_questionnaire',
-            'whistleblowing_final'
-        ],
-        num_demo_participants=6,
-        real_world_currency_per_point=0.1,
-        participation_fee=5.00,
-        country="United States",
+        country="France",
         treatment='cooperation',
         reward=False
+    ),
+    dict(
+        name='whistleblowing_with_reward',
+        display_name="Whistleblowing - With Reward",
+        app_sequence=[
+            'whistleblowing_welcome',
+            'whistleblowing_counting', 'whistleblowing_maths', 'whistleblowing_sliders', 'whistleblowing_ios',
+            'whistleblowing_transition', 'whistleblowing_game',
+            'whistleblowing_questionnaires',
+            'whistleblowing_final'
+        ],
+        num_demo_participants=6,
+        real_world_currency_per_point=0.1,
+        participation_fee=5.00,
+        country="France",
+        treatment='cooperation',
+        reward=True
     ),
 ]

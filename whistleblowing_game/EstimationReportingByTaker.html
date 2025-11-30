@@ -1,21 +1,30 @@
 {{ block styles }}
-<link rel="stylesheet" href="{{ static 'sliders.css' }}">
+<link rel="stylesheet" href="{{ static 'global/sliders.css' }}">
 {{ endblock }}
 
 {{ block title }}
+{{ if en }}
 Part 2: Reporting estimation
+{{ elif fr }}
+Partie 2 : Estimation de signalement
+{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 
 <div class="text-end mb-3">
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
+        {{ if en }}
         Instructions
+        {{ elif fr }}
+        Instructions
+        {{ endif }}
     </button>
 </div>
 
 <div class="card bg-light mb-3">
     <div class="card-body">
+        {{ if en }}
         <p>
             What do you think is the likelihood that one of the Blue Players would report a Red Player’s decision to
             steal ECU from the Passive Group? Please indicate your response on the scale below, where 0% means there is
@@ -23,6 +32,15 @@ Part 2: Reporting estimation
             Player who steals, and values in between indicate that you believe there is some chance that a Blue Player
             would report.
         </p>
+        {{ elif fr }}
+        <p>
+            Quelles sont les chances qu'un des joueurs Bleus signale la décision d'un joueur Rouge de voler des ECU au
+            groupe Passif ? Veuillez indiquer votre réponse sur l'échelle ci-dessous, où 0 % signifie qu'il n'y a aucune
+            chance qu'un joueur Bleu signale, 100 % signifie que vous êtes certain qu'un joueur Bleu signale un
+            joueur Rouge qui vole, et les valeurs intermédiaires indiquent que vous pensez qu'il y a une certaine chance
+            qu'un joueur Bleu signale.
+        </p>
+        {{ endif }}
     </div>
 </div>
 
@@ -41,12 +59,12 @@ Part 2: Reporting estimation
 
 {{ next_button }}
 
-{{ include_sibling "InstructionsModal.html" }}
+{{ include "global/InstructionsModal.html" }}
 
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'fill_auto.js' }}"></script>
+<script src="{{ static 'global/fill_auto.js' }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         if (js_vars.fill_auto)
