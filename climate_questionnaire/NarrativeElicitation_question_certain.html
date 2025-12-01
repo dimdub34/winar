@@ -1,0 +1,78 @@
+{{ block styles }}
+{{ endblock }}
+
+{{ block title }}
+{{ if fr }}
+
+{{ elif en }}
+
+{{ endif }}
+{{ endblock }}
+
+{{ block content }}
+
+
+<div class="form-control mb-1">
+    On a scale from 0 (very unconfident) to 100 (very confident), how confident are you about the explanation you provided in the previous question?
+
+    {{ formfield_errors 'narrative_confidence' }}
+    <br><br>
+
+    <div id="sliders_here"></div>
+
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<style>
+        .mgslider-wrapper {
+            border-spacing: 10px;
+        }
+        .mgslider-show {
+            text-align: center;
+        }
+        .mgslider-limit {
+            width: 10%;
+            min-width: 75px;
+            height: 40px;
+            margin: 100px;
+            text-align: center;
+            background: #eee;
+            border: 1px solid #888;
+        }
+        .mgslider-limit, .mgslider-value {
+            font-variant-numeric: tabular-nums;
+        }
+        .mgslider-before {
+            height: 16px;
+            width: 100%;
+            background: #1e5bff;
+        }
+        .mgslider-feedback {
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+
+</script>
+<script src="{{ static 'mgslider.js' }}"></script>
+<script>
+        $(document).ready(function (event) {
+            slider1 = new mgslider("narrative_confidence", 0, 100, 1);
+            slider1.recall = true; // Optional line to remember value across errors
+            slider1.print(document.getElementById("sliders_here"));
+        });
+    </script>
+
+{{ endblock }}

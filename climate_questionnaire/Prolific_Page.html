@@ -1,0 +1,46 @@
+{{ block title }}
+{{ if en }}
+    Thanks for participating in this survey!
+{{ elif fr }}
+    XXX
+{{ endif }}
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        {{ if fr }}
+        <p></p>
+        <p></p>
+        {{ elif en }}
+            To return the study and be redirected to Prolific, click <a href={{ link }}>here</a>.
+
+            <p>Or copy and paste this link : {{ link }} </p>
+        {{ endif }}
+    </div>
+</div>
+
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    function fill_auto() {
+        setTimeout(function () {
+            if (Math.random() > 0.5) {
+                document.querySelector('button[name="skip"][value="True"]').click();
+            } else {
+                document.querySelector('button[name="skip"][value="False"]').click();
+            }
+        }, 2000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto) {
+            fill_auto();
+        }
+
+    });
+</script>
+{{ endblock }}

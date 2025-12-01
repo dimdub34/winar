@@ -4,6 +4,9 @@
         width: 80px;
         text-align: center;
     }
+    textarea {
+        height: 400px;
+    }
 </style>
 {{ endblock }}
 
@@ -17,27 +20,57 @@
 
 {{ block content }}
 
-<div class="form-control mb-1">
+<div class="card bg-light mb-3">
+    <div class="card-body">
     {{ formfield "policy_fight" }}
+    </div>
 </div>
 
-<div class="form-control mb-2">
-    {{ formfield "policy_narrative" }}
+<div class="card bg-light mb-3">
+    <div class="card-body">
+                    <p>
+                {{ if en }}
+                        In the first question, you explained your opinion on the causes of climate change. <br><br>
+
+                        In particular, you wrote:
+                {{ elif fr }}
+
+                    XXX
+
+                {{ endif }}
+                    </p>
+
+        <div class="form-control mb-1">
+                    <p>
+                        <i>"{{ player.narrative_elicitation }}"</i>
+                    </p>
+        </div>
+    </div>
 </div>
 
-<div class="form-control mb-1">
-    {{ formfield "confidence_policy" }}
+<div class="card bg-light mb-3">
+    <div class="card-body">
+                {{ if en }}
+        Based on your explanation, what <b>measures</b> and <b>solutions</b> do you think your country’s government should consider to fight climate change? <br><br>
+
+                        If you think no action should be taken to fight climate change, explain why you think so.
+
+                {{ elif fr }}
+
+                    XXX
+
+                {{ endif }}
+
+
+        {{ formfield "policy_narrative" }}
+
+    </div>
 </div>
+
+
 
 {{ next_button }}
 
-<p class="form-control-errors" style="display: none;">
-    {{ if en }}
-    Please ensure that all ranks are unique.
-    {{ elif fr }}
-    Veuillez vous assurer que tous les rangs sont uniques.
-    {{ endif }}
-</p>
 {{ endblock }}
 
 {{ block scripts }}
@@ -46,6 +79,15 @@
     document.addEventListener('DOMContentLoaded', () => {
         if (js_vars.fill_auto)
             fill_auto();
+
+        // Disable paste for the policy field
+        const narrField = document.getElementById('id_policy_narrative');
+        if (narrField) {
+            narrField.addEventListener('paste', function (e) {
+                e.preventDefault();
+            });
+        }
     });
 </script>
+
 {{ endblock }}

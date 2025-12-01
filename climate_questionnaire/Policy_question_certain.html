@@ -1,0 +1,76 @@
+{{ block title }}
+{{ if en }}
+
+{{ elif fr }}
+
+{{ endif }}
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        On a scale from 0 (very unconfident) to 100 (very confident), how confident are you about the answer you provided in the previous question on what measures and solutions your government should consider to fight climate change?
+
+        {{ formfield_errors 'confidence_policy' }}
+        <br><br>
+
+        <div id="sliders_here"></div>
+
+    </div>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<style>
+        .mgslider-wrapper {
+            border-spacing: 10px;
+        }
+        .mgslider-show {
+            text-align: center;
+        }
+        .mgslider-limit {
+            width: 10%;
+            min-width: 75px;
+            height: 40px;
+            margin: 100px;
+            text-align: center;
+            background: #eee;
+            border: 1px solid #888;
+        }
+        .mgslider-limit, .mgslider-value {
+            font-variant-numeric: tabular-nums;
+        }
+        .mgslider-before {
+            height: 16px;
+            width: 100%;
+            background: #1e5bff;
+        }
+        .mgslider-feedback {
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+
+</script>
+<script src="{{ static 'mgslider.js' }}"></script>
+<script>
+        $(document).ready(function (event) {
+            slider1 = new mgslider("confidence_policy", 0, 100, 1);
+            slider1.recall = true; // Optional line to remember value across errors
+            slider1.print(document.getElementById("sliders_here"));
+        });
+    </script>
+
+{{ endblock }}

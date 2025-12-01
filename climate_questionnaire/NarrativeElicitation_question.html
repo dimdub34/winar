@@ -16,16 +16,16 @@
 
 {{ block content }}
 
-<div class="form-control mb-1">
+<div class="card bg-light mb-3">
+    <div class="card-body">
     {{ formfield "climate_exists" }}
+    </div>
 </div>
 
-<div class="form-control mb-1">
+<div class="card bg-light mb-3">
+    <div class="card-body">
     {{ formfield "narrative_elicitation" }}
-</div>
-
-<div class="form-control mb-1">
-    {{ formfield "narrative_confidence" }}
+    </div>
 </div>
 
 {{ next_button }}
@@ -38,6 +38,14 @@
     document.addEventListener('DOMContentLoaded', () => {
         if (js_vars.fill_auto)
             fill_auto();
+
+        // Disable paste for the narrative_elicitation field
+        const narrField = document.getElementById('id_narrative_elicitation');
+        if (narrField) {
+            narrField.addEventListener('paste', function (e) {
+                e.preventDefault();
+            });
+        }
     });
 </script>
 {{ endblock }}

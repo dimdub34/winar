@@ -16,9 +16,7 @@
     <p>
         {{ if en }}
         In the past week, did you consume news from the following sources?
-        Please answer on a scale of 1 to 7, where 7 is a type of media that you used frequently, and 1 is a type of
-        media
-        you used infrequently.
+        Please answer on a scale of 1 to 7, where <b>1</b> is a type of media you used <b>infrequently</b>, and <b>7</b> is a type of media that you used <b>frequently</b>.
         {{ elif fr }}
         La semaine dernière, à quelle fréquence avez-vous utilisé les médias suivants pour vous informer ?
         Évaluez chaque source sur une échelle de 1 (rarement) à 7 (fréquemment).
@@ -26,11 +24,23 @@
     </p>
     <table class="table table-sm">
         <tbody>
+        <tr>
+            <th class="text-center"></th>
+            <th class="text-center">1</th>
+            <th class="text-center">2</th>
+            <th class="text-center">3</th>
+            <th class="text-center">4</th>
+            <th class="text-center">5</th>
+            <th class="text-center">6</th>
+            <th class="text-center">7</th>
+        </tr>
         {{ for field in form }}
         {{ if field.name in ["use_tv", "use_newspapers", "use_radio", "use_social", "use_online", "use_newsletters"] }}
         <tr>
             <td>{{ field.label|safe }}</td>
-            <td>{{ field }}</td>
+            {{ for option in field }}
+            <td class="text-center">{{ option }}</td>
+            {{ endfor }}
         </tr>
         {{ endif }}
         {{ endfor}}
@@ -46,9 +56,9 @@
     <p>
         {{ if en }}
         In the past week, did you consume news <b>about climate change</b> from the following sources?
-        Please answer on a scale of 1 to 7, where 7 is a type of media that you used frequently, and 1 is a type of
-        media
-        you used infrequently.
+        Please answer on a scale of 1 to 7, where <b>1</b> is a type of media you used <b>infrequently</b>, and
+        <b>7</b> is a type of media that you used <b>frequently</b>.
+
         {{ elif fr }}
         La semaine dernière, à quelle fréquence avez-vous utilisé les médias suivants pour vous informer ?
         Évaluez chaque source sur une échelle de 1 (rarement) à 7 (fréquemment).
@@ -56,11 +66,23 @@
     </p>
     <table class="table table-sm">
         <tbody>
+        <tr>
+            <th class="text-center"></th>
+            <th class="text-center">1</th>
+            <th class="text-center">2</th>
+            <th class="text-center">3</th>
+            <th class="text-center">4</th>
+            <th class="text-center">5</th>
+            <th class="text-center">6</th>
+            <th class="text-center">7</th>
+        </tr>
         {{ for field in form }}
         {{ if field.name in ["use_tv_climate", "use_newspapers_climate", "use_radio_climate", "use_social_climate", "use_online_climate", "use_newsletters_climate"] }}
         <tr>
             <td>{{ field.label|safe }}</td>
-            <td>{{ field }}</td>
+            {{ for option in field }}
+            <td class="text-center">{{ option }}</td>
+            {{ endfor }}
         </tr>
         {{ endif }}
         {{ endfor}}

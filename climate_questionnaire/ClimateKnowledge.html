@@ -9,18 +9,21 @@
 
 {{ block title }}
 {{ if en }}
-Questionnaire 2
+
 {{ elif fr }}
-Questionnaire 2
+
 {{ endif }}
 {{ endblock }}
 
 {{ block content }}
-
-<div class="form-control mb-1">
-    {{ formfield "climate_knowledge" }}
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        {{ formfield "climate_knowledge" }}
+    </div>
 </div>
-<div class="form-control mb-3">
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
     {{ if en }}
     <p>
         For the next question, we would like you to rank the items according to the greenhouse gas emissions they emit,
@@ -37,6 +40,7 @@ Questionnaire 2
     </p>
     {{ endif }}
     {{ formfield "rank_coal" }} {{ formfield "rank_gas" }} {{ formfield "rank_nuclear" }}
+    </div>
 </div>
 
 {{ next_button }}

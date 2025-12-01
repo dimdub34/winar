@@ -1,0 +1,65 @@
+{{ block styles }}
+<style>
+    .otree-body {
+        max-width: 972px;
+    }
+</style>
+{{ endblock }}
+
+{{ block title }}
+{{ if en }}
+
+{{ elif fr }}
+
+{{ endif }}
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        This is your answer to the question on <i>what you think your country's government should do regarding climate change</i>:
+        <div class="form-control mb-1">
+            {{ player.policy_narrative }}
+        </div>
+    </div>
+</div>
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            Based on your answer, to what extent do you agree or disagree with the following statement?
+        </p>
+        {{ formfield "expectations_policy_economy" }}
+        {{ formfield "expectations_policy_cc" }}
+        {{ formfield "expectations_policy_household" }}
+    </div>
+</div>
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        {{ formfield "agreement_policy" }}
+    </div>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+
+        // Disable paste for the policy field
+        const narrField = document.getElementById('id_policy_narrative');
+        if (narrField) {
+            narrField.addEventListener('paste', function (e) {
+                e.preventDefault();
+            });
+        }
+    });
+</script>
+
+{{ endblock }}

@@ -16,36 +16,153 @@
 
 {{ block content }}
 
+<div class="card bg-light mb-3">
+    <div class="card-body">
+
     <p>
-        In the previous page, we asked your opinion on the facts explaining climate change.
+        Thanks for giving your opinion on the facts explaining climate change.
     </p>
 
     <p>
-        You will now participate in an auction to decide whether your opinion will be given to future participants in this experiment.
+        Now, we give you the opportunity to <b>share</b> your opinion about climate change with <b>future participants in this study</b>.
     </p>
 
     <p>
-        To participate in the auction, you will receive €1.00 that you can use to make a bid. You can bid any amount up to €1.00 and will get to keep the rest.
+        To determine whether your opinion will be given to future participants, you will make some decisions in an incentivized task.
+    </p>
+    <p>
+        In this task, you have to select one of the following two options in each of the following decisions.
+    </p>
+
+    <ul>
+        <li>Option A: Give my opinion to future participants</li>
+        <li>Option B: Receive a given monetary amount</li>
+    </ul>
+        For every tenth participant, we will randomly select one of the decisions (one row of the table below), and implement it.
+
+        <p>
+            For example, if you select "Option A" to the first row, and that row is randomly selected, we will give
+            your opinion to future participants. If you select "Option B" instead, and that row is selected, you will
+            receive 0.01 cents.
+        </p>
+
+        Payments will be done at the end of the survey.
+
+        Indicate below the option you prefer for each decision.
+
+
+<style>
+    table.mpl-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    table.mpl-table td {
+        padding: 8px 10px;
+        vertical-align: middle;
+        text-align: center;
+    }
+    .header {
+        font-weight: bold;
+        text-align: center;
+        padding-bottom: 10px;
+    }
+</style>
+
+<table class="mpl-table">
+    <tr>
+        <td class="header">Option A</td>
+        <td></td>
+        <td class="header">Option B</td>
+    </tr>
+
+    <!-- 0.01 -->
+    <tr>
+        <td>Share my opinion</td>
+        <td>{{ form.choice_1 }}</td>
+        <td>0.01$ for me</td>
+    </tr>
+
+    <!-- 0.25 -->
+    <tr>
+        <td>Share my opinion</td>
+        <td>{{ form.choice_2 }}</td>
+        <td>0.25$ for me</td>
+    </tr>
+
+    <!-- 0.50 -->
+    <tr>
+        <td>Share my opinion</td>
+        <td>{{ form.choice_3 }}</td>
+        <td>0.50$ for me</td>
+    </tr>
+
+    <!-- 1 -->
+    <tr>
+        <td>Share my opinion</td>
+        <td>{{ form.choice_4 }}</td>
+        <td>1$ for me</td>
+    </tr>
+
+    <!-- 2.50 -->
+    <tr>
+        <td>Share my opinion</td>
+        <td>{{ form.choice_5 }}</td>
+        <td>1.50$ for me</td>
+    </tr>
+
+    <!-- 5 -->
+    <tr>
+        <td>Share my opinion</td>
+        <td>{{ form.choice_6 }}</td>
+        <td>2.00$ for me</td>
+    </tr>
+
+    <!-- 10 -->
+    <tr>
+        <td>Share my opinion</td>
+        <td>{{ form.choice_7 }}</td>
+        <td>2.50$ for me</td>
+    </tr>
+</table>
+
+    <!---    10 tokens (each token equivalen to $0.05) and
+
+        You will now participate in <b>an auction</b> to decide <b>whether your opinion will be given to future participants</b> in this experiment.
     </p>
 
     <p>
-        In the auction, you will be matched with the other participants in your same session.
+        To participate in the auction, you will receive 10 tokens (each token equivalent to $0.05) that you can use to make a bid.
+        You can bid any amount up to 10 tokens and will get to keep the rest.
     </p>
 
     <p>
-        The opinion from the participant that bids the most in the auction will be given to 30 future participants participating in this study.
+        In the auction, you will be matched with other 24 participants in your same session.
+    </p>
+
+    <p>
+        The opinion from the participant that bids the most in the auction will be given to <b>30 future participants</b> in this study.
+        Ties between offers will be solved randomly.
     </p>
 
     <p>
         The future participants will know that the opinion came from the past participant that bid the most for their advice to be used.
     </p>
 
-        How much would you like to bid in the auction to have the advice you gave above be used in our future study (maximum €1.00)? Recall that if your bid is successful, your advice will be given to 30 future participants.
+    <p>
+        So for example, if you bid 6 tokens, and your bid is the highest, your opinion on climate change will be given to future participants, and you will keep the remaining 4 tokens.
+        If your bid is not the highest, you will keep the 10 tokens you initially received.
+    </p>
 
-{{ formfields }}
+    </div>
+</div>
 
+    How much would you like to bid in the auction to have the advice you gave above be used in our future study (maximum 10 tokens)?
+        Recall that if your bid is successful, your advice will be given to 30 future participants.
+--->
+    </div>
+</div>
 {{ next_button }}
-
 {{ endblock }}
 
 {{ block scripts }}

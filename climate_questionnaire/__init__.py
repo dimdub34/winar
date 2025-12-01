@@ -2,6 +2,7 @@ import random
 
 from otree.api import *
 from settings import LANGUAGE_CODE
+from whistleblowing_ios import Player
 
 doc = """
 Climate questionnaire
@@ -56,14 +57,63 @@ def get_scale_expectations():
         [2, _(dict(en="Very likely", fr="XXX"))]
     ]
 
+def get_scale_agreement():
+    return [
+        [-2, _(dict(en="Strongly disagree", fr="XXX"))],
+        [-1, _(dict(en="Somewhat disagree", fr="XXX"))],
+        [0, _(dict(en="Neither agree nor disagree", fr="XXX"))],
+        [1, _(dict(en="Somewhat agree", fr="XXX"))],
+        [2, _(dict(en="Strongly agree", fr="XXX"))]
+    ]
+def get_options_bdm():
+    return [
+        ['A', 'Option A'],
+        ['B', 'Option B']
+    ]
 class C(BaseConstants):
     NAME_IN_URL = 'clquest'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
+    ROW_INDICES = [0, 1, 2, 3, 4] # rows of the MPL table
+    AMOUNTS = [0.01, 0.1, 0.25, 0.5, 1] # amounts of the MPL table
 
 
 class Subsession(BaseSubsession):
+    def creating_session(self):
+        import random
+        players = self.get_players()
+
+        # If there are fewer than 10 players but you still want max(…)
+        k = min(10, len(players))
+        # 1. randomly select 10 players (or fewer if session < 10)
+        selected_players = random.sample(players, k=k)
+
+        for p in players:
+            p.is_selected = (p in selected_players)
+
+        # 2. for each selected player, draw a random row of the MPL
+        for p in selected_players:
+            p.random_row = random.choice(C.ROW_INDICES)
+            p.random_amount = C.AMOUNTS[p.random_row]
+
     pass
+
+def creating_session(subsession: Subsession):
+    subsession.creating_session()
+
+def payoff_mpl(player: Player):
+    #players = self.get_players()
+
+    #for p in players:
+    if player.is_selected == 1:
+        choice_vars = [player.choice_1, player.choice_2, player.choice_3, player.choice_4,
+                       player.choice_5, player.choice_6, player.choice_7]
+        chosen_choice = choice_vars[player.random_row]
+
+        if chosen_choice == "B":
+            player.payoff_mpl = player.random_amount
+        else:
+            player.payoff_mpl = 0
 
 
 class Group(BaseGroup):
@@ -91,8 +141,8 @@ class Player(BasePlayer):
         label=_(dict(
             en=(
                 "In your opinion, how do you explain the facts attributed to climate change (e.g., the reported rise in global temperatures and more extreme weather events)? <br><br>"
-                "What are, according to you, the causes of the facts attributed to climate change?  Describe in your own words whether and how these causes are related to each other. <br><br>"
-                "In answering this question, please explain your reasoning in full sentences, describing the contributing factors and their possible links. There is no good or wrong answer, respond according to your sincere opinion. [min. 50 characters]"),
+                "What are, according to you, the <b>causes</b> of the facts attributed to climate change?  Describe in your own words whether and how these causes are related to each other. <br><br>"
+                "In answering this question, please explain your reasoning in full sentences, describing the contributing factors and their possible links. There is no good or wrong answer, respond according to your sincere opinion. [min. 50 words]"),
             fr=("Veuillez s'il vous plaît expliquer votre raisonnement avec des phrases entières, en décrivant les "
                 "facteurs qui contribuent au changement climatique, et les potentiels liens entre eux.")
         ))
@@ -100,28 +150,37 @@ class Player(BasePlayer):
     narrative_confidence = models.IntegerField(
         label=_(dict(
             en=(
-                "How certain are you about the explanation you provided in the previous question?"),
-            fr=(""
-                "")
-        )),
-        choices=get_scale_certainty(),
-        widget=widgets.RadioSelectHorizontal
-    )
-
-    # Narrative sharing ---------------
-    sharing_narrative = models.IntegerField(
-        label=_(dict(
-            en=(
-                "XXX"),
+                ""),
             fr=(""
                 "")
         ))
-)
+    )
+
+    # Narrative sharing ---------------
+    sharing_narrative = models.FloatField(
+        label="",
+        max=10
+    )
+    # One field per MPL row
+    choice_1 = models.StringField(choices=get_options_bdm(), widget=widgets.RadioSelectHorizontal)
+    choice_2 = models.StringField(choices=get_options_bdm(), widget=widgets.RadioSelectHorizontal)
+    choice_3 = models.StringField(choices=get_options_bdm(), widget=widgets.RadioSelectHorizontal)
+    choice_4 = models.StringField(choices=get_options_bdm(), widget=widgets.RadioSelectHorizontal)
+    choice_5 = models.StringField(choices=get_options_bdm(), widget=widgets.RadioSelectHorizontal)
+    choice_6 = models.StringField(choices=get_options_bdm(), widget=widgets.RadioSelectHorizontal)
+    choice_7 = models.StringField(choices=get_options_bdm(), widget=widgets.RadioSelectHorizontal)
+
+    is_selected = models.BooleanField(initial=False)
+    random_row = models.IntegerField(initial=None)
+    random_amount = models.IntegerField(initial=None)
+    payoff_mpl = models.FloatField()
+
     # Policy --------------------------
-    policy_fight = models.BooleanField(
+    policy_fight = models.IntegerField(
         choices=[
-            [True, _(dict(en="Yes", fr="Oui"))],
-            [False, _(dict(en="No", fr="Non"))]
+            [1, _(dict(en="Yes", fr="Oui"))],
+            [0, _(dict(en="No", fr="Non"))],
+            [-1, _(dict(en="I don't know/I do not want to answer", fr="Non"))]
         ],
         label=_(
             dict(
@@ -134,20 +193,68 @@ class Player(BasePlayer):
 
     policy_narrative = models.LongStringField(
         label=_(dict(
-            en=(
-                "In the first question, you explained your opinion on the causes of climate change. <br><br>"
-                "Based on the causes you mentioned, what measures and solutions do you think your country’s government should consider to fight climate change? <br><br>"
-                "If you think no action should be taken to fight climate change, explain why you think so."),
+            en=(""),
             fr=("")
         ))
     )
+
+    # Policy_question_certain
     confidence_policy = models.IntegerField(
         label=_(dict(
             en=(
-                "How certain are you about your provided explanation to the previous question?"),
+                ""),
             fr=("")
         )),
-        choices = get_scale_certainty(),
+    )
+
+    # Policy_expectations
+    expectations_policy_economy = models.IntegerField(
+        label=_(
+            dict(
+                en="<b>The solution I mentioned would have a positive effect on my country’s economy and employment</b>"
+            )
+        ),
+        choices = get_scale_agreement(),
+        widget=widgets.RadioSelectHorizontal
+    )
+    expectations_policy_cc = models.IntegerField(
+        label=_(
+            dict(
+                en="<b>The solution I mentioned would help limit and/or mitigate the consequences of climate change</b>"
+            )
+        ),
+        choices=get_scale_agreement(),
+        widget=widgets.RadioSelectHorizontal
+    )
+    expectations_policy_household = models.IntegerField(
+        label=_(
+            dict(
+                en="<b>My household will win or lose financially from the solution I mentioned</b>"
+            )
+        ),
+        choices=[
+            [-2, "Lose a lot"],
+            [-1, "Lose"],
+            [0, "Neither win or lose"],
+            [1, "Win"],
+            [2, "Win a lot"],
+        ],
+        widget=widgets.RadioSelectHorizontal
+    )
+
+    agreement_policy = models.IntegerField(
+        label=_(
+            dict(
+                en="<b>Do you support or oppose the solution you provided?</b>"
+            )
+        ),
+        choices=[
+            [-2, "Strongly oppose"],
+            [-1, "Somewhat oppose"],
+            [0, "Neither support nor oppose"],
+            [1, "Somewhat support"],
+            [2, "Strongly support"],
+        ],
         widget=widgets.RadioSelectHorizontal
     )
 
@@ -202,7 +309,7 @@ class Player(BasePlayer):
                 fr="XXX"
             )
         ),
-        widget=widgets.RadioSelect
+        widget=widgets.RadioSelectHorizontal
     )
     climate_info_freq = models.StringField(
         choices=get_scale_frequency_info(),
@@ -671,7 +778,7 @@ class NarrativeElicitation_text(MyPage):
 
 class NarrativeElicitation_question(MyPage):
     form_model = 'player'
-    form_fields = ['climate_exists', 'narrative_elicitation', 'narrative_confidence']
+    form_fields = ['climate_exists', 'narrative_elicitation']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -679,20 +786,40 @@ class NarrativeElicitation_question(MyPage):
 
     @staticmethod
     def error_message(player, values):
-        if len(values['narrative_elicitation']) < 50:
-            return "Please write at least 50 characters."
+        text = values['narrative_elicitation'] or ""
+        word_count = len(text.split())
+
+        if word_count < 50:
+            return f"Please write at least 50 words (you wrote {word_count})."
+#        if len(values['narrative_elicitation']) < 50:
+#            return "Please write at least 50 characters."
+
+
+class NarrativeElicitation_question_certain(MyPage):
+    form_model = 'player'
+    form_fields = ['narrative_confidence']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.skip == False
 
 class NarrativeSharing(MyPage):
     form_model = 'player'
-    form_fields = ['sharing_narrative']
+    form_fields = [
+                   'choice_1', 'choice_2', 'choice_3',
+                   'choice_4', 'choice_5', 'choice_6', 'choice_7'
+                   ]
+    def before_next_page(player: Player, timeout_happened):
+        payoff_mpl(player)
 
+        
 class circadian(MyPage):
     form_model = 'player'
     form_fields = ['circadian']
 
 class Policy(MyPage):
     form_model = 'player'
-    form_fields = ['policy_fight', 'policy_narrative', 'confidence_policy']
+    form_fields = ['policy_fight', 'policy_narrative']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -700,8 +827,30 @@ class Policy(MyPage):
 
     @staticmethod
     def error_message(player, values):
-        if len(values['policy_narrative']) < 50:
-            return "Please write at least 50 characters."
+        #if len(values['policy_narrative']) < 50:
+        #    return "Please write at least  characters."
+        text = values['policy_narrative'] or ""
+        word_count = len(text.split())
+
+        if word_count < 25:
+            return f"Please write at least 25 words (you wrote {word_count})."
+
+class Policy_question_certain(MyPage):
+    form_model = 'player'
+    form_fields = ['confidence_policy']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.skip == False
+
+class Policy_expectations(MyPage):
+    form_model = 'player'
+    form_fields = ['expectations_policy_economy', 'expectations_policy_cc', 'expectations_policy_household',
+                   'agreement_policy']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.skip == False
 
 class ClimateKnowledge(MyPage):
     form_model = 'player'
@@ -730,7 +879,7 @@ class ClimateKnowledge(MyPage):
 
 class MediaConsumption(MyPage):
     form_model = 'player'
-    fields = ['info_freq',
+    form_fields = ['info_freq',
         'use_tv', 'use_newspapers', 'use_radio', 'use_social', 'use_online', 'use_newsletters',
         'climate_info_freq',
         'use_tv_climate', 'use_newspapers_climate', 'use_radio_climate', 'use_social_climate', 'use_online_climate', 'use_newsletters_climate',
@@ -775,4 +924,21 @@ class ClimateConcern(MyPage):
     def is_displayed(player: Player):
         return player.skip == False
 
-page_sequence = [Presentation, NarrativeElicitation_text, NarrativeElicitation_question, circadian, NarrativeSharing, Policy, ClimateKnowledge, MediaConsumption, ClimateExpectations, ClimateConcern]
+class Prolific_Page(MyPage):
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        existing = MyPage.vars_for_template(player)
+        existing["link"] = player.session.config['prolific_link']
+        return existing
+    pass
+
+page_sequence = [Presentation,
+                 NarrativeElicitation_text, NarrativeElicitation_question, NarrativeElicitation_question_certain, circadian, NarrativeSharing,
+                 Policy, Policy_question_certain, Policy_expectations,
+                 ClimateKnowledge, MediaConsumption,
+                 ClimateExpectations,
+                 ClimateConcern,
+                 Prolific_Page]
+
+# TODO : - final page - consent page

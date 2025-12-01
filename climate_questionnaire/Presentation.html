@@ -14,21 +14,35 @@
         <p></p>
         <p></p>
         {{ elif en }}
-        <p>
-            In the following screens, you will be asked a couple of questions. <br>
 
-            Your response will remain completely anonymous. <br>
+        <h3>Participant Information Statement</h3>
+        <br>
+        <p>
+            <b>What does the study involve?</b>
+            This study consists of a simple task and short questionnaires.
+
+            Your response will remain completely anonymous.
 
             There are no right or wrong answers; we are simply interested in your honest views, whatever they may be.
-            <br>
+            <br><br>
 
-            The questionnaire lasts approximately 5 to 8 minutes, and you can stop at any time. <br>
+            <b>Who is carrying out the study?</b>
+                The study is being conducted by a team of research at different universities in France (Paris School of Business, University of Montpellier). For any question, you can contact a.guido@psbedu.paris. <br><br>
 
-            Thank you for your time and contribution.
+            <b>How much time will the study take?</b>
+            The questionnaire lasts approximately 5 to 10 minutes, and you can stop at any time. <br><br>
+
+            <b>Will the study benefit me?</b>
+            Respondents who complete the study will receive the posted remuneration into their Prolific account. This study may include bonus payments.<br><br>
+
+            <b>What about my data?</b>
+            All aspects of the study, including results, will be anonymous and only the researchers will have access to all the responses.
+
 
         </p>
         <p>
-            If you do not wish to participate, you can click on the <i>Skip</i> button.
+            To continue, please click on "Next". If you do not wish to participate, you can close this page.
+            Thank you for your time and contribution.
         </p>
         {{ endif }}
     </div>
@@ -37,9 +51,9 @@
 <button class="btn btn-primary mx-1" name="skip" value="False">
     {{ if en }} Next {{ elif fr }} Suivant {{ endif }}
 </button>
-<button class="btn btn-danger" name="skip" value="True">
+<!--<button class="btn btn-danger" name="skip" value="True">
     {{ if en }} Skip {{ elif fr }} Passer {{ endif }}
-</button>
+</button>-->
 
 {{ endblock }}
 

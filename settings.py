@@ -88,6 +88,7 @@ SESSION_CONFIGS = [
         app_sequence=[
             'climate_questionnaire'
         ],
-        num_demo_participants=1
+        num_demo_participants=1,
+        prolific_link = "http://www.andreaguido.com"
     )
 ]
