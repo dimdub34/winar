@@ -41,7 +41,8 @@ Tâche 1: Comptage de 1
 
 <div class="text-center mb-3">
     {{ for grid in loop_grid_number }}
-    <button type="button" id="id_g_{{forloop.counter}}" class="btn-secondary btn_grid_number my-1 mx-1" style="width: 35px"
+    <button type="button" id="id_g_{{forloop.counter}}" class="btn-secondary btn_grid_number my-1 mx-1"
+            style="width: 35px"
             onclick="display_grid({{ forloop.counter }})">{{forloop.counter}}
     </button>
     {{ if forloop.counter == 20 or forloop.counter == 40 or forloop.counter == 60 or forloop.counter == 80 }}
@@ -131,14 +132,26 @@ Tâche 1: Comptage de 1
     }
 
     function fill_auto() {
-        // select a random grid and click on it
+        // Sélectionne tous les boutons de grille
         const btn_grid_number = document.querySelectorAll(".btn_grid_number");
-        let random_grid_number = Math.floor(Math.random() * 100) + 1;
-        btn_grid_number[random_grid_number - 1].click();
-        // set the value of the grid count
-        grid_count.value = Math.floor(Math.random() * 101);
-        // click the validate button
-        document.querySelector("#btn_validate").click();
+
+        // Choisit un index aléatoire parmi les boutons
+        let randomIndex = Math.floor(Math.random() * btn_grid_number.length);
+        let selectedBtn = btn_grid_number[randomIndex];
+
+        // Vérifie que le bouton n'est pas déjà désactivé (grille déjà faite)
+        if (!selectedBtn.disabled) {
+            selectedBtn.click();
+
+            // On vérifie que la grille a bien été chargée avant de valider
+            if (current_grid) {
+                // Simule une réponse (50% de chance d'avoir juste)
+                grid_count.value = Math.random() <= 0.5 ? current_grid["total"] : Math.floor(Math.random() * 101);
+
+                // Clique sur valider
+                document.querySelector("#btn_validate").click();
+            }
+        }
     }
 
     document.addEventListener("DOMContentLoaded", () => {

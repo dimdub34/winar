@@ -173,9 +173,20 @@ Tâche 3 : Curseurs
 
     function fill_auto() {
         let btn_sliders = document.querySelectorAll(".btn_slider");
-        btn_sliders[Math.floor(Math.random() * btn_sliders.length)].click();
-        slider_input.value = Math.floor(Math.random() * 100 + 1);
-        document.querySelector("#btn_validate").click();
+        // Sélection d'un bouton au hasard
+        let randomIndex = Math.floor(Math.random() * btn_sliders.length);
+        let selectedBtn = btn_sliders[randomIndex];
+
+        // Vérification essentielle : le bouton est-il actif ?
+        if (!selectedBtn.disabled) {
+            selectedBtn.click();
+
+            // On s'assure que le slider est bien chargé
+            if (current_slider) {
+                slider_input.value = Math.random() <= 0.5 ? Number(current_slider["target"]) : Math.floor(Math.random() * 100 + 1);
+                document.querySelector("#btn_validate").click();
+            }
+        }
     }
 
     document.addEventListener("DOMContentLoaded", () => {

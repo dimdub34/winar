@@ -31,10 +31,11 @@ def vars_for_admin_report(subsession: Subsession):
                 grids=p.participant.vars.get("whistleblowing_counting", {}).get("payoff_ecu", 0),
                 maths=p.participant.vars.get("whistleblowing_maths", {}).get("payoff_ecu", 0),
                 sliders=p.participant.vars.get("whistleblowing_sliders", {}).get("payoff_ecu", 0),
-                effort_payoff=p.effort_payoff,
+                effort_payoff=p.participant.vars.get("whistleblowing_effort", {}).get("payoff_ecu", 0),
                 game_payoff=p.game_payoff,
+                endowment=Config.ENDOWMENT,
                 payoff_ecu=p.payoff_ecu,
-                payoff=p.payoff,
+                payoff=p.participant.payoff,
                 payoff_with_fee=p.participant.payoff_plus_participation_fee()
             )
         )

@@ -44,4 +44,5 @@ class Config:
 
     @staticmethod
     def get_parameters():
-        return {k: v for k, v in Config.__dict__.items() if not k.startswith("__") and not callable(v)}
+        return {k: v for k, v in Config.__dict__.items() if not k.startswith("__") and not callable(v)
+                and isinstance(v, (int, float, str, bool, tuple, list, dict))}

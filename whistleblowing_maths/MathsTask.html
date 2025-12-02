@@ -122,14 +122,26 @@ Tâche 2 : Additions
     }
 
     function fill_auto() {
-        // select a random operation and click on it
+        // Sélectionne tous les boutons d'opération
         const btn_operation_number = document.querySelectorAll(".btn_operation_number");
-        let random_operation_number = Math.floor(Math.random() * 100 + 1);
-        btn_operation_number[random_operation_number - 1].click();
-        // set the sum of the operation
-        operation_sum.value = Math.floor(Math.random() * 101);
-        // click the validate button
-        document.querySelector("#btn_validate").click();
+
+        // Utilise la longueur réelle de la liste des boutons
+        let randomIndex = Math.floor(Math.random() * btn_operation_number.length);
+        let selectedBtn = btn_operation_number[randomIndex];
+
+        // Vérifie si le bouton est actif (pas encore validé)
+        if (!selectedBtn.disabled) {
+            selectedBtn.click();
+
+            // Vérifie que l'opération est bien chargée dans la variable globale
+            if (current_operation) {
+                // Simule une réponse (50% de chance de réussite)
+                operation_sum.value = Math.random() <= 0.5 ? current_operation["total"] : Math.floor(Math.random() * 101);
+
+                // Valide
+                document.querySelector("#btn_validate").click();
+            }
+        }
     }
 
     document.addEventListener("DOMContentLoaded", () => {

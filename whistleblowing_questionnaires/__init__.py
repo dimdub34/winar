@@ -9,6 +9,30 @@ Questionnaires
 app_name = Path(__file__).parent.name
 
 
+def relevant_likert():
+    return [
+        (0, _(dict(
+            en="not at all relevant (this consideration has nothing to do with my judgments of right or wrong)",
+            fr="pas du tout pertinent (cette considération n'a rien à voir avec mes jugements de bien ou de mal)",
+        ))),
+        (1, _(dict(en="not very relevant", fr="pas très pertinent"))),
+        (2, _(dict(en="slightly relevant", fr="légèrement pertinent"))),
+        (3, _(dict(en="somewhat relevant", fr="assez pertinent"))),
+        (4, _(dict(en="very relevant", fr="très pertinent"))),
+        (5, _(dict(en="extremely relevant", fr="extrêmement pertinent"))),
+    ]
+
+def agreement_likert():
+    return [
+        (0, _(dict(en="Strongly disagree", fr="Fortement en désaccord"))),
+        (1, _(dict(en="Moderately disagree", fr="Modérément en désaccord"))),
+        (2, _(dict(en="Slightly disagree", fr="Légèrement en désaccord"))),
+        (3, _(dict(en="Slightly agree", fr="Légèrement d'accord"))),
+        (4, _(dict(en="Moderately agree", fr="Modérément d'accord"))),
+        (5, _(dict(en="Strongly agree", fr="Fortement d'accord"))),
+    ]
+
+
 class C(BaseConstants):
     NAME_IN_URL = "whquest"
     PLAYERS_PER_GROUP = None
@@ -26,32 +50,6 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    @staticmethod
-    def relevant_likert():
-        return [
-            (0, _(dict(
-                en="not at all relevant (this consideration has nothing to do with my judgments of right or wrong)",
-                fr="pas du tout pertinent (cette considération n'a rien à voir avec mes jugements de bien ou de mal)",
-            ))),
-            (1, _(dict(en="not very relevant", fr="pas très pertinent"))),
-            (2, _(dict(en="slightly relevant", fr="légèrement pertinent"))),
-            (3, _(dict(en="somewhat relevant", fr="assez pertinent"))),
-            (4, _(dict(en="very relevant", fr="très pertinent"))),
-            (5, _(dict(en="extremely relevant", fr="extrêmement pertinent"))),
-        ]
-
-    @staticmethod
-    def agreement_likert():
-        return [
-            (0, _(dict(en="Strongly disagree", fr="Fortement en désaccord"))),
-            (1, _(dict(en="Moderately disagree", fr="Modérément en désaccord"))),
-            (2, _(dict(en="Slightly disagree", fr="Légèrement en désaccord"))),
-            (3, _(dict(en="Slightly agree", fr="Légèrement d'accord"))),
-            (4, _(dict(en="Moderately agree", fr="Modérément d'accord"))),
-            (5, _(dict(en="Strongly agree", fr="Fortement d'accord"))),
-        ]
-
-
     # ----- questionnaire 1 -----
     fairness_1 = models.IntegerField(
         label=_(dict(

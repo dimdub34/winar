@@ -3,7 +3,7 @@
     <tr>
         <th colspan="2">Participant</th>
         <th colspan="4">Part 1 (ECU)</th>
-        <th>Part 2 (ECU)</th>
+        <th colspan="2">Part 2 (ECU)</th>
         <th colspan="3">Total</th>
     </tr>
     <tr>
@@ -12,11 +12,12 @@
         <th>Grids</th>
         <th>Maths</th>
         <th>Sliders</th>
-        <th>Selected</th>
+        <th>Payoff</th>
         <th>Game</th>
+        <th>Endowment</th>
         <th>Payoff ECU</th>
         <th>Payoff</th>
-        <th>Payoff with show-up fee</th>
+        <th>Payoff with<br>show-up fee</th>
     </tr>
     </thead>
     <tbody>
@@ -29,6 +30,7 @@
         <td>{{ p.sliders }}</td>
         <td>{{ p.effort_payoff }}</td>
         <td>{{ p.game_payoff }}</td>
+        <td>{{ p.endowment }}</td>
         <td>{{ p.payoff_ecu }}</td>
         <td>{{ p.payoff }}</td>
         <td>{{ p.payoff_with_fee }}</td>

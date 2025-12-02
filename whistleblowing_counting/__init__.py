@@ -68,9 +68,10 @@ class Player(BasePlayer):
     payoff_ecu = models.FloatField()
 
     def set_txt_final(self):
+        pluriel = lambda x: "s" if x > 1 else ""
         txt_final = _(dict(
-            en=f"You found the right number of 1's in {self.counting_performance} grids.",
-            fr=f"Vous avez trouvé le bon nombre de 1 dans {self.counting_performance} grilles."
+            en=f"You found the right number of 1's in {self.counting_performance} grid{pluriel(self.counting_performance)}.",
+            fr=f"Vous avez trouvé le bon nombre de 1 dans {self.counting_performance} grille{pluriel(self.counting_performance)}.",
         ))
 
         txt_final += "<br>"
@@ -86,11 +87,12 @@ class Player(BasePlayer):
         else:  # ccoperation
             txt_final += _(dict(
                 en=f"The best scorer in your group found the right number of 1's in "
-                   f"{self.group.counting_performance_group} grids. The payoff of each member of your "
+                   f"{self.group.counting_performance_group} grid{pluriel(self.group.counting_performance_group)}. "
+                   f"The payoff of each member of your "
                    f"group is therefore equal to {self.group.counting_performance_group} x "
                    f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU.",
                 fr=f"Le membre de votre groupe avec le meilleur score a trouvé le bon nombre de 1 dans "
-                   f"{self.group.counting_performance_group} grilles. "
+                   f"{self.group.counting_performance_group} grille{pluriel(self.group.counting_performance_group)}. "
                    f"Le gain de chaque membre de votre groupe est donc égal à "
                    f"{self.group.counting_performance_group} x "
                    f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU."

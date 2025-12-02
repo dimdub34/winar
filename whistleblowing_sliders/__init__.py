@@ -65,9 +65,10 @@ class Player(BasePlayer):
     payoff_ecu = models.FloatField()
 
     def set_txt_final(self):
+        pluriel = lambda x: "s" if x > 1 else ""
         txt_final = _(dict(
-            en=f"You successfully placed {self.sliders_performance} sliders.",
-            fr=f"Vous avez correctement placé {self.sliders_performance} curseurs.",
+            en=f"You successfully placed {self.sliders_performance} slider{pluriel(self.sliders_performance)}.",
+            fr=f"Vous avez correctement placé {self.sliders_performance} curseur{pluriel(self.sliders_performance)}.",
         ))
         txt_final += "<br>"
 
@@ -82,11 +83,11 @@ class Player(BasePlayer):
         else:  # COOPERATION
             txt_final += _(dict(
                 en=f"The best scorer in your group successfully placed {self.group.sliders_performance_group} "
-                   f"sliders. The payoff of each member of your "
+                   f"slider{pluriel(self.group.sliders_performance_group)}. The payoff of each member of your "
                    f"group is therefore equal to {self.group.sliders_performance_group} x "
                    f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU.",
                 fr=f"Le membre de votre groupe avec le meilleur score a correctement placé "
-                   f"{self.group.sliders_performance_group}  curseurs. "
+                   f"{self.group.sliders_performance_group}  curseur{pluriel(self.group.sliders_performance_group)}. "
                    f"Le gain de chaque membre de votre groupe est donc égal à "
                    f"{self.group.sliders_performance_group} x "
                    f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU.",

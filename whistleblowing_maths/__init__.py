@@ -64,9 +64,10 @@ class Player(BasePlayer):
     payoff_ecu = models.FloatField()
 
     def set_txt_final(self):
+        pluriel = lambda x: "s" if x > 1 else ""
         txt_final = _(dict(
-            en=f"You resolved {self.maths_performance} operations.",
-            fr=f"Vous avez résolu {self.maths_performance} opérations."
+            en=f"You resolved {self.maths_performance} operation{pluriel(self.maths_performance)}. .",
+            fr=f"Vous avez résolu {self.maths_performance} opération{pluriel(self.maths_performance)}. ."
         ))
         txt_final += " "
 
@@ -80,11 +81,12 @@ class Player(BasePlayer):
         else:  # COOPERATION
             txt_final += _(dict(
                 en=f"The best scorer in your group resolved {self.group.maths_performance_group} "
-                   f"operations. The payoff of each member of your "
+                   f"operation{pluriel(self.group.maths_performance_group)}. The payoff of each member of your "
                    f"group is therefore equal to {self.group.maths_performance_group} x "
                    f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU.",
                 fr=f"Le membre de votre groupe avec le meilleur score a résolu {self.group.maths_performance_group} "
-                   f"opérations. Le gain de chaque membre de votre groupe est donc égal à "
+                   f"opération{pluriel(self.group.maths_performance_group)}. Le gain de chaque membre de votre groupe "
+                   f"est donc égal à "
                    f"{self.group.maths_performance_group} x {Config.PIECE_RATE} = {self.payoff_ecu} ECU."
             ))
 
