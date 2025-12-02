@@ -212,19 +212,19 @@ class Player(BasePlayer):
                             en=f"The selected Blue Player has decided to report you. ",
                             fr=f"Le joueur Bleu sélectionné a décidé de vous signalez. "))
 
-                        if self.group.taker_audited: # Audited
+                        if self.group.taker_audited:  # Audited
                             txt_final += _(dict(
                                 en=f"You were audited and fined {Config.STEALING_PENALTY} ECU. ",
                                 fr=f"Vous avez été pénalisé d'un montant de {Config.STEALING_PENALTY} ECU. "))
                             self.payoff_ecu = Config.STEALING_AMOUNT - Config.STEALING_PENALTY
 
-                        else: # Not Audited
+                        else:  # Not Audited
                             txt_final += _(dict(
                                 en=f"You were not audited. ",
                                 fr=f"Vous n'avez pas été pénalisé. "))
                             self.payoff_ecu = Config.STEALING_AMOUNT
 
-                    else: # Not Reported
+                    else:  # Not Reported
                         txt_final += _(dict(
                             en=f"You were not reported. ",
                             fr=f"Vous n'avez pas été signalé. "))
@@ -257,12 +257,12 @@ class Player(BasePlayer):
                                 fr="Le joueur Rouge a volé des ECU au groupe Passif. "))
                             self.payoff_ecu = -Config.REPORTING_COST  # Paye le coût de reporting
 
-                            if self.group.taker_audited: # Audited
+                            if self.group.taker_audited:  # Audited
                                 txt_final += _(dict(
                                     en="The Red Player was audited and fined. ",
                                     fr="Le joueur Rouge a été pénalisé. "))
 
-                                if self.subsession.reward: # With reward
+                                if self.subsession.reward:  # With reward
                                     txt_final += _(dict(
                                         en=f"You received a reward of {Config.REPORTING_REWARD} ECU. ",
                                         fr=f"Vous avez reçu une récompense de {Config.REPORTING_REWARD} ECU. "))
@@ -392,10 +392,6 @@ class MyPage(Page):
 class Instructions(MyPage):
     template_name = "global/Instructions.html"
 
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == 1
-
 
 class InstructionsWaitMonitor(MyPage):
     template_name = "global/InstructionsWaitMonitor.html"
@@ -403,6 +399,11 @@ class InstructionsWaitMonitor(MyPage):
     @staticmethod
     def is_displayed(player):
         return Instructions.is_displayed(player)
+
+
+class InstructionsWaitForAll(WaitPage):
+    wait_for_all_groups = True
+    template_name = "global/InstructionsWaitPage.html"
 
 
 class Understanding(MyPage):
@@ -529,13 +530,11 @@ class Final(MyPage):
 
 
 page_sequence = [
-    Instructions,
-    InstructionsWaitMonitor,
-    Understanding,
-    UnderstandingWaitForAll,
+    Instructions, InstructionsWaitForAll,
+    # InstructionsWaitMonitor,
+    Understanding, UnderstandingWaitForAll,
     GroupRole,
-    DecisionTaking,
-    EstimationReportingByTaker,
+    DecisionTaking, EstimationReportingByTaker,
     DecisionReporting,
     Questionnaire,
     BeforeFinalWaitForAll, Final,
