@@ -62,11 +62,13 @@ class Player(BasePlayer):
             en=f"Your final payoff for this experiment is equal to {Config.ENDOWMENT} (endowment) + "
                f"{self.effort_payoff} (part 1) "
                f"{'+' if self.game_payoff >= 0 else ''} {self.game_payoff} (part 2) = "
-               f"{self.payoff_ecu} ECU, which corresponds to {self.payoff}.",
+               f"{self.payoff_ecu} ECU, which corresponds to {self.payoff}. "
+               f"With the show-up fee, your total payoff is {self.participant.payoff_plus_participation_fee()}.",
             fr=f"Votre gain pour cette expérience est égal à {Config.ENDOWMENT} (dotation) + "
                f"{self.effort_payoff} (partie 1) "
                f"{'+' if self.game_payoff >= 0 else ''} {self.game_payoff} (partie 2) = "
-               f"{self.payoff_ecu} ECU, soit {self.payoff}.",
+               f"{self.payoff_ecu} ECU, soit {self.payoff}. Avec le forfait de participation, votre gain total est de "
+               f"{self.participant.payoff_plus_participation_fee()}.",
         ))
         self.participant.vars["whistleblowing_final"] = dict(
             txt_final=txt_final,
