@@ -405,6 +405,10 @@ class InstructionsWaitForAll(WaitPage):
     wait_for_all_groups = True
     template_name = "global/InstructionsWaitPage.html"
 
+    @staticmethod
+    def vars_for_template(player: Player):
+        return MyPage.vars_for_template(player)
+
 
 class Understanding(MyPage):
     template_name = "global/Understanding.html"
