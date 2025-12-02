@@ -66,8 +66,8 @@ class Player(BasePlayer):
     def set_txt_final(self):
         pluriel = lambda x: "s" if x > 1 else ""
         txt_final = _(dict(
-            en=f"You resolved {self.maths_performance} operation{pluriel(self.maths_performance)}. .",
-            fr=f"Vous avez résolu {self.maths_performance} opération{pluriel(self.maths_performance)}. ."
+            en=f"You resolved {self.maths_performance} operation{pluriel(self.maths_performance)}.",
+            fr=f"Vous avez résolu {self.maths_performance} opération{pluriel(self.maths_performance)}."
         ))
         txt_final += " "
 
