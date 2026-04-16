@@ -1,0 +1,33 @@
+/* On garde ta hauteur, mais on ajoute un peu de style pour la cohérence */
+textarea.form-control {
+    height: 300px;
+    resize: vertical; /* Permet le redimensionnement vertical uniquement */
+}
+
+.experiment-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background-color: #fff;
+}
+
+.instruction-box {
+    background-color: #f8f9fa; /* Gris très léger */
+    border-left: 4px solid #0d6efd; /* Ligne bleue sur le côté pour attirer l'oeil */
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+
+.intro-icon {
+    font-size: 2.5rem;
+    color: #0d6efd; /* Bleu Bootstrap */
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.text-muted-small {
+    font-size: 0.9rem;
+    color: #6c757d;
+}

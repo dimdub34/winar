@@ -1,0 +1,71 @@
+{{ block styles }}
+<style>
+    input[type=number] {
+        width: 80px;
+        text-align: center;
+    }
+    textarea.form-control {
+        height: 400px;
+        max-width: None;
+    }
+</style>
+{{ endblock }}
+{{ block title }}
+{{ endblock }}
+{{ block content }}
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        {{ formfield "policy_fight" label=fields_labels.policy_fight }}
+    </div>
+</div>
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            In the first question, you explained your opinion on the causes of climate change.
+        </p>
+        <p>
+            In particular, you wrote:
+        </p>
+        <div class="form-control mb-1">
+            <p>
+                <i>"{{ player.narrative_elicitation }}"</i>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            Based on your explanation, what <b>measures</b> and <b>solutions</b> do you think your country's government
+            should consider to fight climate change?
+        </p>
+        <p>
+            If you think no action should be taken to fight climate change, explain why you think so. [min. 25 words]
+        </p>
+        {{ formfield "policy_narrative" label=""}}
+    </div>
+</div>
+{{ next_button }}
+{{ endblock }}
+{{ block scripts }}
+<script>
+    function fill_auto() {
+        forminputs.policy_fight[Math.random() < 0.5 ? 0 : 1].checked = true;
+        forminputs.policy_narrative.value = "Bot Msg ".repeat(50);
+        setTimeout(() => {
+            document.querySelector(".otree-btn-next").click();
+        }, 2000);
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+        // Disable paste for the policy field
+        const narrField = document.getElementById('id_policy_narrative');
+        if (narrField) {
+            narrField.addEventListener('paste', function (e) {
+                e.preventDefault();
+            });
+        }
+    });
+</script>
+{{ endblock }}

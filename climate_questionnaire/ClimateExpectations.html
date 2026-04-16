@@ -1,0 +1,83 @@
+{{ block styles }}
+<style>
+    input[type=number] {
+        width: 80px;
+        text-align: center;
+    }
+</style>
+{{ endblock }}
+
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+
+<div class="form-control mb-1">
+    {{ formfield "climate_threat" label=fields_labels.climate_threat }}
+</div>
+
+<div class="form-control mb-3">
+    <p>
+        If nothing is done to limit climate change, how likely do you think it is that climate change will lead to the
+        following events?
+    </p>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Very unlikely</th>
+            <th>Somewhat unlikely</th>
+            <th>Somewhat likely</th>
+            <th>Very likely</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ for field, field_label in fields_labels.items }}
+        {{ if field in fields_expectations }}
+        <tr>
+            <td>{{ field_label|safe }}</td>
+            {{ for i in [-2, -1, 1, 2] }}
+            <td class="text-center">
+                <input type="radio" class="form-check-input" name="{{ field }}" value="{{ i }}" required>
+            </td>
+            {{ endfor }}
+        </tr>
+        {{ endif }}
+        {{ endfor}}
+        </tbody>
+    </table>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'global/fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector(".otree-btn-next").addEventListener("click", (e) => {
+            if (!ckeck_ranks()) {
+                e.preventDefault();
+            }
+        })
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+
+    function ckeck_ranks() {
+        const coal = parseInt(forminputs.rank_coal.value);
+        const gas = parseInt(forminputs.rank_gas.value);
+        const nuclear = parseInt(forminputs.rank_nuclear.value);
+
+        if (coal === gas || coal === nuclear || gas === nuclear) {
+            document.querySelector(".form-control-errors").style.display = "block";
+            setTimeout(() => {
+                document.querySelector(".form-control-errors").style.display = "none";
+            }, 2000)
+            return false;
+        }
+        return true;
+    }
+</script>
+{{ endblock }}

@@ -1,0 +1,54 @@
+{{ block styles }}
+<style>
+    textarea.form-control {
+        height: 400px;
+        max-width: None;
+    }
+</style>
+{{ endblock }}
+
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        {{ formfield "climate_exists" label=fields_labels.climate_exists }}
+    </div>
+</div>
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        {{ formfield "narrative_elicitation" label=fields_labels.narrative_elicitation }}
+    </div>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    function fill_auto() {
+        forminputs.climate_exists[Math.random() < 0.5 ? 0 : 1].click();
+        forminputs.narrative_elicitation.value = "Bot Msg ".repeat(50);
+        setTimeout(() => {
+            document.querySelector(".otree-btn-next").click();
+        }, 2000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+
+        // Disable paste for the narrative_elicitation field
+        const narrField = document.getElementById('id_narrative_elicitation');
+        if (narrField) {
+            narrField.addEventListener('paste', function (e) {
+                e.preventDefault();
+            });
+        }
+    });
+</script>
+{{ endblock }}

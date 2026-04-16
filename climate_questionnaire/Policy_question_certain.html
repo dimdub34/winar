@@ -1,0 +1,58 @@
+{{ block styles }}
+<link rel="stylesheet" href="{{ static 'global/sliders.css' }}">
+{{ endblock }}
+{{ block title }}
+{{ endblock }}
+{{ block content }}
+<div class="form-control mb-3">
+    <p>
+        <label for="id_confidence_policy" class="form-label">
+        {{ fields_labels.confidence_policy }}
+    </label>
+    </p>
+    <input type="range" min="0" max="100" step="1" name="confidence_policy" id="id_confidence_policy"
+           style="width:100%" class="untouched" value="" oninput="confidence_policy_out.value=this.value" required>
+    <div class="ticks">
+        <p>0</p>
+        <p>100</p>
+    </div>
+    <div class="text-center fw-bold">
+        <p class="d-inline-block">Your value:</p>
+        <output id="confidence_policy_out" for="id_confidence_policy" class="fw-bold">---</output>
+    </div>
+</div>
+{{ next_button }}
+<p class="text-danger visually-hidden mt-3">
+    Please make sure to provide a confidence value before proceeding.
+</p>
+{{ endblock }}
+{{ block scripts }}
+<script src="{{ static 'global/fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputElements = document.querySelectorAll('input[type=range]');
+        const btn_next = document.querySelector('.otree-btn-next');
+        const errorMsg = document.querySelector('.text-danger');
+        inputElements.forEach((input) => {
+            input.addEventListener("input", () => {
+                input.classList.remove("untouched");
+                errorMsg.classList.add('visually-hidden');
+            });
+        });
+        btn_next.addEventListener("click", (event) => {
+            const invalidInput = Array.from(inputElements).find(input => input.classList.contains("untouched"));
+            if (invalidInput) {
+                event.preventDefault();
+                errorMsg.classList.remove('visually-hidden');
+                invalidInput.focus();
+                setTimeout(() => {
+                    errorMsg.classList.add('visually-hidden');
+                }, 3000);
+            }
+        });
+        if (typeof js_vars !== 'undefined' && js_vars.fill_auto) {
+            fill_auto();
+        }
+    });
+</script>
+{{ endblock }}

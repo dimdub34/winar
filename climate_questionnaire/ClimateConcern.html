@@ -1,0 +1,55 @@
+{{ block title }}
+<style>
+    th.width_perso {
+        width: 100px;
+        text-align: center;
+    }
+</style>
+{{ endblock }}
+
+{{ block content }}
+
+<div class="form-control mb-3">
+    <p>
+        Here are possible behaviors that experts say would help reduce greenhouse gas emissions. <br>
+        To what extent would you be willing to &hellip;
+    </p>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th></th>
+            <th class="width_perso">Not at all</th>
+            <th class="width_perso"></th>
+            <th class="width_perso">Moderately</th>
+            <th class="width_perso"></th>
+            <th class="width_perso">A great deal</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ for field, field_label in fields_labels.items }}
+        <tr>
+            <td>{{ field_label|safe }}</td>
+            {{ for i in range(-2, 3) }}
+            <td class="text-center">
+                <input type="radio" class="form-check-input" name="{{ field }}" value="{{ i }}" required>
+            </td>
+            {{ endfor }}
+        </tr>
+        {{ endfor}}
+        </tbody>
+    </table>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'global/fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

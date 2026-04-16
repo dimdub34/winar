@@ -1,0 +1,81 @@
+{{ block styles }}
+<style>
+    textarea {
+        height: 400px;
+    }
+</style>
+{{ endblock }}
+
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <article lang="en">
+            <p>
+                Thanks for giving your opinion on the facts explaining climate change.
+            </p>
+            <p>
+                Now, we give you the opportunity to <b>share</b> your opinion about climate change with <b>
+                participants in a future study</b>.
+            </p>
+            <p>
+                To determine whether your opinion will be given to future participants, you will make some decisions in
+                an incentivized task.
+            </p>
+            <p>
+                In this task, you have to select one of the following two options in each of the following decisions.
+            </p>
+            <ul>
+                <li>Option A: Give my opinion to future participants</li>
+                <li>Option B: Receive a given monetary amount</li>
+            </ul>
+            <p>
+                For {{ num_selected }} participant{{ if num_selected > 1 }}s{{ endif }} in this session, we will
+                randomly select one of the decisions (one row of the table below), and implement it.
+            </p>
+            <p>
+                For example, if you select "Option A" to the first row, and that row is randomly selected, we will give
+                your opinion to future participants. If you select "Option B" instead, and that row is selected, you
+                will receive {{ amount_example|cu }}.
+            </p>
+            <p>Payments will be done at the end of the experiment.</p>
+            <p>Indicate below the option you prefer for each decision.</p>
+        </article>
+
+        <table class="table table-sm align-middle w-auto mx-auto">
+            <thead>
+            <tr>
+                <th class="w-25">Option A</th>
+                <th class="w-50 text-center"></th>
+                <th class="w-25">Option B</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{ for field, amount in fields_amounts.items }}
+            <tr>
+                <td>Share my opinion</td>
+                <td class="text-center">{{ formfield field label="" }}</td>
+                <td>{{ amount|cu }} for me</td>
+            </tr>
+            {{ endfor }}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'global/fill_auto.js' }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
+{{ endblock }}

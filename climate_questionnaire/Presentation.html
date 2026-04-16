@@ -1,0 +1,80 @@
+{{ block styles }}
+<link rel="stylesheet" href="{{ static 'climate_questionnaire/climate_questionnaire.css' }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+{{ endblock }}
+{{ block title }}
+<div class="text-center mb-4">
+    Invitation to an additional study
+</div>
+{{ endblock }}
+{{ block content }}
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="alert alert-info mb-4 text-center" role="alert">
+            You have completed the main part of the experiment. We now offer you the opportunity to participate in a
+            short, optional questionnaire. <br>
+            <b>This study may include bonus payments.</b>
+        </div>
+        <div class="card experiment-card mb-4">
+            <div class="card-body p-4">
+                <div class="intro-icon">
+                    <i class="bi bi-info-circle"></i>
+                </div>
+                <div class="text-start">
+                    <article lang="en">
+                        <h4 class="text-center mb-4">Information Statement</h4>
+                        <p>
+                            <b>What does the study involve?</b>
+                            This additional study consists of simple questions regarding your views.
+                            Your response will remain completely anonymous.
+                            There are no right or wrong answers; we are simply interested in your honest views.
+                        </p>
+                        <p>
+                            <b>Who is carrying out the study?</b>
+                            The study is being conducted by a team of researchers at different universities in France
+                            (Paris School of Business, University of Montpellier). For any question, you can contact
+                            a.guido@psbedu.paris.
+                        </p>
+                        <p>
+                            <b>How much time will it take?</b>
+                            It lasts approximately 5 to 10 minutes.
+                        </p>
+                        <hr class="my-4">
+                        <p class="text-center">
+                            <b>Do you wish to participate?</b>
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <button class="btn btn-outline-secondary" name="skip" value="True">
+                <i class="bi bi-x-circle me-1"></i>
+                No, skip this part
+            </button>
+            <button class="btn btn-primary" name="skip" value="False">
+                Yes, participate
+                <i class="bi bi-arrow-right ms-1"></i>
+            </button>
+        </div>
+    </div>
+</div>
+{{ endblock }}
+{{ block scripts }}
+<script>
+    function fill_auto() {
+        setTimeout(function () {
+            if (Math.random() > 0.5) {
+                document.querySelector('button[name="skip"][value="True"]').click();
+            } else {
+                document.querySelector('button[name="skip"][value="False"]').click();
+            }
+        }, 2000);
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        if (js_vars.fill_auto) {
+            fill_auto();
+        }
+    });
+</script>
+{{ endblock }}
