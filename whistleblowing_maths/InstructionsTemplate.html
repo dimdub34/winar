@@ -1,5 +1,4 @@
-{{ if en }}
-<article lang="en">
+<article>
     <p>
         For this task, during {{ effort_duration }}, you will be asked to <b>solve a series of
         addition problems</b>.
@@ -36,48 +35,3 @@
         <img class="img-thumbnail mx-auto" alt="screenshot" src="{{ static 'whistleblowing_maths/screenshot_en.png' }}">
     </figure>
 </article>
-
-{{ elif fr }}
-<article lang="fr">
-    <p>
-        Durant {{ effort_duration }}, vous devrez <b>calculer des sommes de nombres.</b>
-        Un total de {{ NUM_OPERATIONS }} opérations vous sera proposé.
-        Chaque opération contient des nombres dont il faut calculer la somme.
-    </p>
-    <p>
-        Vous devez d’abord <b>sélectionner une opération</b> en cliquant sur un des {{ NUM_OPERATIONS }} boutons à
-        disposition.
-        Une fois l'opération affichée, calculez la somme des nombres, saisissez votre réponse dans la zone
-        prévue à cet effet, puis cliquez sur <i>Valider</i>. Le bouton de l'opération correspondante devient alors
-        orange pour vous indiquer que vous l’avez déjà calculée. Cliquez sur un autre bouton pour sélectionner une
-        nouvelle opération et répétez le processus.
-    </p>
-    {{ if subsession.treatment == INDIVIDUAL }}
-    <p>
-        <b>Vos gains dépendent uniquement de votre propre performance</b>, ils ne dépendent pas de la
-        performance des autres membres de votre groupe. Pour chaque opération correctement calculée, vous
-        recevrez {{ PIECE_RATE }} ECU.
-    </p>
-    {{ elif subsession.treatment == COOPERATION }}
-    <p>
-        <b>Vos gains dans cette tâche dépendront du meilleur score dans le groupe.</b>
-        Le meilleur score dans le groupe est celui du membre de votre groupe qui a réussi à calculer le plus
-        d'opérations.
-        Pour chaque opération correctement calculée par le meilleur membre du groupe, chaque membre du groupe recevra
-        {{ PIECE_RATE }} ECU.
-        Ainsi, plus vos coéquipiers obtiennent de bons résultats dans cette tâche, plus vos gains seront élevés.
-    </p>
-    {{ endif }}
-    <p>
-        <b>Vous pouvez calculer autant d'opérations que vous le souhaitez pendant les {{ effort_duration }} qui vous
-            sont allouées.</b> <br>
-        Vous serez informé(e) de vos gains pour cette tâche à la fin de l'expérience.
-    </p>
-    <figure class="text-center">
-        <figcaption class="fst-italic text-muted fw-bold text-center">Capture d'écran : les cellules orange sont celles
-            qui ont déjà été validées.
-        </figcaption>
-        <img class="img-thumbnail mx-auto" alt="screenshot" src="{{ static 'whistleblowing_maths/screenshot_fr.png' }}">
-    </figure>
-</article>
-{{ endif }}

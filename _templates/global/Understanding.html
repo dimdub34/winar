@@ -1,9 +1,5 @@
 {{ block title }}
-{{ if fr }}
-Questionnaire de compréhension
-{{ else }}
 Understanding Questionnaire
-{{ endif }}
 {{ endblock }}
 
 {{ block content }}
@@ -27,9 +23,7 @@ Understanding Questionnaire
         </div>
         {{ endfor }}
         <p class="form-control-errors" style="display: none;" id="error_{{question.question_id}}">
-            {{ if fr }} Ce n'est pas la bonne réponse.
-            {{ else }} This is not the correct answer.
-            {{ endif }}
+            This is not the correct answer.
         </p>
     </div>
     {{ endfor }}

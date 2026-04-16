@@ -1,37 +1,20 @@
 {{ block title }}
-{{ if en }}
 Task 2: Additions
-{{ elif fr }}
-Tâche 2 : Additions
-{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 <div class="text-end mb-3">
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
-        {{ if en }}
         Instructions
-        {{ elif fr }}
-        Instructions
-        {{ endif }}
     </button>
 </div>
 
 <div class="card text-justify bg-light mb-3">
     <div class="card-body">
-        {{ if en }}
         <p>
             Select an operation by clicking on the corresponding button, calculate the sum of numbers, enter the value
             in the input widget and click on "Validate". Then click on another operation and repeat the process.
         </p>
-
-        {{ elif fr }}
-        <p>
-            Sélectionnez une opération en cliquant sur le bouton correspondant, calculez la somme, entrez la valeur
-            dans la zone de saisie et cliquez sur "Valider". Ensuite, sélectionnez une autre opération et répétez le
-            processus.
-        </p>
-        {{ endif }}
     </div>
 </div>
 
@@ -49,11 +32,7 @@ Tâche 2 : Additions
 
 <div class="text-center">
     <h6 class="text-info">
-        {{ if en }}
         Operation
-        {{ elif fr }}
-        Opération
-        {{ endif }}
         <span id="operation_number">1</span>
     </h6>
     <div class="text-center mb-3 fs-4">
@@ -66,20 +45,12 @@ Tâche 2 : Additions
     </div>
     <div class="text-center mb-3">
         <label for="operation_sum">
-            {{ if en }}
             Sum of numbers:
-            {{ elif fr }}
-            Somme des nombres :
-            {{ endif }}
         </label>&nbsp;
         <input type="number" class="form-control d-inline text-center" name="operation_sum" id="operation_sum"
                style="width: 80px;">&nbsp;
         <button type="button" class="btn btn-primary" id="btn_validate" onclick="validate();">
-            {{ if en }}
             Validate
-            {{ elif fr }}
-            Valider
-            {{ endif }}
         </button>
     </div>
 </div>

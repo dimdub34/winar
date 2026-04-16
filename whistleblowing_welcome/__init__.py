@@ -1,5 +1,5 @@
 from otree.api import *
-from whistleblowing_commons.config import language
+
 doc = """
 Welcome App
 """
@@ -36,11 +36,7 @@ class Player(BasePlayer):
 #
 # =======================================================================================================================
 class MyPage(Page):
-    @staticmethod
-    def vars_for_template(player: Player):
-        return dict(
-            **language
-        )
+    pass
 
     @staticmethod
     def js_vars(player: Player):

@@ -1,17 +1,12 @@
 {{ block title }}
-{{ if en }}
 Part 1
-{{ elif fr }}
-Partie 1
-{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 
 <div class="card bg-light mb-3">
     <div class="card-body">
-        {{ if en }}
-        <article lang="en">
+        <article>
             <p>
                 In Part 1, the computer program will create <b>groups of {{ C.PLAYERS_PER_GROUP }} at random</b>.
                 You will not be able to identify the other members of your group and they will not be able to identify
@@ -24,22 +19,6 @@ Partie 1
                 that task at the very end of the experiment.
             </p>
         </article>
-
-        {{ elif fr }}
-        <article lang="fr">
-            <p>
-                Dans la Partie 1, le programme informatique va former des <b>groupes de {{ C.PLAYERS_PER_GROUP }} de
-                manière aléatoire</b>. Vous ne pourrez pas identifier les autres membres de votre groupe et ils ne
-                pourront pas vous identifier.
-            </p>
-            <p>
-                Chaque membre du groupe va réaliser <b>3 tâches</b>. À la fin de la partie, <b>l'une des 3 tâches
-                sera sélectionnée aléatoirement par le programme informatique</b>, et votre gain pour la Partie 1 sera
-                égal à votre gain dans cette tâche. Vous serez informé(e) de la tâche sélectionnée et de votre gain dans
-                cette tâche à la fin de l'expérience uniquement.
-            </p>
-        </article>
-        {{ endif }}
     </div>
 </div>
 

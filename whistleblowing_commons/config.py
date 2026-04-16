@@ -1,9 +1,3 @@
-from settings import LANGUAGE_CODE
-
-language = {"en": False, "fr": False, LANGUAGE_CODE: True}
-_ = lambda s: s[LANGUAGE_CODE]
-
-
 class Config:
     PLAYERS_PER_GROUP = 3
 
@@ -40,7 +34,6 @@ class Config:
     NON_AUDIT_PROBABILITY_STR = "1/3"
     DECISION_TIME = 90  # 1'30
     SOCIETY_OPTION_PAYOFF = 10
-
 
     @staticmethod
     def get_parameters():

@@ -1,26 +1,17 @@
 {{ block title }}
-{{ if en }}
 Part 2: Stealing Decision
-{{ elif fr }}
-Partie 2 : Décision de vol d'ECU
-{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 
 <div class="text-end mb-3">
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
-        {{ if en }}
         Instructions
-        {{ elif fr }}
-        Instructions
-        {{ endif }}
     </button>
 </div>
 
 <div class="card bg-light mb-3">
     <div class="card-body">
-        {{ if en }}
         <p>
             As a <b>Red Player</b> you have to decide whether you want to steal ECU from the Passive group.
         </p>
@@ -30,18 +21,6 @@ Partie 2 : Décision de vol d'ECU
             {{ AUDIT_PROBABILITY_STR }} to be punished. If you are punished you will pay a penalty of
             {{ STEALING_PENALTY }} ECU.
         </p>
-
-        {{ elif fr }}
-        <p>
-            En tant que <b>Joueur Rouge</b>, vous devez décider si vous voulez voler des ECU au groupe Passif.
-        </p>
-        <p class="text-muted">
-            Pour rappel, si vous volez des ECU, l'une des décisions des deux joueurs Bleus sera choisie au hasard et
-            mise en œuvre. Si le joueur Bleu sélectionné a décidé de signaler, vous aurez une probabilité de
-            {{ AUDIT_PROBABILITY_STR }} d'être pénalisé(e). Si vous êtes pénalisé(e), vous paierez une pénalité de
-            {{ STEALING_PENALTY }} ECU.
-        </p>
-        {{ endif }}
     </div>
 </div>
 

@@ -2,7 +2,7 @@ from pathlib import Path
 
 from otree.api import *
 
-from whistleblowing_commons.config import Config, language, _
+from whistleblowing_commons.config import Config
 
 doc = """
 Final
@@ -58,18 +58,12 @@ class Player(BasePlayer):
         self.payoff = self.payoff_ecu * self.session.config["real_world_currency_per_point"]
         self.participant.payoff = self.payoff
 
-        txt_final = _(dict(
-            en=f"Your final payoff for this experiment is equal to {Config.ENDOWMENT} (endowment) + "
-               f"{self.effort_payoff} (part 1) "
-               f"{'+' if self.game_payoff >= 0 else ''} {self.game_payoff} (part 2) = "
-               f"{self.payoff_ecu} ECU, which corresponds to {self.payoff}. "
-               f"With the show-up fee, your total payoff is {self.participant.payoff_plus_participation_fee()}.",
-            fr=f"Votre gain pour cette expérience est égal à {Config.ENDOWMENT} (dotation) + "
-               f"{self.effort_payoff} (partie 1) "
-               f"{'+' if self.game_payoff >= 0 else ''} {self.game_payoff} (partie 2) = "
-               f"{self.payoff_ecu} ECU, soit {self.payoff}. Avec le forfait de participation, votre gain total est de "
-               f"{self.participant.payoff_plus_participation_fee()}.",
-        ))
+        txt_final = (
+            f"Your final payoff for this experiment is equal to {Config.ENDOWMENT} (endowment) + "
+            f"{self.effort_payoff} (part 1) "
+            f"{'+' if self.game_payoff >= 0 else ''} {self.game_payoff} (part 2) = "
+            f"{self.payoff_ecu} ECU, which corresponds to {self.payoff}. "
+            f"With the show-up fee, your total payoff is {self.participant.payoff_plus_participation_fee()}.")
         self.participant.vars["whistleblowing_final"] = dict(
             txt_final=txt_final,
             payoff_ecu=self.payoff_ecu,
@@ -84,16 +78,13 @@ class Player(BasePlayer):
 #
 # ======================================================================================================================
 class MyPage(Page):
-    @staticmethod
-    def vars_for_template(player: Player):
-        return dict(**language)
-
+    pass
 
 class BeforeFinal(MyPage):
     template_name = "global/EmptyPage.html"
 
     @staticmethod
-    def before_next_page(player, timeout_happened):
+    def before_next_page(player: Player, timeout_happened):
         player.compute_payoffs()
 
 

@@ -45,38 +45,22 @@
 {{ endblock }}
 
 {{ block title }}
-{{ if en }}
 Task 3: Sliders
-{{ elif fr }}
-Tâche 3 : Curseurs
-{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 <div class="text-end mb-3">
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
-        {{ if en }}
         Instructions
-        {{ elif fr }}
-        Instructions
-        {{ endif }}
     </button>
 </div>
 
 <div class="card text-justify bg-light mb-3">
     <div class="card-body">
-        {{ if en }}
         <p>
             Select a slider by clicking on the corresponding button, move the cursor to the target value
             and click on the <i>Validate</i> button. Then select another slider and repeat the process.
         </p>
-
-        {{ elif fr }}
-        <p>
-            Sélectionnez une cible en cliquant sur le bouton correspondant, positionnez le curseur sur la valeur cible
-            et cliquez sur le bouton <i>Valider</i>. Ensuite, sélectionnez une autre cible et répétez le processus.
-        </p>
-        {{ endif }}
     </div>
 </div>
 
@@ -93,18 +77,10 @@ Tâche 3 : Curseurs
 
 <div class="mb-5 text-center">
     <h6 class="text-info">
-        {{ if en }}
         Slider
-        {{ elif fr }}
-        Slider
-        {{ endif }}
         <span id="slider_number">1</span></h6>
     <p class="fw-bold">
-        {{ if en }}
         Target value:
-        {{ elif fr }}
-        Valeur cible :
-        {{ endif }}
         <span id="target_value">{{ sliders.0.target }}</span>
     </p>
     <div class="mb-5 text-center">
@@ -131,11 +107,7 @@ Tâche 3 : Curseurs
         </div>
     </div>
     <button type="button" class="btn btn-primary" id="btn_validate" onclick="validate();">
-        {{ if en }}
         Validate
-        {{ elif fr }}
-        Valider
-        {{ endif }}
     </button>
 </div>
 

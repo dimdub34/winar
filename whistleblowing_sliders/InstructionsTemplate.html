@@ -1,5 +1,4 @@
-{{ if en }}
-<article lang="en">
+<article>
     <p>
         In this task, during {{ effort_duration }} you will be asked to <b>adjust sliders to a
         specific target value</b>. Select one of the {{ NUM_SLIDERS }} buttons and move the cursor to the target
@@ -36,47 +35,3 @@
              src="{{ static 'whistleblowing_sliders/screenshot_en.png' }}">
     </figure>
 </article>
-
-{{ elif fr }}
-<article lang="fr">
-    <p>
-        Durant {{ effort_duration }} vous devrez <b>positionner des curseurs sur une
-        valeur cible donnée</b>. Un total de {{ NUM_SLIDERS }} cibles vous sera proposé.
-    </p>
-    <p>
-        Vous devez d'abord sélectionner une valeur cible en cliquant sur un des {{ NUM_SLIDERS }} boutons à
-        disposition.
-        Une fois la valeur cible affichée, positionnez le curseur sur la cible donnée puis cliquez sur
-        <i>Valider</i>. Le bouton de la cible correspondante devient alors orange pour vous indiquer que vous l’avez
-        déjà positionnée. Choisissez ensuite une nouvelle cible et répétez le processus.
-    </p>
-    {{ if subsession.treatment == INDIVIDUAL }}
-    <p>
-        <b>Vos gains dépendent uniquement de votre propre performance</b>, ils ne dépendent pas de la performance des
-        autres membres de votre groupe.
-        Pour chaque curseur correctement positionné vous recevrez {{ PIECE_RATE }} ECU.
-    </p>
-    {{ elif subsession.treatment == COOPERATION }}
-    <p>
-        <b>Vos gains dépendront du meilleur score dans le groupe.</b> Le meilleur score dans le groupe est
-        celui du membre du groupe qui a correctement positionné le plus de curseurs.
-        Pour chaque curseur correctement positionné
-        par le meilleur membre du groupe, chaque membre du groupe recevra {{ PIECE_RATE }} ECU.
-        Ainsi, plus vos coéquipiers obtiennent de bons résultats dans cette tâche, plus vos gains seront
-        élevés.
-    </p>
-    {{ endif }}
-    <p>
-        <b>Vous pouvez positionner autant de curseurs que vous le souhaitez pendant les {{ effort_duration }} qui
-            vous sont allouées.</b> <br>
-        Vous serez informé(e) de vos gains pour cette tâche à la fin de l'expérience.
-    </p>
-    <figure class="text-center">
-        <figcaption class="fst-italic text-muted fw-bold text-center">Capture d'écran : les cellules orange sont celles
-            déjà validées.
-        </figcaption>
-        <img class="img-thumbnail mx-auto" alt="screenshot"
-             src="{{ static 'whistleblowing_sliders/screenshot_fr.png' }}">
-    </figure>
-</article>
-{{ endif }}

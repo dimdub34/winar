@@ -1,8 +1,7 @@
 from otree.api import *
 import random
-from settings import LANGUAGE_CODE
 from pathlib import Path
-from whistleblowing_commons.config import Config, language, _
+from whistleblowing_commons.config import Config
 from whistleblowing_commons.functions import seconds_to_minutes
 
 doc = """
@@ -61,37 +60,23 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     sliders_performance = models.IntegerField()
-    sliders_estimation = models.IntegerField(label=_(dict(en="Your guess:", fr="Votre estimation :")), min=0, max=100)
+    sliders_estimation = models.IntegerField(label="Your guess:", min=0, max=100)
     payoff_ecu = models.FloatField()
 
     def set_txt_final(self):
         pluriel = lambda x: "s" if x > 1 else ""
-        txt_final = _(dict(
-            en=f"You successfully placed {self.sliders_performance} slider{pluriel(self.sliders_performance)}.",
-            fr=f"Vous avez correctement placé {self.sliders_performance} curseur{pluriel(self.sliders_performance)}.",
-        ))
+        txt_final = (f"You successfully placed {self.sliders_performance} slider{pluriel(self.sliders_performance)}.")
         txt_final += "<br>"
 
         if self.subsession.treatment == Config.INDIVIDUAL:
-            txt_final += _(dict(
-                en=f"Your payoff is therefore equal to {self.sliders_performance} x {Config.PIECE_RATE} = "
-                   f"{self.payoff_ecu} ECU.",
-                fr=f"Votre gain est donc égal à {self.sliders_performance} x {Config.PIECE_RATE} = "
-                   f"{self.payoff_ecu} ECU.",
-            ))
+            txt_final += (f"Your payoff is therefore equal to {self.sliders_performance} x {Config.PIECE_RATE} = "
+                   f"{self.payoff_ecu} ECU.")
 
         else:  # COOPERATION
-            txt_final += _(dict(
-                en=f"The best scorer in your group successfully placed {self.group.sliders_performance_group} "
+            txt_final += (f"The best scorer in your group successfully placed {self.group.sliders_performance_group} "
                    f"slider{pluriel(self.group.sliders_performance_group)}. The payoff of each member of your "
                    f"group is therefore equal to {self.group.sliders_performance_group} x "
-                   f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU.",
-                fr=f"Le membre de votre groupe avec le meilleur score a correctement placé "
-                   f"{self.group.sliders_performance_group}  curseur{pluriel(self.group.sliders_performance_group)}. "
-                   f"Le gain de chaque membre de votre groupe est donc égal à "
-                   f"{self.group.sliders_performance_group} x "
-                   f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU.",
-            ))
+                   f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU.")
 
         self.participant.vars[app_name] = dict(
             txt_final=txt_final,
@@ -112,9 +97,8 @@ class MyPage(Page):
     def vars_for_template(player: Player):
         return dict(
             instructions_template_path="whistleblowing_sliders/InstructionsTemplate.html",
-            instructions_template_title=_(dict(en="Task 3 - Instructions", fr="Tâche 3 - Instructions")),
+            instructions_template_title="Task 3 - Instructions",
             effort_duration=seconds_to_minutes(Config.EFFORT_DURATION),
-            **language,
             **Config.get_parameters(),
         )
 
@@ -122,7 +106,6 @@ class MyPage(Page):
     def js_vars(player: Player):
         return dict(
             fill_auto=player.session.config.get("fill_auto", False),
-            **language,
             **Config.get_parameters(),
         )
 
@@ -144,7 +127,7 @@ class SlidersTask(MyPage):
     form_model = "player"
     form_fields = ["sliders_performance"]
     timeout_seconds = Config.EFFORT_DURATION
-    timer_text = _(dict(en="Remaining time:", fr="Temps restant :"))
+    timer_text = "Remaining time:"
 
     @staticmethod
     def vars_for_template(player: Player):

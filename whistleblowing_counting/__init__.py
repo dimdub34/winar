@@ -1,9 +1,9 @@
-from otree.api import *
-from enum import Enum
 import random
-from settings import LANGUAGE_CODE
 from pathlib import Path
-from whistleblowing_commons.config import Config, language, _
+
+from otree.api import *
+
+from whistleblowing_commons.config import Config
 from whistleblowing_commons.functions import seconds_to_minutes
 
 doc = """
@@ -64,61 +64,45 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     counting_performance = models.IntegerField()
-    counting_estimation = models.IntegerField(label=_(dict(en="Your guess:", fr="Votre estimation :")), min=0, max=100)
+    counting_estimation = models.IntegerField(label="Your guess:", min=0, max=100)
     payoff_ecu = models.FloatField()
 
     def set_txt_final(self):
         pluriel = lambda x: "s" if x > 1 else ""
-        txt_final = _(dict(
-            en=f"You found the right number of 1's in {self.counting_performance} grid{pluriel(self.counting_performance)}.",
-            fr=f"Vous avez trouvé le bon nombre de 1 dans {self.counting_performance} grille{pluriel(self.counting_performance)}.",
-        ))
-
+        txt_final = f"You found the right number of 1's in {self.counting_performance} grid{pluriel(self.counting_performance)}."
         txt_final += "<br>"
-
         if self.subsession.treatment == Config.INDIVIDUAL:
-            txt_final += _(dict(
-                en=f"Your payoff is therefore equal to "
-                   f"{self.counting_performance} x {Config.PIECE_RATE} = {self.payoff_ecu} ECU.",
-                fr=f"Votre gain est donc égal à "
-                   f"{self.counting_performance} x {Config.PIECE_RATE} = {self.payoff_ecu} ECU."
-            ))
+            txt_final += (f"Your payoff is therefore equal to "
+                          f"{self.counting_performance} x {Config.PIECE_RATE} = {self.payoff_ecu} ECU.")
 
         else:  # ccoperation
-            txt_final += _(dict(
-                en=f"The best scorer in your group found the right number of 1's in "
-                   f"{self.group.counting_performance_group} grid{pluriel(self.group.counting_performance_group)}. "
-                   f"The payoff of each member of your "
-                   f"group is therefore equal to {self.group.counting_performance_group} x "
-                   f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU.",
-                fr=f"Le membre de votre groupe avec le meilleur score a trouvé le bon nombre de 1 dans "
-                   f"{self.group.counting_performance_group} grille{pluriel(self.group.counting_performance_group)}. "
-                   f"Le gain de chaque membre de votre groupe est donc égal à "
-                   f"{self.group.counting_performance_group} x "
-                   f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU."
-            ))
+            txt_final += (
+                f"The best scorer in your group found the right number of 1's in "
+                f"{self.group.counting_performance_group} grid{pluriel(self.group.counting_performance_group)}. "
+                f"The payoff of each member of your "
+                f"group is therefore equal to {self.group.counting_performance_group} x "
+                f"{Config.PIECE_RATE} = {self.payoff_ecu} ECU."
+            )
         self.participant.vars[app_name] = dict(
             txt_final=txt_final,
             payoff_ecu=self.payoff_ecu,
             payoff=self.payoff_ecu * self.session.config["real_world_currency_per_point"]
         )
-        # print(self.participant.vars[app_name])
 
+    # ======================================================================================================================
+    #
+    # -- PAGES --
+    #
+    # ======================================================================================================================
 
-# ======================================================================================================================
-#
-# -- PAGES --
-#
-# ======================================================================================================================
 
 class MyPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return dict(
             instructions_template_path="whistleblowing_counting/InstructionsTemplate.html",
-            instructions_template_title="" + _(dict(en="Task 1 - Instructions", fr="Tâche 1 - Instructions")),
+            instructions_template_title="Task 1 - Instructions",
             effort_duration=seconds_to_minutes(Config.EFFORT_DURATION),
-            **language,
             **Config.get_parameters()
         )
 
@@ -126,7 +110,6 @@ class MyPage(Page):
     def js_vars(player: Player):
         return dict(
             fill_auto=player.session.config.get("fill_auto", False),
-            **language,
             **Config.get_parameters()
         )
 
@@ -148,7 +131,7 @@ class CountingTask(MyPage):
     form_model = "player"
     form_fields = ["counting_performance"]
     timeout_seconds = Config.EFFORT_DURATION
-    timer_text = _(dict(en="Remaining time:", fr="Temps restant :"))
+    timer_text = "Remaining time:"
 
     @staticmethod
     def vars_for_template(player: Player):

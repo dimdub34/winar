@@ -8,11 +8,7 @@
 {{ endblock }}
 
 {{ block title }}
-{{ if en }}
 Part 3: Questionnaires
-{{ elif fr }}
-Partie 3: Questionnaires
-{{ endif }}
 {{ endblock }}
 
 {{ block content }}
@@ -26,15 +22,9 @@ Partie 3: Questionnaires
 <div class="mb-3">
     <div class="form-control mb-1">
         <p>
-            {{ if en }}
             Suppose you have earned {{ 1000|cu }}, but you have to give away the money to two other people.
             You can’t keep any of the money for yourself. Assume that these two people have the same
             standard of living. One is a friend of yours and the other one is a stranger.
-            {{ elif fr }}
-            Supposez que vous ayez gagné {{ 1000|cu }}, mais que vous deviez donner cet argent à deux autres
-            personnes. Vous ne pouvez rien garder pour vous. Supposez que ces deux personnes aient le
-            même niveau de vie. L'une est votre ami(e) et l'autre est un(e) inconnu(e).
-            {{ endif }}
         </p>
         <label class="col-form-label small" for="id_share_friend_stranger">
             {{ form.share_friend_stranger.label }}

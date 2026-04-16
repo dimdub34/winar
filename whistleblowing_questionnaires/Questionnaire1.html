@@ -7,11 +7,7 @@
 {{ endblock }}
 
 {{ block title }}
-{{ if en }}
 Part 3: Questionnaires
-{{ elif fr }}
-Partie 3: Questionnaires
-{{ endif }}
 {{ endblock }}
 
 {{ block content }}
@@ -24,13 +20,8 @@ Partie 3: Questionnaires
 <div class="mb-3">
     <div class="form-control mb-1">
         <p class="text-muted fw-bold">
-            {{ if en }}
             When you decide whether something is right or wrong, to what extent are the following considerations
             relevant to your thinking? Please rate each statement.
-            {{ elif fr }}
-            Quand vous décidez si quelque chose est vrai ou faux, dans quelle mesure les considérations suivantes
-            sont pertinentes pour vous ?
-            {{ endif }}
         </p>
         {{ formfield "fairness_1" }}
         {{ formfield "fairness_2" }}
@@ -39,11 +30,7 @@ Partie 3: Questionnaires
     </div>
     <div class="form-control mb-1">
         <p class="text-muted fw-bold">
-            {{ if en }}
             Please read the following sentences and indicate your agreement or disagreement.
-            {{ elif fr }}
-            Indiquez votre accord/désaccord sur les phrases suivantes.
-            {{ endif }}
         </p>
         {{ formfield "fairness_3" }}
         {{ formfield "loyalty_3" }}

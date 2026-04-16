@@ -1,5 +1,3 @@
-from otree.models import Participant
-
 from . import *
 
 

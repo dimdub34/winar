@@ -3,39 +3,22 @@
 {{ endblock }}
 
 {{ block title }}
-{{ if en }}
 Task 1: Counting 1's
-{{ elif fr }}
-Tâche 1: Comptage de 1
-{{ endif }}
 {{ endblock }}
 
 {{ block content }}
 <div class="text-end mb-3">
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
-        {{ if en }}
         Instructions
-        {{ elif fr }}
-        Instructions
-        {{ endif }}
     </button>
 </div>
 
 <div class="card bg-light mb-3">
     <div class="card-body">
-        {{ if en }}
         <p>
             Select a grid by clicking on the corresponding button, count the number of 1's in
             the grid, enter the value in the input widget and click on "Validate". Then click on another grid.
         </p>
-
-        {{ elif fr }}
-        <p>
-            Sélectionnez une grille en cliquant sur le bouton correspondant, comptez le nombre de 1 dans
-            la grille, entrez la valeur dans la zone de saisie et cliquez sur "Valider". Ensuite, sélectionnez une
-            autre grille et répétez le processus.
-        </p>
-        {{ endif }}
     </div>
 </div>
 
@@ -53,11 +36,7 @@ Tâche 1: Comptage de 1
 
 <div class="text-center">
     <h6 class="text-info">
-        {{ if en }}
         Grid
-        {{ elif fr }}
-        Grille
-        {{ endif }}
         <span id="grid_number">1</span></h6>
     <table class=" text-center mb-2 mx-auto">
         {{ for i in loop_rows }}
@@ -72,21 +51,12 @@ Tâche 1: Comptage de 1
     </table>
     <div class="form-group form-inline text-center mb-3">
         <label for="grid_count">
-            {{ if en }}
             Number of 1 in the grid:
-            {{ elif fr }}
-            Nombre de 1 dans la grille :
-            {{ endif }}
-            &nbsp;
         </label>
         <input type="number" class="form-control-sm text-center" name="grid_count" id="grid_count"
                style="width: 80px">&nbsp;
         <button type="button" class="btn btn-primary" id="btn_validate" onclick="validate();">
-            {{ if en }}
             Validate
-            {{ elif fr }}
-            Valider
-            {{ endif }}
         </button>
     </div>
 </div>

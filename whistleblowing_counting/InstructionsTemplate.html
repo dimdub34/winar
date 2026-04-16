@@ -1,5 +1,4 @@
-{{ if en }}
-<article lang="en">
+<article>
     <p>
         For this task, during {{ effort_duration }}, you will be asked to <b>count 1’s in grids with
         {{ GRID_SIZE.0 }} rows and {{ GRID_SIZE.1 }} columns</b> that contain only 0’s and 1’s.
@@ -42,53 +41,3 @@
              src="{{ static 'whistleblowing_counting/screenshot_en.png' }}">
     </figure>
 </article>
-
-{{ elif fr }}
-<article lang="fr">
-    <p>
-        Durant {{ effort_duration }}, vous devrez <b>compter les "1" dans des grilles de
-        {{ GRID_SIZE.0 }} lignes et {{ GRID_SIZE.1 }} colonnes</b> composées uniquement de "0" et de "1".
-        Un total de {{ NUM_GRIDS }} grilles vous sera proposé.
-    </p>
-    <p>
-        Vous devez d’abord <b>sélectionner une grille</b> en cliquant sur un des {{ NUM_GRIDS }} boutons à disposition.
-        Une fois la grille affichée, comptez le nombre de "1" qu’elle contient, saisissez votre réponse dans la zone
-        prévue à cet effet, puis cliquez sur <i>Valider</i>. Le bouton de la grille résolue devient alors orange pour
-        vous indiquer que vous l’avez déjà comptée. Cliquez sur un autre bouton pour sélectionner une nouvelle grille
-        et recommencez le processus.
-    </p>
-
-    {{ if subsession.treatment == INDIVIDUAL }}
-    <p>
-        <b>Vos gains dépendent uniquement de votre propre performance</b>, ils ne dépendent
-        pas de la performance des autres membres de votre groupe. Pour chaque grille correctement comptée, vous
-        recevrez {{ PIECE_RATE }} ECU.
-    </p>
-
-    {{ elif subsession.treatment == COOPERATION }}
-    <p>
-        <b>Vos gains dans cette tâche dépendront du meilleur score dans le groupe.</b>
-        Le meilleur score est celui du membre du groupe qui aura correctement compté le nombre de "1" dans le plus
-        de grilles.
-        Pour chaque grille correctement comptée par le meilleur membre du groupe, chaque membre du groupe recevra
-        {{ PIECE_RATE }} ECU. Ainsi, plus vos coéquipiers obtiennent de bons résultats, plus vos gains seront
-        élevés.
-    </p>
-
-    {{ endif }}
-
-    <p>
-        <b>Vous pouvez compléter autant de grilles que vous le souhaitez pendant les {{ effort_duration }} qui vous sont
-            allouées.</b> <br>
-        Vous serez informé(e) de vos gains pour cette tâche à la fin de l'expérience.
-    </p>
-
-    <figure class="text-center">
-        <figcaption class="fst-italic text-muted fw-bold text-center">
-            Capture d'écran : les cellules orange sont celles déjà comptées.
-        </figcaption>
-        <img class="img-thumbnail mx-auto" alt="screenshot"
-             src="{{ static 'whistleblowing_counting/screenshot_fr.png' }}">
-    </figure>
-</article>
-{{ endif }}
